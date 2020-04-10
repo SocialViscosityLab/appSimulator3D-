@@ -358,7 +358,8 @@
                         key: '_resetView',
                         value: function _resetView(latlon, point) {
                             this.emit('preResetView');
-
+                            console.log(latlon)
+                            console.log(point)
                             this._moveStart();
                             this._move(latlon, point);
                             this._moveEnd();
@@ -3083,7 +3084,7 @@
                 exports['default'] = function(container) {
                     var renderer = new _vendorCSS3DRenderer.CSS3DRenderer();
 
-                    renderer.domElement.style.position = 'absolute';
+                    renderer.domElement.style.position = 'static';
                     renderer.domElement.style.top = 0;
 
                     container.appendChild(renderer.domElement);
@@ -3130,7 +3131,7 @@
                     _three2['default'].Object3D.call(this);
 
                     this.element = element;
-                    this.element.style.position = 'absolute';
+                    this.element.style.position = 'static';
 
                     this.addEventListener('removed', function(event) {
 
@@ -3354,7 +3355,7 @@
                 exports['default'] = function(container) {
                     var renderer = new _vendorCSS2DRenderer.CSS2DRenderer();
 
-                    renderer.domElement.style.position = 'absolute';
+                    renderer.domElement.style.position = 'static';
                     renderer.domElement.style.top = 0;
 
                     container.appendChild(renderer.domElement);
@@ -3400,7 +3401,7 @@
                     _three2['default'].Object3D.call(this);
 
                     this.element = element;
-                    this.element.style.position = 'absolute';
+                    this.element.style.position = 'static';
 
                     this.addEventListener('removed', function(event) {
 
@@ -6201,7 +6202,10 @@
 
                             // TODO: Override panLeft and panUp methods to prevent panning on Y axis
                             // See: http://stackoverflow.com/a/26188674/997339
-                            this._controls = new _vendorOrbitControls2['default'](world._engine._camera, world._container);
+                            console.log("*** Second Camera created here but not added to the engine's scene");
+                            let cam2 = new THREE.PerspectiveCamera(45, width / height, 1, 1000);
+
+                            this._controls = new _vendorOrbitControls2['default'](cam2, world._container); //world._engine._camera
 
                             // Disable keys for now as no events are fired for them anyway
                             this._controls.keys = false;
@@ -6684,7 +6688,7 @@
 
                     function handleMouseDownRotate(event) {
 
-                        //console.log( 'handleMouseDownRotate' );
+                        // console.log('handleMouseDownRotate');
 
                         rotateStart.set(event.clientX, event.clientY);
                     }
@@ -14451,7 +14455,7 @@
                         key: '_setPolylineMesh',
                         value: function _setPolylineMesh(attributes) {
                             var geometry = new THREE.BufferGeometry();
-                            console.log(attributes)
+                            //console.log(attributes)
 
                             // itemSize = 3 because there are 3 values (components) per vertex
                             geometry.addAttribute('position', new THREE.BufferAttribute(attributes.vertices, 3));
@@ -14476,7 +14480,6 @@
                             if (this._options.polylineMaterial && this._options.polylineMaterial instanceof THREE.Material) {
                                 material = this._options.polylineMaterial;
                             } else {
-                                console.log("Marker Line Material 2");
                                 material = new THREE.LineBasicMaterial({
                                     vertexColors: THREE.VertexColors,
                                     linewidth: style.lineWidth,

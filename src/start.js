@@ -27,6 +27,13 @@
  * The actual camera is hidden under the 'world._controls[0]._controls.object' attribute. The
  * target and position of the camera are defined by 'world._controls[0]._controls.target'
  * 
+ * The library VIZICITIES has CSSSTYLES for 2D and 3D. It comes with a style position set to 'absolute'. I changed it to 'static'.
+ * 
+ * Overriding ORBIT CONTROLS. The way orbict controls work is by controlling the main camera. This is made in line 6207. 
+ * I added a console.log marking my hack. What I am doing is to redirect the main Control Orbit to a second camera, that is
+ * never added to the scene. This is far from ideal, but it partially works. The reason why I am doing this is because
+ * the mouse events are retrieving 3D geometries that at this point I do not know how to retrieve with my mouse functions.   
+ * 
  * 
  * VIDEO RESOURCES
  * http://blog.cjgammon.com/threejs-geometry
@@ -75,14 +82,12 @@ var world = VIZI.world('world', {
 }).setView(coords);
 
 // Add controls
-// VIZI.Controls.orbit().addTo(world);
+VIZI.Controls.orbit().addTo(world);
+
 
 /**CartoDB basemap
  * https://carto.com/help/building-maps/basemap-list/
  **/
-// VIZI.imageTileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}.png', {
-//     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
-// }).addTo(world);
 
 VIZI.imageTileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL'
@@ -98,30 +103,30 @@ VIZI.imageTileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_al
  * On Github: https://github.com/nextzen/developers and https://github.com/nextzen
  * NextZen support https://www.mapzen.com/blog/long-term-support-mapzen-maps/
  */
-// VIZI.topoJSONTileLayer('https://tile.nextzen.org/tilezen/vector/v1/all/{z}/{x}/{y}.topojson?api_key=1owVePe8Tg-s69xWGlLzCA', {
-//     interactive: false,
-//     style: function(feature) {
-//         let height;
+VIZI.topoJSONTileLayer('https://tile.nextzen.org/tilezen/vector/v1/all/{z}/{x}/{y}.topojson?api_key=1owVePe8Tg-s69xWGlLzCA', {
+    interactive: false,
+    style: function(feature) {
+        let height;
 
-//         if (feature.properties.height) {
-//             height = feature.properties.height;
-//         } else {
-//             // This assigns height to geometries with unknown height
-//             height = 10;
-//         }
+        if (feature.properties.height) {
+            height = feature.properties.height;
+        } else {
+            // This assigns height to geometries with unknown height
+            height = 0;
+        }
 
-//         return {
-//             height: height,
-//             transparent: true,
-//             opacity: 0.4,
-//         };
-//     },
-//     filter: function(feature) {
-//         // Don't show points
-//         return feature.geometry.type !== 'Point';
-//     },
-//     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://whosonfirst.mapzen.com#License">Who\'s On First</a>.'
-// }).addTo(world);
+        return {
+            height: height,
+            transparent: true,
+            opacity: 0.4,
+        };
+    },
+    filter: function(feature) {
+        // Don't show points
+        return feature.geometry.type !== 'Point';
+    },
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://whosonfirst.mapzen.com#License">Who\'s On First</a>.'
+}).addTo(world);
 
 
 /**
@@ -148,26 +153,11 @@ function preload() {
         }).addTo(world);
         let routeCoords = route.features[0].geometry.coordinates;
 
-        // Draw route without VIZI layer
-        // let matLine = new THREE.LineBasicMaterial({ color: 0x0000ff });
-        // var geom = new THREE.BufferGeometry();
-        // var vert = new Float32Array([-29.151063919067383, 0, 15.134256362915039,
-        //     182.24508666992188, 0, 10.356942176818848,
-        //     182.24508666992188, 0, 10.356942176818848,
-        //     177.4677734375, 0, -222.53712463378906,
-        //     177.4677734375, 0, -222.53712463378906, -456.720703125, 0, -214.1768341064453, -456.720703125, 0, -214.1768341064453, -455.5263671875, 0, 25.88321304321289, -455.5263671875, 0, 25.88321304321289, -295.486328125, 0, 24.688884735107422, -295.486328125, 0, 24.688884735107422, -278.7657470703125, 0, 19.911571502685547, -278.7657470703125, 0, 19.911571502685547, -30.34539222717285, 0, 13.93992805480957, -30.34539222717285, 0, 13.93992805480957, -30.34539222717285, 0, 13.93992805480957
-        // ]);
-        // geom.addAttribute('position', new THREE.BufferAttribute(vert, 3));
-        // let mesht = new THREE.Line(geom, matLine);
-        // world._engine._scene.add(mesht);
-        // //// check this out 
-        // mesht.renderOrder = 2;
-        //***** end experiment ******/
-
         // **** GHOST ****
         ghost = new Fantasma(world._engine._scene);
         ghost.init();
-        // switch route points order
+
+        // switch route points order for debugging
         ghostCoords = [routeCoords[5][1], routeCoords[5][0]];
         ghost.setPosition(world.latLonToPoint(ghostCoords));
 
@@ -183,6 +173,7 @@ function preload() {
          */
         world.getCamera().position.x = cyclist.mesh.position.x;
         world.getCamera().position.z = cyclist.mesh.position.z;
+
         if (isMobile) {
             world.getCamera().position.y = 100;
         } else {
@@ -225,13 +216,14 @@ function setupInterval(millis) {
     updateInterval = setInterval(function() {
 
         // Update ghost, cyclist and arrowfield if needed
-        if (ghost && cyclist) {
-
+        if (ghostCoords) {
             /** ghostCoords is a global variable updated in Communication. At each interval
              * loop the ghost is repositioned to its latest value*/
             ghost.setPosition(world.latLonToPoint(ghostCoords));
 
-            //cyclist.setPosition(world.latLonToPoint(device.pos));
+            if (device.pos) {
+                cyclist.setPosition(world.latLonToPoint(device.pos));
+            }
 
             world.getCamera().position.x = cyclist.mesh.position.x;
             world.getCamera().position.z = cyclist.mesh.position.z;
@@ -271,7 +263,7 @@ function setupInterval(millis) {
             if (comm) {
                 comm.addNewDataPointInSession(tempDPID, tempDP)
             } else {
-                console.log("Communication with Firebase not enabled yet");
+                // console.log("Communication with Firebase not enabled yet");
             }
 
         }
@@ -323,9 +315,15 @@ function mouseHandler(e) {
     }
 
     if (cyclist) {
+        // world.emit('preResetView');
+
+        // world._moveStart();
         let maxHorizonHeight = 50
         let radius = 20;
         GCamera.orbitateAroundCyclist(cyclist, radius, maxHorizonHeight);
+        //world._move(latlon, point);
+        // world._moveEnd();
+        // world.emit('postResetView');
     }
 }
 
@@ -340,14 +338,13 @@ function handler(e) {
     if (e.pageY < 100) {
 
         if (!commEnabled) {
-            comm = new Communication(generateID());
-            console.log("Firebase Communication activated")
+            //comm = new Communication(generateID());
+            console.log("Firebase Communication DEACTIVATED . SEE MOUSE EVENTS")
             commEnabled = true;
+            alert("Firebase Communication DEACTIVATED . SEE MOUSE EVENTS in start.js")
         }
     }
 }
-
-
 
 
 // attach handler to the click event of the document
