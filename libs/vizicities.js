@@ -310,7 +310,7 @@
                     }, {
                         key: '_initAttribution',
                         value: function _initAttribution() {
-                            var message = '<a href="http://vizicities.com" target="_blank">Powered by ViziCities</a>';
+                            var message = '<a href="https://socialviscosity.web.illinois.edu" target="_blank"> Social Viscosity Lab.</a> University of Illinois. <a href="http://vizicities.com" target="_blank">Powered by ViziCities</a> | 2020';
 
                             var element = document.createElement('div');
                             element.classList.add('vizicities-attribution');
@@ -358,12 +358,9 @@
                         key: '_resetView',
                         value: function _resetView(latlon, point) {
                             this.emit('preResetView');
-                            console.log(latlon)
-                            console.log(point)
                             this._moveStart();
                             this._move(latlon, point);
                             this._moveEnd();
-
                             this.emit('postResetView');
                         }
                     }, {
@@ -6203,9 +6200,9 @@
                             // TODO: Override panLeft and panUp methods to prevent panning on Y axis
                             // See: http://stackoverflow.com/a/26188674/997339
                             console.log("*** Second Camera created here but not added to the engine's scene");
-                            let cam2 = new THREE.PerspectiveCamera(45, width / height, 1, 1000);
+                            //let cam2 = new THREE.PerspectiveCamera(45, width / height, 1, 1000);
 
-                            this._controls = new _vendorOrbitControls2['default'](cam2, world._container); //world._engine._camera
+                            this._controls = new _vendorOrbitControls2['default'](world._engine._camera, world._container); //
 
                             // Disable keys for now as no events are fired for them anyway
                             this._controls.keys = false;

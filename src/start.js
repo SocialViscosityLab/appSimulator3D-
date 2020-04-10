@@ -29,10 +29,18 @@
  * 
  * The library VIZICITIES has CSSSTYLES for 2D and 3D. It comes with a style position set to 'absolute'. I changed it to 'static'.
  * 
- * Overriding ORBIT CONTROLS. The way orbict controls work is by controlling the main camera. This is made in line 6207. 
- * I added a console.log marking my hack. What I am doing is to redirect the main Control Orbit to a second camera, that is
- * never added to the scene. This is far from ideal, but it partially works. The reason why I am doing this is because
- * the mouse events are retrieving 3D geometries that at this point I do not know how to retrieve with my mouse functions.   
+ * Overriding ORBIT CONTROLS. The way orbit controls work is by controlling the world's main camera. This is made in line 6207. 
+ * The orbit controls triggers events on mouse released or mouse dragged (not sure about touchscreen or giroscope events). Since I am
+ * not creating an instance of Controls, those events are not triggered directly. So I created a util class named GCamera
+ * with static functions that trigger events needed to retrieve the 3D maps.   
+ * 
+ *  * Buildings from Mapzen
+ * NOTE: VIZI originally used Mapzen.com (https://en.wikipedia.org/wiki/Mapzen) as a provider of Vector 
+ * Tiles and 3D buildings but it was replaced by Nextzen.org.
+ * See URL:  https://www.nextzen.org/
+ * Get API key for Nextzen at https://developers.nextzen.org/. Must have a Github account to access.
+ * On Github: https://github.com/nextzen/developers and https://github.com/nextzen
+ * NextZen support https://www.mapzen.com/blog/long-term-support-mapzen-maps/ 
  * 
  * 
  * VIDEO RESOURCES
@@ -48,9 +56,7 @@ Utils.setP5(new p5());
 // The ghost, cyclists and cyclists's device
 let ghost, cyclist, device;
 
-let route;
-let speed;
-
+// The session coordinates
 let dataCoords = [];
 
 /**This ghostCoords must be global becaus eit is updated in communication. 
@@ -71,62 +77,24 @@ let commEnabled = false;
 //var coords = [40.7359, -73.9911]; // Manhattan
 var coords = [40.1076407, -88.2119009]; // Urbana Home
 
-// **** DEVICE ****
+/**
+ *** DEVICE ***
+ */
 device = new DevicePos();
 device.setup();
 
-// Instantiation of world
+/**
+ *** Instantiation of world ***
+ */
 var world = VIZI.world('world', {
     skybox: false,
     postProcessing: false
 }).setView(coords);
 
 // Add controls
-VIZI.Controls.orbit().addTo(world);
+//VIZI.Controls.orbit().addTo(world);
 
-
-/**CartoDB basemap
- * https://carto.com/help/building-maps/basemap-list/
- **/
-
-VIZI.imageTileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL'
-}).addTo(world);
-
-
-/**
- * Buildings from Mapzen
- * NOTE: VIZI originally used Mapzen.com (https://en.wikipedia.org/wiki/Mapzen) as a provider of Vector 
- * Tiles and 3D buildings but it was replaced by Nextzen.org.
- * See URL:  https://www.nextzen.org/
- * Get API key for Nextzen at https://developers.nextzen.org/. Must have a Github account to access.
- * On Github: https://github.com/nextzen/developers and https://github.com/nextzen
- * NextZen support https://www.mapzen.com/blog/long-term-support-mapzen-maps/
- */
-VIZI.topoJSONTileLayer('https://tile.nextzen.org/tilezen/vector/v1/all/{z}/{x}/{y}.topojson?api_key=1owVePe8Tg-s69xWGlLzCA', {
-    interactive: false,
-    style: function(feature) {
-        let height;
-
-        if (feature.properties.height) {
-            height = feature.properties.height;
-        } else {
-            // This assigns height to geometries with unknown height
-            height = 0;
-        }
-
-        return {
-            height: height,
-            transparent: true,
-            opacity: 0.4,
-        };
-    },
-    filter: function(feature) {
-        // Don't show points
-        return feature.geometry.type !== 'Point';
-    },
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://whosonfirst.mapzen.com#License">Who\'s On First</a>.'
-}).addTo(world);
+Layers.init()
 
 
 /**
@@ -134,67 +102,70 @@ VIZI.topoJSONTileLayer('https://tile.nextzen.org/tilezen/vector/v1/all/{z}/{x}/{
  */
 function preload() {
 
-    /******* LOAD ROUTE *******/
+    /** 
+     *** LOAD ROUTE ***
+     */
     // This loads the route and creates a layer that hosts it. 
-    route = Utils.p5.loadJSON('routes/urbanaExtendidoNEW.json', function(val) {
-        Utils.invertLatLonOrder(val);
-        VIZI.geoJSONLayer(route, {
-            output: true,
-            interactive: false,
-            style: function(feature) {
-                var colour = (feature.properties.color) ? '#' + feature.properties.color : '#ff0000';
-                return {
-                    lineColor: colour,
-                    lineWidth: 5,
-                    lineRenderOrder: 2
-                };
-            },
-            attribution: '&copy; Social Viscosity Lab'
-        }).addTo(world);
-        let routeCoords = route.features[0].geometry.coordinates;
+    Utils.p5.loadJSON('routes/urbanaExtendidoNEW.json', function(val) {
 
-        // **** GHOST ****
+        // Switch Lat Lon order. This is a BUG and needs to be fixed in route maker
+        Utils.invertLatLonOrder(val);
+
+        // Initialize layer with route
+        Layers.initRoute(val);
+
+        // Get array of lonLat coordinates
+        let routeCoords = val.features[0].geometry.coordinates;
+
+        /***** GHOST ****/
         ghost = new Fantasma(world._engine._scene);
         ghost.init();
 
-        // switch route points order for debugging
-        ghostCoords = [routeCoords[5][1], routeCoords[5][0]];
-        ghost.setPosition(world.latLonToPoint(ghostCoords));
+        // Set the global ghost position at the begining of the route. This must be done
+        // once the route is retrieved from firebase
+        ghostCoords = [routeCoords[0][1], routeCoords[0][0]];
 
-        // **** CYCLIST ****
+        /***** CYCLIST ****/
         cyclist = new Cyclist("firstCyclist", world._engine._scene);
         cyclist.init();
         cyclist.setPosition(world.latLonToPoint(coords));
         cyclist.initializeArrowField();
 
-        /**
-         *** CAMERA ***
-         IMPORTANT See notes about camera in intro description
-         */
-        world.getCamera().position.x = cyclist.mesh.position.x;
-        world.getCamera().position.z = cyclist.mesh.position.z;
+        /***** CAMERA ****/
+        //IMPORTANT See notes about camera in intro description
+        GCamera.setXPos(cyclist.mesh.position.x);
+        GCamera.setZPos(cyclist.mesh.position.z);
 
+        // This is the camera height above the ground
         if (isMobile) {
-            world.getCamera().position.y = 100;
+            GCamera.zoomLevel = 100;
+            GCamera.setYPos(GCamera.zoomLevel);
         } else {
-            world.getCamera().position.y = 30;
+            GCamera.zoomLevel = 30;
+            GCamera.setYPos(GCamera.zoomLevel);
         }
 
-        GUI
+        /**
+         *** GUI ***
+         */
         if (GUI.targetOnGhost) {
             world._controls[0]._controls.target = ghost.mesh.position;
         } else if (GUI.targetOnCyclist) {
             world._controls[0]._controls.target = cyclist.mesh.position;
         }
 
-        // INIT
+        // *** COMMUNICATION TO FIREBASE ****
+        GUI.enableCommFirebase.onclick = connectToFirebase;
+
+        /**
+         *** INIT ***
+         */
         init();
     })
 }
 
 
 function init() {
-    // *** COMMUNICATION TO FIREBASE ****
     // *** UTILS ****
     Utils.startTime = Date.now();
 
@@ -208,47 +179,63 @@ function init() {
     }
     // **** UPDATE INTERVAL ****
     // This interval controls the update pace of the entire APP except p5's draw() function
-    setupInterval(100);
+    setupInterval(500);
 }
 
 /**** AUXILIARY FUNCTIONS *****/
 function setupInterval(millis) {
+
     updateInterval = setInterval(function() {
 
         // Update ghost, cyclist and arrowfield if needed
         if (ghostCoords) {
+
             /** ghostCoords is a global variable updated in Communication. At each interval
-             * loop the ghost is repositioned to its latest value*/
+             * loop the ghost is repositioned to its latest value */
             ghost.setPosition(world.latLonToPoint(ghostCoords));
 
-            if (device.pos) {
+            // Set the cyclists position to the device position 
+            if (device.pos.lat != undefined && device.pos.lon != undefined) {
                 cyclist.setPosition(world.latLonToPoint(device.pos));
             }
 
-            world.getCamera().position.x = cyclist.mesh.position.x;
-            world.getCamera().position.z = cyclist.mesh.position.z;
-            //world.getCamera().position.y = 100;
-
-            // This vector is the substraction of the Ghost's position vector minus the cyclist's position vector
+            /** Set the arrow field direction. This vector is the substraction of the Ghost's
+             * position vector minus the cyclist's position vector */
             let targetPosition = new THREE.Vector3();
             targetPosition.subVectors(ghost.mesh.position, cyclist.mesh.position);
             cyclist.arrowField.setTarget(targetPosition);
 
-            if (isMobile) {
+            // Distance to ghost. This changes the header color in DOM
+            let distanceToGhost = cyclist.mesh.position.distanceToSquared(ghost.mesh.position);
+            if (distanceToGhost < 1000) {
+                GUI.header.style.backgroundColor = '#0000ff'
+            } else {
+                GUI.header.style.backgroundColor = '#00ff00'
+            }
+
+            // Move the camera to the latest cyclist position
+            if (!isMobile) {
+                GCamera.setXPos(cyclist.mesh.position.x);
+                GCamera.setZPos(cyclist.mesh.position.z);
+            } else {
+                // If the device is a mobile phone move the camera pivot. 
                 GCamera.lookingFrom(cyclist.mesh.position.x, cyclist.mesh.position.z, 50);
+                // emit event to retrieve 3D objects in the GeoJSON layer.
+                // This might consume to many resources. 
+                GCamera.emitEvent();
             }
         }
 
+        /** Save datapoint to Firebase */
         if (device.pos != undefined) {
-
             //manage registers of datapoints (for json and database)
             let stamp = Utils.getEllapsedTime();
-            let coord = { "lat": device.pos.lat, "lon": device.pos.lon }
-                // store record
+            let coord = { "lat": device.pos.lat, "lon": device.pos.lon };
+            // store record
             dataCoords.push({
                 "stamp": stamp,
                 "coord": coord,
-                "gcoord": world.pointToLatLon([ghost.mesh.position.x, ghost.mesh.position.z]) //// sMap.XYToLonLat(ghost.pos)
+                "gcoord": world.pointToLatLon([ghost.mesh.position.x, ghost.mesh.position.z])
             });
             //TODO: add acc and speed(?)
             let tempDPID = dataCoords.length - 1
@@ -259,13 +246,11 @@ function setupInterval(millis) {
                 'speed': 0,
                 'suggestion': 0,
                 'time': stamp
-            }
+            };
+            // If comm in enabled save datapoint
             if (comm) {
                 comm.addNewDataPointInSession(tempDPID, tempDP)
-            } else {
-                // console.log("Communication with Firebase not enabled yet");
             }
-
         }
 
         // update device status on GUI
@@ -284,21 +269,21 @@ function saveSession() {
     alert("session ended");
 }
 
-function getRoute(object) {
-    let tmp = [];
-    for (let index = 0; index < object.length; index++) {
-        const element = object[index];
-        //console.log(element)
-        let tmp2 = world.latLonToPoint(element);
-        //console.log(tmp2)
-        tmp.push(tmp2);
-    }
-    return tmp;
-}
-
 function generateID() {
     return (Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15));
 }
+
+/** This is used by the GUI to lint this function to a button */
+function connectToFirebase() {
+    if (!commEnabled) {
+        comm = new Communication(generateID());
+        commEnabled = true;
+        alert("Firebase Communication ACTIVATED");
+    }
+}
+
+
+/********* EVENTS *********/
 
 //mouseEvent handler function
 //Awesome! https://plainjs.com/javascript/events/getting-the-current-mouse-position-16/
@@ -315,15 +300,11 @@ function mouseHandler(e) {
     }
 
     if (cyclist) {
-        // world.emit('preResetView');
 
-        // world._moveStart();
         let maxHorizonHeight = 50
         let radius = 20;
         GCamera.orbitateAroundCyclist(cyclist, radius, maxHorizonHeight);
-        //world._move(latlon, point);
-        // world._moveEnd();
-        // world.emit('postResetView');
+        GCamera.emitEvent();
     }
 }
 
@@ -331,22 +312,18 @@ function mouseHandler(e) {
 if (document.attachEvent) document.attachEvent('mousemove', mouseHandler);
 else document.addEventListener('mousemove', mouseHandler);
 
-/** MOUSE CLICK. PRIMITIVE WAY OF CATCHING MOUSE CLICK */
-function handler(e) {
+
+
+function wheelHandler(e) {
     e = e || window.event;
-
-    if (e.pageY < 100) {
-
-        if (!commEnabled) {
-            //comm = new Communication(generateID());
-            console.log("Firebase Communication DEACTIVATED . SEE MOUSE EVENTS")
-            commEnabled = true;
-            alert("Firebase Communication DEACTIVATED . SEE MOUSE EVENTS in start.js")
-        }
-    }
+    // Set zoom level
+    GCamera.zoomLevel += e.deltaY;
+    // Restrict scale
+    GCamera.zoomLevel = Math.min(Math.max(0, GCamera.zoomLevel), GCamera.maxZoom);
+    // set camera height
+    world.getCamera().position.y = GCamera.zoomLevel;
 }
 
-
 // attach handler to the click event of the document
-if (document.attachEvent) document.attachEvent('onclick', handler);
-else document.addEventListener('click', handler);
+if (document.attachEvent) document.attachEvent('wheel', wheelHandler);
+else document.addEventListener('wheel', wheelHandler);

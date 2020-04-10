@@ -8,7 +8,7 @@
     </head>
 
     <body>
-        <div class="header">
+        <div id="header" class="header">
             <button id="commFirebase"> comm firebase</button>
             <div id="status">status</div>
             <a id="map-link">link</a>
@@ -33,10 +33,10 @@
 
         <!--***** Custom made libraries and P5  ******-->
         <script src="libs/p5.min.js" type="text/javascript"></script>
+        <script src="src/layers.js" type="text/javascript"></script>
         <script src="src/marker.js" type="text/javascript"></script>
-        <script src="src/routePath.js" type="text/javascript"></script>
         <script src="src/deviceOrientation.js" type="text/javascript"></script>
-        <script src="src/gCameraTHREE.js" type="text/javascript"></script>
+        <script src="src/gCamera.js" type="text/javascript"></script>
         <script src="src/utils.js" type="text/javascript"></script>
         <script src="src/cyclist.js" type="text/javascript"></script>
         <script src="src/arrowhead.js" type="text/javascript"></script>
@@ -44,7 +44,6 @@
         <script src="src/fantasma.js" type="text/javascript"></script>
         <script src="src/devicePosition.js" type="text/javascript"></script>
         <script src="src/GUI.js" type="text/javascript"></script>
-        <!--<script src='https://threejsfundamentals.org/threejs/resources/threejs/r115/build/three.module.js'></script>-->
 
         <!--Communication with firebase script-->
         <script src="https://www.gstatic.com/firebasejs/5.7.1/firebase.js"></script>

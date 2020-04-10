@@ -14,4 +14,5 @@ class GUI {
     static targetOnGhost = false;
     static targetOnCyclist = false;
     static enableCommFirebase = document.getElementById('commFirebase');
+    static header = document.getElementById('header');
 }

@@ -1,5 +1,39 @@
 class GCamera {
 
+    /** Sets the x position on the map */
+    static setXPos(xPos) {
+        world.getCamera().position.x = xPos;
+    }
+
+    /** Sets the z position on the map */
+    static setZPos(zPos) {
+        world.getCamera().position.z = zPos;
+    }
+
+    /** Sets the height above the map */
+    static setYPos(yPos) {
+        world.getCamera().position.y = yPos;
+    }
+
+    // Current zoom level
+    static zoomLevel = 1;
+
+    // Max zoom level. How high the camera can be above the ground
+    static maxZoom = 1000;
+
+    // *** events triggered to retrieve 3D objects on geoJSON tiles
+    static emitEvent(latlon, point) {
+        // retrieve 3D
+        world.emit('preResetView');
+        world._moveStart();
+        // Use glocal origin coordinates if no new coordinates are passed
+        let _latlon = latlon ? latlon : { lat: coords[0], lon: coords[1] }
+        let _point = point ? point : { x: 0, y: 0 };
+        world._move(_latlon, _point);
+        world._moveEnd();
+        world.emit('postResetView');
+    }
+
 
     /******** MOUSE CONTROLED CAMERA *********/
     static orbitateAroundCyclist(_cyclist, radius, maxHorizonHeight) {
@@ -14,7 +48,6 @@ class GCamera {
 
     /******** GYROSCOPE CONTROLED CAMERA *********/
     static lookingFrom(centerX, centerZ, frustrumDepth) {
-
 
         let oPosY;
         // determines the angle rotating over X axis
