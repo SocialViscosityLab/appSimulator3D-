@@ -15,7 +15,9 @@ body {
 }
 
 .header {
-    background-color: cadetblue;
+    background-color: purple;
     color: cornsilk;
     padding: 10px;
+    height: 100px;
+    align-content: center;
 }

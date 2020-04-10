@@ -94,8 +94,8 @@ var world = VIZI.world('world', {
 // Add controls
 //VIZI.Controls.orbit().addTo(world);
 
+// Initialize Map base Layer and GeoJSON layer with 3D buldings
 Layers.init()
-
 
 /**
  * This is the p5's preload function. I am using it to load files.
@@ -136,30 +136,13 @@ function preload() {
         GCamera.setXPos(cyclist.mesh.position.x);
         GCamera.setZPos(cyclist.mesh.position.z);
 
-        // This is the camera height above the ground
-        if (isMobile) {
-            GCamera.zoomLevel = 100;
-            GCamera.setYPos(GCamera.zoomLevel);
-        } else {
-            GCamera.zoomLevel = 30;
-            GCamera.setYPos(GCamera.zoomLevel);
-        }
-
-        /**
-         *** GUI ***
-         */
-        if (GUI.targetOnGhost) {
-            world._controls[0]._controls.target = ghost.mesh.position;
-        } else if (GUI.targetOnCyclist) {
-            world._controls[0]._controls.target = cyclist.mesh.position;
-        }
+        /***** GUI ****/
+        GUI.downloadData.onclick = saveSession;
 
         // *** COMMUNICATION TO FIREBASE ****
         GUI.enableCommFirebase.onclick = connectToFirebase;
 
-        /**
-         *** INIT ***
-         */
+        /***** INIT ****/
         init();
     })
 }
@@ -172,14 +155,21 @@ function init() {
     // detect kind of device this code is being displayed
     isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     if (isMobile) {
-        GUI.mobile.textContent = "running on mobile"
+        GUI.mobile.textContent = "running on mobile";
+        // This is the camera height above the ground
+        GCamera.zoomLevel = 100;
+        GCamera.setYPos(GCamera.zoomLevel);
     } else {
-        GUI.mobile.textContent = "running on computer"
+        GUI.mobile.textContent = "running on computer";
+        // This is the camera height above the ground
+        GCamera.zoomLevel = 30;
+        GCamera.setYPos(GCamera.zoomLevel);
 
     }
+
     // **** UPDATE INTERVAL ****
     // This interval controls the update pace of the entire APP except p5's draw() function
-    setupInterval(500);
+    setupInterval(200);
 }
 
 /**** AUXILIARY FUNCTIONS *****/
@@ -207,17 +197,18 @@ function setupInterval(millis) {
 
             // Distance to ghost. This changes the header color in DOM
             let distanceToGhost = cyclist.mesh.position.distanceToSquared(ghost.mesh.position);
+            GUI.distance.textContent = "Distance to ghost: " + distanceToGhost.toFixed(2);
             if (distanceToGhost < 1000) {
                 GUI.header.style.backgroundColor = '#0000ff'
             } else {
-                GUI.header.style.backgroundColor = '#00ff00'
+                GUI.header.style.backgroundColor = '#c7ea46' // lime color
             }
 
             // Move the camera to the latest cyclist position
-            if (!isMobile) {
-                GCamera.setXPos(cyclist.mesh.position.x);
-                GCamera.setZPos(cyclist.mesh.position.z);
-            } else {
+
+            GCamera.setXPos(cyclist.mesh.position.x);
+            GCamera.setZPos(cyclist.mesh.position.z);
+            if (isMobile) {
                 // If the device is a mobile phone move the camera pivot. 
                 GCamera.lookingFrom(cyclist.mesh.position.x, cyclist.mesh.position.z, 50);
                 // emit event to retrieve 3D objects in the GeoJSON layer.
@@ -255,7 +246,7 @@ function setupInterval(millis) {
 
         // update device status on GUI
         GUI.status.textContent = device.status;
-        GUI.latLon.textContent = "Time: " + Utils.getEllapsedTime() + ', Latitude: ' + device.pos.lat + '°, Longitude: ' + device.pos.lon + '°';
+        GUI.latLon.textContent = "Time: " + Utils.getEllapsedTime() + ', Lat: ' + device.pos.lat + '°, Lon: ' + device.pos.lon + '°';
         GUI.latLon.href = ('https://www.openstreetmap.org/#map=18/' + device.pos.lat + "/" + device.pos.lon);
     }, millis);
 }

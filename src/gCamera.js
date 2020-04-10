@@ -66,9 +66,6 @@ class GCamera {
         let oPosX = centerX + Math.cos(-angle) * frustrumDepth;
         let oPosZ = centerZ + Math.sin(-angle) * frustrumDepth;
 
-        GUI.Xrotation.textContent = "rotationX";
-        GUI.Yrotation.textContent = "input angle " + Utils.p5.rotationX;
-        GUI.Zrotation.textContent = "output angle " + oPosY;
 
         world.getCamera().lookAt(new THREE.Vector3(oPosX, oPosY, oPosZ));
     }
