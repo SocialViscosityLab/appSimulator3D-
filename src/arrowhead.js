@@ -4,7 +4,11 @@ class Arrowhead {
         this.elevation = 20;
         this.length = 20;
         this.geometry = this.customGeometry();
-        this.material = new THREE.MeshPhongMaterial({ color: 0xff0000 });
+        this.material = new THREE.MeshPhongMaterial({
+            color: 0xff0000,
+            transparent: true,
+            opacity: 0.7
+        });
         this.mesh = new THREE.Mesh(this.geometry, this.material);
         this.mesh.castShadow = true;
         this.currentScale = 1;

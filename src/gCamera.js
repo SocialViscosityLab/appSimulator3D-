@@ -1,5 +1,39 @@
 class GCamera {
 
+    /** Sets the x position on the map */
+    static setXPos(xPos) {
+        world.getCamera().position.x = xPos;
+    }
+
+    /** Sets the z position on the map */
+    static setZPos(zPos) {
+        world.getCamera().position.z = zPos;
+    }
+
+    /** Sets the height above the map */
+    static setYPos(yPos) {
+        world.getCamera().position.y = yPos;
+    }
+
+    // Current zoom level
+    static zoomLevel = 1;
+
+    // Max zoom level. How high the camera can be above the ground
+    static maxZoom = 1000;
+
+    // *** events triggered to retrieve 3D objects on geoJSON tiles
+    static emitEvent(latlon, point) {
+        // retrieve 3D
+        world.emit('preResetView');
+        world._moveStart();
+        // Use glocal origin coordinates if no new coordinates are passed
+        let _latlon = latlon ? latlon : { lat: coords[0], lon: coords[1] }
+        let _point = point ? point : { x: 0, y: 0 };
+        world._move(_latlon, _point);
+        world._moveEnd();
+        world.emit('postResetView');
+    }
+
 
     /******** MOUSE CONTROLED CAMERA *********/
     static orbitateAroundCyclist(_cyclist, radius, maxHorizonHeight) {
@@ -15,18 +49,16 @@ class GCamera {
     /******** GYROSCOPE CONTROLED CAMERA *********/
     static lookingFrom(centerX, centerZ, frustrumDepth) {
 
-
         let oPosY;
         // determines the angle rotating over X axis
-        // if (Utils.p5.rotationX < 40) {
-        //     oPosZ = 0;
-        // } else 
+        if (Utils.p5.rotationX < 0) {
+            oPosY = 0;
+        } else
         if (Utils.p5.rotationX >= 0 && Utils.p5.rotationX <= 90) {
-            oPosY = Utils.p5.map(Utils.p5.rotationX, 0, 90, 0, 60)
+            oPosY = Utils.p5.map(Utils.p5.rotationX, 0, 90, -10, 100)
+        } else if (Utils.p5.rotationX >= 100) {
+            oPosY = 70;
         }
-        // else if (Utils.p5.rotationX >= 86) {
-        //     oPosZ = 80;
-        // }
 
         // let oPosX = Math.cos(Utils.p5.radians(-Utils.p5.rotationZ) + (Math.PI / 2)) * frustrumDepth;
         // let oPosY = Math.sin(Utils.p5.radians(-Utils.p5.rotationZ) + (Math.PI / 2)) * frustrumDepth;
@@ -34,9 +66,6 @@ class GCamera {
         let oPosX = centerX + Math.cos(-angle) * frustrumDepth;
         let oPosZ = centerZ + Math.sin(-angle) * frustrumDepth;
 
-        GUI.Xrotation.textContent = "rotationX";
-        GUI.Yrotation.textContent = Utils.p5.rotationZ;
-        GUI.Zrotation.textContent = (cyclist.mesh.position.x + oPosX);
 
         world.getCamera().lookAt(new THREE.Vector3(oPosX, oPosY, oPosZ));
     }

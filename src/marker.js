@@ -10,12 +10,15 @@ class Marker {
         // The marker mesh
         this.geometry = _geometry;
         this.material = _material;
-        this.mesh = new THREE.Mesh(this.geometry, this.material);
-        this.marker.add(this.mesh);
+        this.mesh;
 
         // elevation
-
-        this.elevation = 10;
+        this.elevation = 0;
+    }
+    init() {
+        this.mesh = new THREE.Mesh(this.geometry, this.material);
+        this.mesh.castShadow = true;
+        this.marker.add(this.mesh);
     }
 
     setPosition(pos) {

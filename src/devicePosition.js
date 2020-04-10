@@ -18,7 +18,7 @@
 class DevicePos {
 
     constructor() {
-        this.status;
+        this.status = "GPS not enabled";
         this.pos = { "lat": undefined, "lon": undefined }
         this.watchID = undefined;
         this.geo_options = {
@@ -60,5 +60,13 @@ class DevicePos {
          */
     getPos() {
         return { "status": this.status, "pos": this.pos }
+    }
+
+    getLatLon() {
+        return [this.pos.lat, this.pos.lon];
+    }
+
+    getLonLat() {
+        return [this.pos.lon, this.pos.lat];
     }
 }

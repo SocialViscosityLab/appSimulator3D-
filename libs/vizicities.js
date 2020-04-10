@@ -310,7 +310,7 @@
                     }, {
                         key: '_initAttribution',
                         value: function _initAttribution() {
-                            var message = '<a href="http://vizicities.com" target="_blank">Powered by ViziCities</a>';
+                            var message = '<a href="https://socialviscosity.web.illinois.edu" target="_blank"> Social Viscosity Lab.</a> University of Illinois. <a href="http://vizicities.com" target="_blank">Powered by ViziCities</a> | 2020';
 
                             var element = document.createElement('div');
                             element.classList.add('vizicities-attribution');
@@ -358,11 +358,9 @@
                         key: '_resetView',
                         value: function _resetView(latlon, point) {
                             this.emit('preResetView');
-
                             this._moveStart();
                             this._move(latlon, point);
                             this._moveEnd();
-
                             this.emit('postResetView');
                         }
                     }, {
@@ -3083,7 +3081,7 @@
                 exports['default'] = function(container) {
                     var renderer = new _vendorCSS3DRenderer.CSS3DRenderer();
 
-                    renderer.domElement.style.position = 'absolute';
+                    renderer.domElement.style.position = 'static';
                     renderer.domElement.style.top = 0;
 
                     container.appendChild(renderer.domElement);
@@ -3130,7 +3128,7 @@
                     _three2['default'].Object3D.call(this);
 
                     this.element = element;
-                    this.element.style.position = 'absolute';
+                    this.element.style.position = 'static';
 
                     this.addEventListener('removed', function(event) {
 
@@ -3354,7 +3352,7 @@
                 exports['default'] = function(container) {
                     var renderer = new _vendorCSS2DRenderer.CSS2DRenderer();
 
-                    renderer.domElement.style.position = 'absolute';
+                    renderer.domElement.style.position = 'static';
                     renderer.domElement.style.top = 0;
 
                     container.appendChild(renderer.domElement);
@@ -3400,7 +3398,7 @@
                     _three2['default'].Object3D.call(this);
 
                     this.element = element;
-                    this.element.style.position = 'absolute';
+                    this.element.style.position = 'static';
 
                     this.addEventListener('removed', function(event) {
 
@@ -6201,7 +6199,10 @@
 
                             // TODO: Override panLeft and panUp methods to prevent panning on Y axis
                             // See: http://stackoverflow.com/a/26188674/997339
-                            this._controls = new _vendorOrbitControls2['default'](world._engine._camera, world._container);
+                            console.log("*** Second Camera created here but not added to the engine's scene");
+                            //let cam2 = new THREE.PerspectiveCamera(45, width / height, 1, 1000);
+
+                            this._controls = new _vendorOrbitControls2['default'](world._engine._camera, world._container); //
 
                             // Disable keys for now as no events are fired for them anyway
                             this._controls.keys = false;
@@ -6684,7 +6685,7 @@
 
                     function handleMouseDownRotate(event) {
 
-                        //console.log( 'handleMouseDownRotate' );
+                        // console.log('handleMouseDownRotate');
 
                         rotateStart.set(event.clientX, event.clientY);
                     }
@@ -14327,6 +14328,7 @@
 
                             this._layers.forEach(function(layer) {
                                 if (layer instanceof _geometryPolygonLayer2['default']) {
+
                                     polygonAttributes.push(layer.getBufferAttributes());
 
                                     if (polygonFlat && !layer.isFlat()) {
@@ -14446,9 +14448,11 @@
                             this._polygonMesh = mesh;
                         }
                     }, {
+                        //************** THIS IS used in TopoJSON layers ***************/
                         key: '_setPolylineMesh',
                         value: function _setPolylineMesh(attributes) {
                             var geometry = new THREE.BufferGeometry();
+                            //console.log(attributes)
 
                             // itemSize = 3 because there are 3 values (components) per vertex
                             geometry.addAttribute('position', new THREE.BufferAttribute(attributes.vertices, 3));
@@ -14469,11 +14473,10 @@
                             var style = typeof this._options.style === 'function' ? this._options.style(this._geojson.features[0]) : this._options.style;
                             style = (0, _lodashAssign2['default'])({}, _utilGeoJSON2['default'].defaultStyle, style);
 
-                            var material;
+                            var material = undefined;
                             if (this._options.polylineMaterial && this._options.polylineMaterial instanceof THREE.Material) {
                                 material = this._options.polylineMaterial;
                             } else {
-                                console.log("Marker Line Material");
                                 material = new THREE.LineBasicMaterial({
                                     vertexColors: THREE.VertexColors,
                                     linewidth: style.lineWidth,
@@ -14487,12 +14490,9 @@
 
                             // Pass mesh through callback, if defined
                             if (typeof this._options.onPolylineMesh === 'function') {
-
                                 mesh = this._options.onPolylineMesh(geometry, material);
                             } else {
-
                                 mesh = new THREE.LineSegments(geometry, material);
-
                                 if (style.lineRenderOrder !== undefined) {
                                     // material.depthWrite = false;
                                     mesh.renderOrder = style.lineRenderOrder;
@@ -14507,10 +14507,8 @@
                             if (this._options.interactive && this._pickingMesh) {
                                 material = new _enginePickingMaterial2['default']();
                                 // material.side = THREE.BackSide;
-
                                 // Make the line wider / easier to pick
                                 material.linewidth = style.lineWidth + material.linePadding;
-
                                 var pickingMesh = new THREE.LineSegments(geometry, material);
                                 this._pickingMesh.add(pickingMesh);
                             }
@@ -17863,6 +17861,8 @@
                         key: '_setMesh',
                         value: function _setMesh(attributes) {
                             var geometry = new _three2['default'].BufferGeometry();
+                            console.log(attributes.vertices);
+                            console.log("Marker mesh polygon");
 
                             // itemSize = 3 because there are 3 values (components) per vertex
                             geometry.addAttribute('position', new _three2['default'].BufferAttribute(attributes.vertices, 3));
@@ -18523,6 +18523,8 @@
                         value: function _setMesh(attributes) {
                             var geometry = new _three2['default'].BufferGeometry();
 
+                            console.log(attributes.vertices);
+                            console.log("Marker mesh polyline");
                             // itemSize = 3 because there are 3 values (components) per vertex
                             geometry.addAttribute('position', new _three2['default'].BufferAttribute(attributes.vertices, 3));
 
@@ -19107,6 +19109,8 @@
                         key: '_setMesh',
                         value: function _setMesh(attributes) {
                             var geometry = new _three2['default'].BufferGeometry();
+                            console.log(attributes.vertices);
+                            console.log("Marker mesh point");
 
                             // itemSize = 3 because there are 3 values (components) per vertex
                             geometry.addAttribute('position', new _three2['default'].BufferAttribute(attributes.vertices, 3));
