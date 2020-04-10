@@ -18,15 +18,14 @@ class GCamera {
 
         let oPosY;
         // determines the angle rotating over X axis
-        // if (Utils.p5.rotationX < 40) {
-        //     oPosZ = 0;
-        // } else 
+        if (Utils.p5.rotationX < 0) {
+            oPosY = 0;
+        } else
         if (Utils.p5.rotationX >= 0 && Utils.p5.rotationX <= 90) {
-            oPosY = Utils.p5.map(Utils.p5.rotationX, 0, 90, 0, 60)
+            oPosY = Utils.p5.map(Utils.p5.rotationX, 0, 90, -10, 100)
+        } else if (Utils.p5.rotationX >= 100) {
+            oPosY = 70;
         }
-        // else if (Utils.p5.rotationX >= 86) {
-        //     oPosZ = 80;
-        // }
 
         // let oPosX = Math.cos(Utils.p5.radians(-Utils.p5.rotationZ) + (Math.PI / 2)) * frustrumDepth;
         // let oPosY = Math.sin(Utils.p5.radians(-Utils.p5.rotationZ) + (Math.PI / 2)) * frustrumDepth;
@@ -35,8 +34,8 @@ class GCamera {
         let oPosZ = centerZ + Math.sin(-angle) * frustrumDepth;
 
         GUI.Xrotation.textContent = "rotationX";
-        GUI.Yrotation.textContent = Utils.p5.rotationZ;
-        GUI.Zrotation.textContent = (cyclist.mesh.position.x + oPosX);
+        GUI.Yrotation.textContent = "input angle " + Utils.p5.rotationX;
+        GUI.Zrotation.textContent = "output angle " + oPosY;
 
         world.getCamera().lookAt(new THREE.Vector3(oPosX, oPosY, oPosZ));
     }

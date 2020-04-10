@@ -27,9 +27,16 @@
  * The actual camera is hidden under the 'world._controls[0]._controls.object' attribute. The
  * target and position of the camera are defined by 'world._controls[0]._controls.target'
  * 
+ * 
+ * VIDEO RESOURCES
+ * http://blog.cjgammon.com/threejs-geometry
+ * 
  */
 
 /*** GLOBAL VARIABLES */
+
+// An instance of p5
+Utils.setP5(new p5());
 
 // The ghost, cyclists and cyclists's device
 let ghost, cyclist, device;
@@ -39,6 +46,8 @@ let speed;
 
 let dataCoords = [];
 
+/**This ghostCoords must be global becaus eit is updated in communication. 
+ * TODO, make it observer pattern*/
 let ghostCoords;
 
 // whether or not this app is ran on a mobile phone
@@ -52,8 +61,12 @@ let comm;
 let commEnabled = false;
 
 // Map Center 
-var coords = [40.7359, -73.9911]; // Manhattan
-//var coords = [40.1076407, -88.2119009]; // Urbana Home
+//var coords = [40.7359, -73.9911]; // Manhattan
+var coords = [40.1076407, -88.2119009]; // Urbana Home
+
+// **** DEVICE ****
+device = new DevicePos();
+device.setup();
 
 // Instantiation of world
 var world = VIZI.world('world', {
@@ -62,15 +75,19 @@ var world = VIZI.world('world', {
 }).setView(coords);
 
 // Add controls
-//VIZI.Controls.orbit().addTo(world);
+// VIZI.Controls.orbit().addTo(world);
 
 /**CartoDB basemap
  * https://carto.com/help/building-maps/basemap-list/
  **/
+// VIZI.imageTileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}.png', {
+//     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+// }).addTo(world);
 
-VIZI.imageTileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+VIZI.imageTileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL'
 }).addTo(world);
+
 
 /**
  * Buildings from Mapzen
@@ -106,11 +123,6 @@ VIZI.imageTileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_label
 //     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://whosonfirst.mapzen.com#License">Who\'s On First</a>.'
 // }).addTo(world);
 
-/** 
- * Broadway Route
- **/
-Utils.setP5(new p5());
-
 
 /**
  * This is the p5's preload function. I am using it to load files.
@@ -119,13 +131,13 @@ function preload() {
 
     /******* LOAD ROUTE *******/
     // This loads the route and creates a layer that hosts it. 
-    route = Utils.p5.loadJSON('routes/broadway2.json', function(val) { //urbanaExtendidoNEW.json
+    route = Utils.p5.loadJSON('routes/urbanaExtendidoNEW.json', function(val) {
         Utils.invertLatLonOrder(val);
         VIZI.geoJSONLayer(route, {
             output: true,
             interactive: false,
             style: function(feature) {
-                var colour = (feature.properties.color) ? '#' + feature.properties.color : '#ffffff';
+                var colour = (feature.properties.color) ? '#' + feature.properties.color : '#ff0000';
                 return {
                     lineColor: colour,
                     lineWidth: 5,
@@ -136,37 +148,34 @@ function preload() {
         }).addTo(world);
         let routeCoords = route.features[0].geometry.coordinates;
 
+        // Draw route without VIZI layer
+        // let matLine = new THREE.LineBasicMaterial({ color: 0x0000ff });
+        // var geom = new THREE.BufferGeometry();
+        // var vert = new Float32Array([-29.151063919067383, 0, 15.134256362915039,
+        //     182.24508666992188, 0, 10.356942176818848,
+        //     182.24508666992188, 0, 10.356942176818848,
+        //     177.4677734375, 0, -222.53712463378906,
+        //     177.4677734375, 0, -222.53712463378906, -456.720703125, 0, -214.1768341064453, -456.720703125, 0, -214.1768341064453, -455.5263671875, 0, 25.88321304321289, -455.5263671875, 0, 25.88321304321289, -295.486328125, 0, 24.688884735107422, -295.486328125, 0, 24.688884735107422, -278.7657470703125, 0, 19.911571502685547, -278.7657470703125, 0, 19.911571502685547, -30.34539222717285, 0, 13.93992805480957, -30.34539222717285, 0, 13.93992805480957, -30.34539222717285, 0, 13.93992805480957
+        // ]);
+        // geom.addAttribute('position', new THREE.BufferAttribute(vert, 3));
+        // let mesht = new THREE.Line(geom, matLine);
+        // world._engine._scene.add(mesht);
+        // //// check this out 
+        // mesht.renderOrder = 2;
+        //***** end experiment ******/
+
         // **** GHOST ****
-        let gGeometry = new THREE.CylinderGeometry(10, 3, 22, 32);
-        let gMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-        ghost = new Fantasma(world._engine._scene, gGeometry, gMaterial);
-        ghostCoords = [routeCoords[0][1], routeCoords[0][0]];
-        //ghost.AddRoute(getRoute(routeCoords));
+        ghost = new Fantasma(world._engine._scene);
+        ghost.init();
+        // switch route points order
+        ghostCoords = [routeCoords[5][1], routeCoords[5][0]];
         ghost.setPosition(world.latLonToPoint(ghostCoords));
 
         // **** CYCLIST ****
-        let tmpGeom = new THREE.CylinderGeometry(10, 3, 22, 32);
-        let tmpMat = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-        cyclist = new Cyclist("firstCyclist", world._engine._scene, tmpGeom, tmpMat);
-
-        let pos = world.latLonToPoint([40.74289976363825, -73.98868362419309]);
-        cyclist.setPosition(pos);
-
-        // //*** Arrowhead field ***/
-        arrowField = new ArrowheadField(cyclist, 3, 30);
-        arrowField.scale(0.5);
-        // // arrowField.init(world._engine._scene);
-        let targetPosition = new THREE.Vector3();
-        ghost.mesh.getWorldPosition(targetPosition);
-        arrowField.setTarget(targetPosition);
-        // arrowField.setPivot(cyclist);
-
-        /** 
-         * CAMERA TARGET
-         */
-        let camTarget = new THREE.Object3D();
-        pos = world.latLonToPoint([40.74289976363825, -73.97868362419309]);
-        camTarget.position.set(pos.x, 50, pos.y)
+        cyclist = new Cyclist("firstCyclist", world._engine._scene);
+        cyclist.init();
+        cyclist.setPosition(world.latLonToPoint(coords));
+        cyclist.initializeArrowField();
 
         /**
          *** CAMERA ***
@@ -174,7 +183,11 @@ function preload() {
          */
         world.getCamera().position.x = cyclist.mesh.position.x;
         world.getCamera().position.z = cyclist.mesh.position.z;
-        world.getCamera().position.y = 20;
+        if (isMobile) {
+            world.getCamera().position.y = 100;
+        } else {
+            world.getCamera().position.y = 30;
+        }
 
         GUI
         if (GUI.targetOnGhost) {
@@ -191,14 +204,9 @@ function preload() {
 
 function init() {
     // *** COMMUNICATION TO FIREBASE ****
-
-
     // *** UTILS ****
     Utils.startTime = Date.now();
 
-    // **** DEVICE ****
-    device = new DevicePos();
-    device.setup();
     // detect kind of device this code is being displayed
     isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     if (isMobile) {
@@ -210,15 +218,6 @@ function init() {
     // **** UPDATE INTERVAL ****
     // This interval controls the update pace of the entire APP except p5's draw() function
     setupInterval(100);
-
-    GUI.enableCommFirebase.onclick = function() {
-        console.log("Firebase Communication activated")
-        if (!commEnabled) {
-            comm = new Communication(generateID());
-            console.log("Firebase Communication activated")
-            commEnabled = true;
-        }
-    }
 }
 
 /**** AUXILIARY FUNCTIONS *****/
@@ -232,42 +231,50 @@ function setupInterval(millis) {
              * loop the ghost is repositioned to its latest value*/
             ghost.setPosition(world.latLonToPoint(ghostCoords));
 
+            //cyclist.setPosition(world.latLonToPoint(device.pos));
+
+            world.getCamera().position.x = cyclist.mesh.position.x;
+            world.getCamera().position.z = cyclist.mesh.position.z;
+            //world.getCamera().position.y = 100;
+
             // This vector is the substraction of the Ghost's position vector minus the cyclist's position vector
             let targetPosition = new THREE.Vector3();
             targetPosition.subVectors(ghost.mesh.position, cyclist.mesh.position);
-            arrowField.setTarget(targetPosition);
+            cyclist.arrowField.setTarget(targetPosition);
 
             if (isMobile) {
-                GCamera.lookingFrom(cyclist.mesh.position.x, cyclist.mesh.position.z, 200);
+                GCamera.lookingFrom(cyclist.mesh.position.x, cyclist.mesh.position.z, 50);
             }
         }
 
-        // if (device.pos != undefined) {
-        //     // update cyclists
-        //     cyclist.updatePosition(sMap.lonLatToXY(device.pos));
+        if (device.pos != undefined) {
 
-        //     //manage registers of datapoints (for json and database)
-        //     let stamp = Utils.getEllapsedTime();
-        //     let coord = { "lat": device.pos.lat, "lon": device.pos.lon }
-        //         // store record
-        //     dataCoords.push({
-        //         "stamp": stamp,
-        //         "coord": coord,
-        //         "gcoord": sMap.XYToLonLat(ghost.pos)
-        //     });
-        //     //TODO: add acc and speed(?)
-        //     let tempDPID = dataCoords.length - 1
-        //     let tempDP = {
-        //         'acceleration': 0,
-        //         'latitude': coord.lat,
-        //         'longitude': coord.lon,
-        //         'speed': 0,
-        //         'suggestion': 0,
-        //         'time': stamp
-        //     }
-        //     comm.addNewDataPointInSession(tempDPID, tempDP)
+            //manage registers of datapoints (for json and database)
+            let stamp = Utils.getEllapsedTime();
+            let coord = { "lat": device.pos.lat, "lon": device.pos.lon }
+                // store record
+            dataCoords.push({
+                "stamp": stamp,
+                "coord": coord,
+                "gcoord": world.pointToLatLon([ghost.mesh.position.x, ghost.mesh.position.z]) //// sMap.XYToLonLat(ghost.pos)
+            });
+            //TODO: add acc and speed(?)
+            let tempDPID = dataCoords.length - 1
+            let tempDP = {
+                'acceleration': 0,
+                'latitude': coord.lat,
+                'longitude': coord.lon,
+                'speed': 0,
+                'suggestion': 0,
+                'time': stamp
+            }
+            if (comm) {
+                comm.addNewDataPointInSession(tempDPID, tempDP)
+            } else {
+                console.log("Communication with Firebase not enabled yet");
+            }
 
-        // }
+        }
 
         // update device status on GUI
         GUI.status.textContent = device.status;
@@ -301,8 +308,8 @@ function generateID() {
     return (Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15));
 }
 
-// mouseEvent handler function
-// Awesome! https://plainjs.com/javascript/events/getting-the-current-mouse-position-16/
+//mouseEvent handler function
+//Awesome! https://plainjs.com/javascript/events/getting-the-current-mouse-position-16/
 function mouseHandler(e) {
     e = e || window.event;
 
@@ -325,3 +332,24 @@ function mouseHandler(e) {
 // attach handler to the click event of the document
 if (document.attachEvent) document.attachEvent('mousemove', mouseHandler);
 else document.addEventListener('mousemove', mouseHandler);
+
+/** MOUSE CLICK. PRIMITIVE WAY OF CATCHING MOUSE CLICK */
+function handler(e) {
+    e = e || window.event;
+
+    if (e.pageY < 100) {
+
+        if (!commEnabled) {
+            comm = new Communication(generateID());
+            console.log("Firebase Communication activated")
+            commEnabled = true;
+        }
+    }
+}
+
+
+
+
+// attach handler to the click event of the document
+if (document.attachEvent) document.attachEvent('onclick', handler);
+else document.addEventListener('click', handler);

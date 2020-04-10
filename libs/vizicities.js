@@ -14327,6 +14327,7 @@
 
                             this._layers.forEach(function(layer) {
                                 if (layer instanceof _geometryPolygonLayer2['default']) {
+
                                     polygonAttributes.push(layer.getBufferAttributes());
 
                                     if (polygonFlat && !layer.isFlat()) {
@@ -14446,9 +14447,11 @@
                             this._polygonMesh = mesh;
                         }
                     }, {
+                        //************** THIS IS used in TopoJSON layers ***************/
                         key: '_setPolylineMesh',
                         value: function _setPolylineMesh(attributes) {
                             var geometry = new THREE.BufferGeometry();
+                            console.log(attributes)
 
                             // itemSize = 3 because there are 3 values (components) per vertex
                             geometry.addAttribute('position', new THREE.BufferAttribute(attributes.vertices, 3));
@@ -14469,11 +14472,11 @@
                             var style = typeof this._options.style === 'function' ? this._options.style(this._geojson.features[0]) : this._options.style;
                             style = (0, _lodashAssign2['default'])({}, _utilGeoJSON2['default'].defaultStyle, style);
 
-                            var material;
+                            var material = undefined;
                             if (this._options.polylineMaterial && this._options.polylineMaterial instanceof THREE.Material) {
                                 material = this._options.polylineMaterial;
                             } else {
-                                console.log("Marker Line Material");
+                                console.log("Marker Line Material 2");
                                 material = new THREE.LineBasicMaterial({
                                     vertexColors: THREE.VertexColors,
                                     linewidth: style.lineWidth,
@@ -14487,12 +14490,9 @@
 
                             // Pass mesh through callback, if defined
                             if (typeof this._options.onPolylineMesh === 'function') {
-
                                 mesh = this._options.onPolylineMesh(geometry, material);
                             } else {
-
                                 mesh = new THREE.LineSegments(geometry, material);
-
                                 if (style.lineRenderOrder !== undefined) {
                                     // material.depthWrite = false;
                                     mesh.renderOrder = style.lineRenderOrder;
@@ -14507,10 +14507,8 @@
                             if (this._options.interactive && this._pickingMesh) {
                                 material = new _enginePickingMaterial2['default']();
                                 // material.side = THREE.BackSide;
-
                                 // Make the line wider / easier to pick
                                 material.linewidth = style.lineWidth + material.linePadding;
-
                                 var pickingMesh = new THREE.LineSegments(geometry, material);
                                 this._pickingMesh.add(pickingMesh);
                             }
@@ -17863,6 +17861,8 @@
                         key: '_setMesh',
                         value: function _setMesh(attributes) {
                             var geometry = new _three2['default'].BufferGeometry();
+                            console.log(attributes.vertices);
+                            console.log("Marker mesh polygon");
 
                             // itemSize = 3 because there are 3 values (components) per vertex
                             geometry.addAttribute('position', new _three2['default'].BufferAttribute(attributes.vertices, 3));
@@ -18523,6 +18523,8 @@
                         value: function _setMesh(attributes) {
                             var geometry = new _three2['default'].BufferGeometry();
 
+                            console.log(attributes.vertices);
+                            console.log("Marker mesh polyline");
                             // itemSize = 3 because there are 3 values (components) per vertex
                             geometry.addAttribute('position', new _three2['default'].BufferAttribute(attributes.vertices, 3));
 
@@ -19107,6 +19109,8 @@
                         key: '_setMesh',
                         value: function _setMesh(attributes) {
                             var geometry = new _three2['default'].BufferGeometry();
+                            console.log(attributes.vertices);
+                            console.log("Marker mesh point");
 
                             // itemSize = 3 because there are 3 values (components) per vertex
                             geometry.addAttribute('position', new _three2['default'].BufferAttribute(attributes.vertices, 3));
