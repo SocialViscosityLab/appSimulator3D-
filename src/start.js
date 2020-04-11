@@ -213,7 +213,7 @@ function setupInterval(millis) {
                 }
             }
 
-            // Move the camera to the latest cyclist position
+            // Move the camera to the latest cyclist's position
 
             GCamera.setXPos(cyclist.mesh.position.x);
             GCamera.setZPos(cyclist.mesh.position.z);
