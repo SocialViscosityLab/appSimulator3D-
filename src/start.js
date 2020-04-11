@@ -181,7 +181,7 @@ function setupInterval(millis) {
         if (ghostCoords) {
 
             /** ghostCoords is a global variable updated in Communication. At each interval
-             * loop the ghost is repositioned to its latest value */
+             * iteration the ghost is repositioned to its latest value */
             ghost.setPosition(world.latLonToPoint(ghostCoords));
 
             // Set the cyclists position to the device position 
@@ -198,10 +198,19 @@ function setupInterval(millis) {
             // Distance to ghost. This changes the header color in DOM
             let distanceToGhost = cyclist.mesh.position.distanceToSquared(ghost.mesh.position);
             GUI.distance.textContent = "Distance to ghost: " + distanceToGhost.toFixed(2);
-            if (distanceToGhost < 1000) {
-                GUI.header.style.backgroundColor = '#0000ff'
-            } else {
-                GUI.header.style.backgroundColor = '#c7ea46' // lime color
+
+            // The max distance between cyclist and ghost be in the range of the 'green wave.' Units undefined.
+            // TODO Improve this so the proximity is only accounted when the cyclist is 'behind' the ghost 
+            let greenWaveProximity = 700; // 700 is really close, almost on top of the ghost.
+
+            // Change color only if the device is connected
+            if (device.status == 'GPS OK') {
+                if (distanceToGhost < greenWaveProximity) {
+                    GUI.header.style.backgroundColor = '#0000ff'
+                } else {
+                    GUI.header.style.backgroundColor = '#3FBFCF' // lime color
+
+                }
             }
 
             // Move the camera to the latest cyclist position
