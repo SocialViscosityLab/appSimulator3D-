@@ -267,9 +267,9 @@ function generateID() {
 /** This is used by the GUI to lint this function to a button */
 function connectToFirebase() {
     if (!commEnabled) {
+        alert("Firebase Communication ACTIVATED");
         comm = new Communication(generateID());
         commEnabled = true;
-        alert("Firebase Communication ACTIVATED");
     }
 }
 
@@ -292,9 +292,8 @@ function mouseHandler(e) {
 
     if (cyclist) {
 
-        let maxHorizonHeight = 50
-        let radius = 20;
-        GCamera.orbitateAroundCyclist(cyclist, radius, maxHorizonHeight);
+        //let radius = 20;
+        GCamera.orbitateAroundCyclist(cyclist, GCamera.zoomLevel);
         GCamera.emitEvent();
     }
 }
@@ -312,7 +311,9 @@ function wheelHandler(e) {
     // Restrict scale
     GCamera.zoomLevel = Math.min(Math.max(0, GCamera.zoomLevel), GCamera.maxZoom);
     // set camera height
-    world.getCamera().position.y = GCamera.zoomLevel;
+    GCamera.setYPos(GCamera.zoomLevel);
+    // set camera target
+    GCamera.orbitateAroundCyclist(cyclist, GCamera.zoomLevel);
 }
 
 // attach handler to the click event of the document

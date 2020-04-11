@@ -36,12 +36,16 @@ class GCamera {
 
 
     /******** MOUSE CONTROLED CAMERA *********/
-    static orbitateAroundCyclist(_cyclist, radius, maxHorizonHeight) {
+    static orbitateAroundCyclist(_marker, radius) {
         // Angle on XZ plane
         let angle = Utils.p5.map(Utils.mouseX, 0, window.innerWidth, 0, Math.PI * 2);
-        let pX = _cyclist.mesh.position.x + (Math.cos(angle) * radius);
-        let pZ = _cyclist.mesh.position.z + (Math.sin(angle) * radius);
-        let pY = Utils.p5.map(Utils.mouseY, 0, window.innerHeight, 0, maxHorizonHeight);
+        // Calculate height
+        let pY = Utils.p5.map(Utils.mouseY, 0, window.innerHeight, 0, GCamera.zoomLevel);
+        // Calculate target to angle direction 
+        let pX = _marker.mesh.position.x + (Math.cos(angle) * pY);
+        let pZ = _marker.mesh.position.z + (Math.sin(angle) * pY);
+
+        // Set camera height
         world.getCamera().lookAt(new THREE.Vector3(pX, pY, pZ));
     }
 
