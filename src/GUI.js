@@ -14,6 +14,7 @@ class GUI {
     static header = document.getElementById('header');
     static error = document.getElementById('error');
     static bannerBottom = document.getElementById('bannerBottom');
+    static accelerationLabel = document.getElementById('accelerationLabel');
 
     static showError(msg) {
         GUI.error.textContent = msg;

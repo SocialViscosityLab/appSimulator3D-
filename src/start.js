@@ -208,11 +208,14 @@ function setupInterval(millis) {
                 if (distanceToGhost < greenWaveProximity) {
                     GUI.header.style.backgroundColor = '#00AFFC'
                     GUI.bannerBottom.style.backgroundColor = '#00AFFC'
+                    GUI.accelerationLabel.textContent = "In green wave"
                 } else {
                     GUI.header.style.backgroundColor = '#3FBF3F' // lime color
                     GUI.bannerBottom.style.backgroundColor = '#3FBF3F'
-
+                    GUI.accelerationLabel.textContent = "Speed up"
                 }
+            } else {
+                GUI.accelerationLabel.textContent = "";
             }
 
             // Move the camera to the latest cyclist's position
