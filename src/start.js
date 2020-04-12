@@ -206,9 +206,11 @@ function setupInterval(millis) {
             // Change color only if the device is connected
             if (device.status == 'GPS OK') {
                 if (distanceToGhost < greenWaveProximity) {
-                    GUI.header.style.backgroundColor = '#0000ff'
+                    GUI.header.style.backgroundColor = '#00AFFC'
+                    GUI.bannerBottom.style.backgroundColor = '#00AFFC'
                 } else {
-                    GUI.header.style.backgroundColor = '#3FBFCF' // lime color
+                    GUI.header.style.backgroundColor = '#3FBF3F' // lime color
+                    GUI.bannerBottom.style.backgroundColor = '#3FBF3F'
 
                 }
             }
@@ -248,7 +250,7 @@ function setupInterval(millis) {
                 'time': stamp
             };
             // If comm in enabled save datapoint
-            if (comm) {
+            if (comm && commEnabled) {
                 comm.addNewDataPointInSession(tempDPID, tempDP)
             }
         }
@@ -276,9 +278,19 @@ function generateID() {
 /** This is used by the GUI to lint this function to a button */
 function connectToFirebase() {
     if (!commEnabled) {
-        alert("Firebase Communication ACTIVATED");
-        comm = new Communication(generateID());
+        if (!comm) {
+            console.log('started')
+            comm = new Communication(generateID());
+        }
         commEnabled = true;
+        alert("Firebase Communication ACTIVATED");
+        GUI.enableCommFirebase.innerText = "Recording enabled"
+        GUI.enableCommFirebase.className = "btn btn-success"
+    } else {
+        commEnabled = false;
+        alert("Firebase Communication DEACTIVATED");
+        GUI.enableCommFirebase.innerText = "Recording dissabled"
+        GUI.enableCommFirebase.className = "btn btn-warning"
     }
 }
 

@@ -13,6 +13,7 @@ class GUI {
     static distance = document.getElementById('distance');
     static header = document.getElementById('header');
     static error = document.getElementById('error');
+    static bannerBottom = document.getElementById('bannerBottom');
 
     static showError(msg) {
         GUI.error.textContent = msg;

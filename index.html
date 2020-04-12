@@ -11,14 +11,26 @@
         <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" href="css/vizicities.css">
 
+        <!-- Fonts -->
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@700&display=swap" rel="stylesheet">
+
     </head>
 
     <body>
-        <div class="container-fluid">
-            <div class="header" id="header">
+
+
+        <!-- Header -->
+        <div class="header" id="header">
+            <div id="title">Flocking</div>
+        </div>
+
+        <div class="container-fluid" style="padding:0px; width: 100%">
+            <!-- GUI elements -->
+            <div class="banner" id="banner">
                 <div class="row">
+
                     <div class="col-sm-2">
-                        <button id="commFirebase" type="button" class="btn btn-warning">Connect to Firebase</button>
+                        <button id="commFirebase" type="button" class="btn btn-light">Connect to Firebase</button>
                     </div>
                     <div class="col-sm-1">
                         <div id="status">Missing GPS</div>
@@ -43,15 +55,31 @@
                 <div id="yRot">y</div>
                 <div id="zRot">z</div>
                 -->
-                <div id="error" style="color:deeppink;"></div>
+                <div id="error" style="color:deeppink;" hidden="true"></div>
             </div>
+
+
+            <div class="map">
+                <div class="col-12">
+                    <!-- Map holder-->
+                    <div id="world" class="world"></div>
+                </div>
+            </div>
+
+            <div class="bannerBottom" id="bannerBottom">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-8">
+                            <div id="accelerationLabel" class="text-center">Speed up</div>
+                        </div>
+                        <div class="col-sm-2"></div>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
-        <div class="container-fluid">
-
-            <!-- Map holder-->
-            <div id="world"></div>
-        </div>
 
         <!--***** 3D libraries *******-->
 

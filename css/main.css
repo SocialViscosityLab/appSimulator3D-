@@ -6,18 +6,66 @@
 
 html,
 body {
+    margin: 0px;
+    padding: 0px;
     height: 100%;
     overflow: hidden;
 }
 
-#world {
-    height: 100%;
+.header {
+    position: relative;
+    height: 15%;
+    background-color: black;
+    /* border-style: solid;
+    border-color: purple; */
 }
 
-.header {
-    background-color: purple;
-    color: cornsilk;
-    padding: 10px;
-    height: 100px;
-    align-content: center;
+#title {
+    position: absolute;
+    bottom: 5px;
+    padding-left: 30px;
+    /* font screen*/
+    color: rgb(150, 150, 150);
+    mix-blend-mode: screen;
+    font-size: 620%;
+    font-family: 'Noto Sans TC', sans-serif;
+}
+
+.banner {
+    position: static;
+    padding-top: 10px;
+    height: 7%;
+    width: 100%;
+    background-color: #EAE40A;
+}
+
+.map {
+    height: 78%;
+    /* border-style: solid; 
+     border-color: blue; */
+}
+
+.world {
+    position: static;
+    top: 0;
+    height: 100%;
+    /* border-style: solid;
+    border-color: red; */
+}
+
+.bannerBottom {
+    bottom: 0px;
+    width: 100%;
+    height: 5%;
+    position: absolute;
+    background-color: black;
+    opacity: 70%;
+}
+
+#accelerationLabel {
+    /* font screen*/
+    color: rgb(150, 150, 150);
+    mix-blend-mode: screen;
+    font-size: 420%;
+    font-family: 'Noto Sans TC', sans-serif;
 }
