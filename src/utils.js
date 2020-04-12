@@ -37,16 +37,35 @@ class Utils {
         return Date.now() - Utils.startTime;
     }
 
+    static reformatJSON(json) {
+        console.log(json);
+
+        // Strict geoJSON. see https://tools.ietf.org/html/rfc7946
+
+        if (json.features) {
+            console.log(json.features[0]);
+            return json.features[0];
+
+        } else {
+            // Leafet geoJSON
+            console.log("NON STRICT geoJSON format");
+            return json;
+        }
+    }
+
     // This function inverts the order of Lat Lon pairs to Lon Lat or vice-versa. 
     static invertLatLonOrder(route) {
+
         // array of arrays
-        let coords = route.features[0].geometry.coordinates;
+        let coords = route.geometry.coordinates;
         let rtn = [];
         coords.forEach(pair => {
             let tmp = [pair[1], pair[0]];
             rtn.push(tmp);
         });
-        route.features[0].geometry.coordinates = rtn;
+        route.geometry.coordinates = rtn;
+
         return route;
+
     }
 }

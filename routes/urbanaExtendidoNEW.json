@@ -2,7 +2,7 @@
     "type": "Feature",
     "features": [{
         "properties": {
-            "name": "urbanaExtendido",
+            "name": "urbanaExtendidoNEW",
             "color": "800080"
         },
         "geometry": {

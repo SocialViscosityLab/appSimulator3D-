@@ -40,14 +40,24 @@ class Layers {
     }
 
     static initRoute(route) {
-        VIZI.geoJSONLayer(route, {
+
+        let routeData;
+        // Verify the geoJSON format compliance. Wether the file contains features.
+        if (route.features) {
+            routeData = route.features[0];
+        } else {
+            routeData = { properties: route.properties, geometry: route.geometry };
+        }
+
+        VIZI.geoJSONLayer(routeData, {
             output: true,
             interactive: false,
             style: function(feature) {
-                var colour = (feature.properties.color) ? '#' + feature.properties.color : '#ff0000';
+                console.log(feature)
+                var colour = (feature.properties.color) ? '#' + feature.properties.color : '#800080';
                 return {
                     lineColor: colour,
-                    lineWidth: 5,
+                    lineWidth: 1,
                     lineRenderOrder: 2
                 };
             },

@@ -106,16 +106,20 @@ function preload() {
      *** LOAD ROUTE ***
      */
     // This loads the route and creates a layer that hosts it. 
-    Utils.p5.loadJSON('routes/urbanaExtendidoNEW.json', function(val) {
+    Utils.p5.loadJSON('routes/d.json', function(val) {
+
+        // returns a simple object with properties and geometry
+        val = Utils.reformatJSON(val)
 
         // Switch Lat Lon order. This is a BUG and needs to be fixed in route maker
-        Utils.invertLatLonOrder(val);
+        val = Utils.invertLatLonOrder(val);
 
         // Initialize layer with route
         Layers.initRoute(val);
 
         // Get array of lonLat coordinates
-        let routeCoords = val.features[0].geometry.coordinates;
+        console.log(val)
+        let routeCoords = val.geometry.coordinates;
 
         /***** GHOST ****/
         ghost = new Fantasma(world._engine._scene);
