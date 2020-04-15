@@ -72,6 +72,8 @@ let updateInterval;
 //The instance of the communication
 let comm;
 let commEnabled = false;
+let ghost_loaded = false;
+
 
 // Map Center 
 //var coords = [40.7359, -73.9911]; // Manhattan
@@ -100,55 +102,47 @@ Layers.init()
 /**
  * This is the p5's preload function. I am using it to load files.
  */
-function preload() {
+function preload() { 
+    /***** GHOST ****/
+    ghost = new Fantasma(world._engine._scene);
+    ghost.init();
 
-    /** 
-     *** LOAD ROUTE ***
-     */
-    // This loads the route and creates a layer that hosts it. 
-    Utils.p5.loadJSON('routes/d.json', function(val) {
+    //Creates communication, get the id of the journey the reference route
+    comm = new Communication(generateID());
+    comm.getLastJourneyId().then( j => {
+        comm.getRoute().then( path => {
+            path = Utils.reformatJSON(path)
+            // Switch Lat Lon order. This is a BUG and needs to be fixed in route maker
+            path = Utils.invertLatLonOrder(path)
+            // Initialize layer with route
+            Layers.initRoute(path);
+            //assignr the coordinates to the ghost
+            let temp_coords = path.geometry.coordinates;
+            ghostCoords = [temp_coords[0][1], temp_coords[0][0]];
+            // Set the global ghost position at the begining of the route. This must be done
+            ghost_loaded = true;
+        });
+    });
 
-        // returns a simple object with properties and geometry
-        val = Utils.reformatJSON(val)
+    /***** CYCLIST ****/
+    cyclist = new Cyclist("firstCyclist", world._engine._scene);
+    cyclist.init();
+    cyclist.setPosition(world.latLonToPoint(coords));
+    cyclist.initializeArrowField();
 
-        // Switch Lat Lon order. This is a BUG and needs to be fixed in route maker
-        val = Utils.invertLatLonOrder(val);
+    /***** CAMERA ****/
+    //IMPORTANT See notes about camera in intro description
+    GCamera.setXPos(cyclist.mesh.position.x);
+    GCamera.setZPos(cyclist.mesh.position.z);
 
-        // Initialize layer with route
-        Layers.initRoute(val);
+    /***** GUI ****/
+    GUI.downloadData.onclick = saveSession;
 
-        // Get array of lonLat coordinates
-        console.log(val)
-        let routeCoords = val.geometry.coordinates;
+    // *** COMMUNICATION TO FIREBASE ****
+    GUI.enableCommFirebase.onclick = connectToFirebase;
 
-        /***** GHOST ****/
-        ghost = new Fantasma(world._engine._scene);
-        ghost.init();
-
-        // Set the global ghost position at the begining of the route. This must be done
-        // once the route is retrieved from firebase
-        ghostCoords = [routeCoords[0][1], routeCoords[0][0]];
-
-        /***** CYCLIST ****/
-        cyclist = new Cyclist("firstCyclist", world._engine._scene);
-        cyclist.init();
-        cyclist.setPosition(world.latLonToPoint(coords));
-        cyclist.initializeArrowField();
-
-        /***** CAMERA ****/
-        //IMPORTANT See notes about camera in intro description
-        GCamera.setXPos(cyclist.mesh.position.x);
-        GCamera.setZPos(cyclist.mesh.position.z);
-
-        /***** GUI ****/
-        GUI.downloadData.onclick = saveSession;
-
-        // *** COMMUNICATION TO FIREBASE ****
-        GUI.enableCommFirebase.onclick = connectToFirebase;
-
-        /***** INIT ****/
-        init();
-    })
+    /***** INIT ****/
+    init();
 }
 
 
