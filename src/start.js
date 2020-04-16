@@ -107,23 +107,6 @@ function preload() {
     ghost = new Fantasma(world._engine._scene);
     ghost.init();
 
-    //Creates communication, get the id of the journey the reference route
-    comm = new Communication(generateID());
-    comm.getLastJourneyId().then( j => {
-        comm.getRoute().then( path => {
-            path = Utils.reformatJSON(path)
-            // Switch Lat Lon order. This is a BUG and needs to be fixed in route maker
-            path = Utils.invertLatLonOrder(path)
-            // Initialize layer with route
-            Layers.initRoute(path);
-            //assignr the coordinates to the ghost
-            let temp_coords = path.geometry.coordinates;
-            ghostCoords = [temp_coords[0][1], temp_coords[0][0]];
-            // Set the global ghost position at the begining of the route. This must be done
-            ghost_loaded = true;
-        });
-    });
-
     /***** CYCLIST ****/
     cyclist = new Cyclist("firstCyclist", world._engine._scene);
     cyclist.init();
@@ -281,8 +264,22 @@ function connectToFirebase() {
     if (!commEnabled) {
         if (!comm) {
             console.log('started')
+            //Creates communication, get the id of the journey the reference route
             comm = new Communication(generateID());
-        }
+            comm.getLastJourneyId().then( j => {
+                comm.getRoute().then( path => {
+                    path = Utils.reformatJSON(path)
+                    // Switch Lat Lon order. This is a BUG and needs to be fixed in route maker
+                    path = Utils.invertLatLonOrder(path)
+                    // Initialize layer with route
+                    Layers.initRoute(path);
+                    //assignr the coordinates to the ghost
+                    let temp_coords = path.geometry.coordinates;
+                    ghostCoords = [temp_coords[0][1], temp_coords[0][0]];
+                    // Set the global ghost position at the begining of the route. This must be done
+                });
+            });
+     }
         commEnabled = true;
         alert("Firebase Communication ACTIVATED");
         GUI.enableCommFirebase.innerText = "Recording enabled"
