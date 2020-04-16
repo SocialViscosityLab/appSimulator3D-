@@ -296,7 +296,7 @@ function connectToFirebase() {
     } else {
         commEnabled = false;
         alert("Firebase Communication DEACTIVATED");
-        GUI.enableCommFirebase.innerText = "Recording dissabled"
+        GUI.enableCommFirebase.innerText = "Recording disabled"
         GUI.enableCommFirebase.className = "btn btn-warning"
     }
 }
