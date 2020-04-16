@@ -26,8 +26,8 @@ class Layers {
 
                 return {
                     height: height,
-                    transparent: true,
-                    opacity: 0.4,
+                    transparent: false,
+                    opacity: 0.7,
                 };
             },
             filter: function(feature) {
@@ -53,7 +53,6 @@ class Layers {
             output: true,
             interactive: false,
             style: function(feature) {
-                console.log(feature)
                 var colour = (feature.properties.color) ? '#' + feature.properties.color : '#800080';
                 return {
                     lineColor: colour,

@@ -75,13 +75,14 @@ let commEnabled = false;
 
 // Map Center 
 //var coords = [40.7359, -73.9911]; // Manhattan
-var coords = [40.1076407, -88.2119009]; // Urbana Home
+//var coords = [40.1076407, -88.2119009]; // Urbana Home
+var coords = [41.8879756, -87.6270752]; // Chicago river
 
 /**
  *** DEVICE ***
  */
 device = new DevicePos();
-device.setup();
+//device.setup();
 
 /**
  *** Instantiation of world ***
@@ -106,7 +107,7 @@ function preload() {
      *** LOAD ROUTE ***
      */
     // This loads the route and creates a layer that hosts it. 
-    Utils.p5.loadJSON('routes/d.json', function(val) {
+    Utils.p5.loadJSON('routes/Chicago_MagnificentMille.json', function(val) {
 
         // returns a simple object with properties and geometry
         val = Utils.reformatJSON(val)
@@ -118,7 +119,6 @@ function preload() {
         Layers.initRoute(val);
 
         // Get array of lonLat coordinates
-        console.log(val)
         let routeCoords = val.geometry.coordinates;
 
         /***** GHOST ****/
