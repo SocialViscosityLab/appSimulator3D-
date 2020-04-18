@@ -102,7 +102,7 @@ Layers.init()
 /**
  * This is the p5's preload function. I am using it to load files.
  */
-function preload() { 
+function preload() {
     /***** GHOST ****/
     ghost = new Fantasma(world._engine._scene);
     ghost.init();
@@ -111,7 +111,6 @@ function preload() {
     cyclist = new Cyclist("firstCyclist", world._engine._scene);
     cyclist.init();
     cyclist.setPosition(world.latLonToPoint(coords));
-    cyclist.initializeArrowField();
 
     /***** CAMERA ****/
     //IMPORTANT See notes about camera in intro description
@@ -182,7 +181,7 @@ function setupInterval(millis) {
 
             // The max distance between cyclist and ghost be in the range of the 'green wave.' Units undefined.
             // TODO Improve this so the proximity is only accounted when the cyclist is 'behind' the ghost 
-            let greenWaveProximity = 700; // 700 is really close, almost on top of the ghost.
+            let greenWaveProximity = 2000; // 700 is really close, almost on top of the ghost.
 
             // Change color only if the device is connected
             if (device.status == 'GPS OK') {
@@ -264,14 +263,14 @@ function connectToFirebase() {
     if (!commEnabled) {
         if (!comm) {
             console.log('started')
-            //Creates communication, get the id of the journey the reference route
+                //Creates communication, get the id of the journey the reference route
             comm = new Communication(generateID());
-            comm.getLastJourneyId().then( j => {
-                comm.getRoute().then( path => {
+            comm.getLastJourneyId().then(j => {
+                comm.getRoute().then(path => {
                     path = Utils.reformatJSON(path)
-                    // Switch Lat Lon order. This is a BUG and needs to be fixed in route maker
+                        // Switch Lat Lon order. This is a BUG and needs to be fixed in route maker
                     path = Utils.invertLatLonOrder(path)
-                    // Initialize layer with route
+                        // Initialize layer with route
                     Layers.initRoute(path);
                     //assignr the coordinates to the ghost
                     let temp_coords = path.geometry.coordinates;
@@ -279,7 +278,9 @@ function connectToFirebase() {
                     // Set the global ghost position at the begining of the route. This must be done
                 });
             });
-     }
+
+        }
+        cyclist.initializeArrowField();
         commEnabled = true;
         alert("Firebase Communication ACTIVATED");
         GUI.enableCommFirebase.innerText = "Recording enabled"

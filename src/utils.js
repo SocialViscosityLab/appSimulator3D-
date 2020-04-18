@@ -38,12 +38,11 @@ class Utils {
     }
 
     static reformatJSON(json) {
-        console.log(json);
 
         // Strict geoJSON. see https://tools.ietf.org/html/rfc7946
 
         if (json.features) {
-            console.log(json.features[0]);
+            // console.log(json.features[0]);
             return json.features[0];
 
         } else {

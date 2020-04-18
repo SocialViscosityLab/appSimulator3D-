@@ -53,7 +53,6 @@ class Layers {
             output: true,
             interactive: false,
             style: function(feature) {
-                console.log(feature)
                 var colour = (feature.properties.color) ? '#' + feature.properties.color : '#800080';
                 return {
                     lineColor: colour,
