@@ -5,7 +5,7 @@ class Layers {
          * CartoDB basemap. https://carto.com/help/building-maps/basemap-list/
          * styles: http://bl.ocks.org/Xatpy/raw/854297419bd7eb3421d0/
          */
-        VIZI.imageTileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png', {
+        VIZI.imageTileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL'
         }).addTo(world);
 

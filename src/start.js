@@ -79,6 +79,9 @@ let ghost_loaded = false;
 //var coords = [40.7359, -73.9911]; // Manhattan
 //var coords = [40.1076407, -88.2119009]; // Urbana Home
 var coords = [41.8879756, -87.6270752]; // Chicago river
+//var coords = [-33.4580124, -70.6641774]; // Santiago de Chile
+//var coords = [4.6389637, -74.094946] // Bogota
+//var coords = [3.426171, -76.578768] //MP
 
 /**
  *** DEVICE ***
