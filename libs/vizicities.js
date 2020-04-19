@@ -508,22 +508,20 @@
                     }, {
                         key: 'addLayer',
                         value: function addLayer(layer) {
+
                             layer._addToWorld(this);
 
                             this._layers.push(layer);
 
                             if (layer.isOutput() && layer.isOutputToScene()) {
-                                // Could move this into Layer but it'll do here for now
                                 this._engine._scene.add(layer._object3D);
                                 this._engine._domScene3D.add(layer._domObject3D);
                                 this._engine._domScene2D.add(layer._domObject2D);
                             }
-
                             this.emit('layerAdded', layer);
                             return this;
+                            // Remove layer from world and scene but don't destroy it entirely
                         }
-
-                        // Remove layer from world and scene but don't destroy it entirely
                     }, {
                         key: 'removeLayer',
                         value: function removeLayer(layer) {
@@ -13275,19 +13273,19 @@
                         var max = box.max;
 
                         /*
-	    5____4
-	  1/___0/|
-	  | 6__|_7
-	  2/___3/
-	  	0: max.x, max.y, max.z
-	  1: min.x, max.y, max.z
-	  2: min.x, min.y, max.z
-	  3: max.x, min.y, max.z
-	  4: max.x, max.y, min.z
-	  5: min.x, max.y, min.z
-	  6: min.x, min.y, min.z
-	  7: max.x, min.y, min.z
-	  */
+5____4
+1/___0/|
+| 6__|_7
+2/___3/
+0: max.x, max.y, max.z
+1: min.x, max.y, max.z
+2: min.x, min.y, max.z
+3: max.x, min.y, max.z
+4: max.x, max.y, min.z
+5: min.x, max.y, min.z
+6: min.x, min.y, min.z
+7: max.x, min.y, min.z
+*/
 
                         var position = this.geometry.attributes.position;
                         var array = position.array;

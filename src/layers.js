@@ -3,8 +3,9 @@ class Layers {
     static init() {
         /**
          * CartoDB basemap. https://carto.com/help/building-maps/basemap-list/
+         * styles: http://bl.ocks.org/Xatpy/raw/854297419bd7eb3421d0/
          */
-        VIZI.imageTileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
+        VIZI.imageTileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL'
         }).addTo(world);
 
@@ -21,18 +22,22 @@ class Layers {
                     height = feature.properties.height;
                 } else {
                     // This assigns height to geometries with unknown height
-                    height = 0;
+                    height = 10;
                 }
 
                 return {
                     height: height,
-                    transparent: false,
+                    transparent: true,
                     opacity: 0.7,
                 };
             },
             filter: function(feature) {
-                // Don't show points
-                return feature.geometry.type !== 'Point';
+                /**
+                 * Each vector layer is retrieved with a list of features. This filter selects the elements to be displayed by feature.
+                 * For instance, here all but buldings are displayed. Uncomment console.log(feature.properties.kind) to see all the avilable options
+                 */
+                // console.log(feature.properties.kind)
+                return (feature.properties.kind === 'building');
             },
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://whosonfirst.mapzen.com#License">Who\'s On First</a>.'
         }).addTo(world);
