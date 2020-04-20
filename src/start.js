@@ -87,7 +87,7 @@ var coords = [41.8879756, -87.6270752]; // Chicago river
  *** DEVICE ***
  */
 device = new DevicePos();
-//device.setup();
+device.setup();
 
 /**
  *** Instantiation of world ***
@@ -143,12 +143,14 @@ function init() {
         // This is the camera height above the ground
         GCamera.zoomLevel = 100;
         GCamera.setYPos(GCamera.zoomLevel);
+        GUI.cameraButton.style.visibility = 'visible';
+        // Change to user selected camera
+        GUI.cameraButton.onclick = GCamera.switchMobileCamera;
     } else {
         GUI.mobile.textContent = "running on computer";
         // This is the camera height above the ground
         GCamera.zoomLevel = 30;
         GCamera.setYPos(GCamera.zoomLevel);
-
     }
 
     // **** UPDATE INTERVAL ****
@@ -185,21 +187,21 @@ function setupInterval(millis) {
 
             // The max distance between cyclist and ghost be in the range of the 'green wave.' Units undefined.
             // TODO Improve this so the proximity is only accounted when the cyclist is 'behind' the ghost 
-            let greenWaveProximity = 2000; // 700 is really close, almost on top of the ghost.
+            let greenWaveProximity = 1000; // 700 is really close, almost on top of the ghost.
 
             // Change color only if the device is connected
             if (device.status == 'GPS OK') {
                 if (distanceToGhost < greenWaveProximity) {
                     GUI.header.style.backgroundColor = '#00AFFC'
-                    GUI.bannerBottom.style.backgroundColor = '#00AFFC'
-                    GUI.accelerationLabel.textContent = "In green wave"
+                    GUI.accelerationLabel.style.backgroundColor = '#00AFFC'
+                    GUI.accelerationLabel.textContent = "Flocking!!!"
                 } else {
                     GUI.header.style.backgroundColor = '#3FBF3F' // lime color
-                    GUI.bannerBottom.style.backgroundColor = '#3FBF3F'
+                    GUI.accelerationLabel.style.backgroundColor = '#3FBF3F'
                     GUI.accelerationLabel.textContent = "Speed up"
                 }
             } else {
-                GUI.accelerationLabel.textContent = "";
+                GUI.accelerationLabel.textContent = "...";
             }
 
             // Move the camera to the latest cyclist's position
@@ -216,7 +218,7 @@ function setupInterval(millis) {
         }
 
         /** Save datapoint to Firebase */
-        if (device.pos != undefined) {
+        if (device.pos.lat != undefined && device.pos.lon != undefined) {
             //manage registers of datapoints (for json and database)
             let stamp = Utils.getEllapsedTime();
             let coord = { "lat": device.pos.lat, "lon": device.pos.lon };
@@ -315,7 +317,6 @@ function mouseHandler(e) {
     }
 
     if (cyclist) {
-
         //let radius = 20;
         GCamera.orbitateAroundCyclist(cyclist, GCamera.zoomLevel);
         GCamera.emitEvent();

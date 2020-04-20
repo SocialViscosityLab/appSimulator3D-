@@ -70,7 +70,32 @@ class GCamera {
         let oPosX = centerX + Math.cos(-angle) * frustrumDepth;
         let oPosZ = centerZ + Math.sin(-angle) * frustrumDepth;
 
-
         world.getCamera().lookAt(new THREE.Vector3(oPosX, oPosY, oPosZ));
+    }
+
+    static switchMobileCamera() {
+        switch (GUI.cameraButton.textContent) {
+            case "First-person camera":
+                GCamera.zoomLevel = 1000;
+                GCamera.setYPos(GCamera.zoomLevel);
+                GUI.cameraButton.textContent = "Adaptive height";
+                break;
+            case "Adaptive height":
+                let maxDistance = 50000;
+                let distanceToGhost = cyclist.mesh.position.distanceToSquared(ghost.mesh.position);
+                if (distanceToGhost > maxDistance) {
+                    distanceToGhost = maxDistance;
+                }
+                let newZoomLevel = Utils.p5.map(distanceToGhost, 0, maxDistance, 1, 1000);
+                GCamera.zoomLevel = newZoomLevel;
+                GCamera.setYPos(GCamera.zoomLevel);
+                GUI.cameraButton.textContent = "Top camera";
+                break;
+            case "Top camera":
+                GCamera.zoomLevel = 100;
+                GCamera.setYPos(GCamera.zoomLevel);
+                GUI.cameraButton.textContent = "First-person camera";
+                break;
+        }
     }
 }
