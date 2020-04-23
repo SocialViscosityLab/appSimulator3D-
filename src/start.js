@@ -155,7 +155,7 @@ function init() {
 
     // **** UPDATE INTERVAL ****
     // This interval controls the update pace of the entire APP except p5's draw() function
-    setupInterval(200);
+    setupInterval(1000);
 }
 
 /**** AUXILIARY FUNCTIONS *****/

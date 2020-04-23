@@ -15,6 +15,8 @@ class GCamera {
         world.getCamera().position.y = yPos;
     }
 
+    static cameraMode = "First-person";
+
     // Current zoom level
     static zoomLevel = 1;
 
@@ -64,6 +66,19 @@ class GCamera {
             oPosY = 70;
         }
 
+        // This is adapts the zoom level at each iteration of the main interval
+        if (GUI.cameraButton.textContent == "Adaptive height") {
+            let maxDistance = 50000;
+            let distanceToGhost = cyclist.mesh.position.distanceToSquared(ghost.mesh.position);
+            if (distanceToGhost > maxDistance) {
+                distanceToGhost = maxDistance;
+            }
+            let newZoomLevel = Utils.p5.map(distanceToGhost, 0, maxDistance, 1, 1000);
+            GCamera.zoomLevel = newZoomLevel;
+        }
+
+        GCamera.setYPos(GCamera.zoomLevel);
+
         // let oPosX = Math.cos(Utils.p5.radians(-Utils.p5.rotationZ) + (Math.PI / 2)) * frustrumDepth;
         // let oPosY = Math.sin(Utils.p5.radians(-Utils.p5.rotationZ) + (Math.PI / 2)) * frustrumDepth;
         let angle = Utils.p5.radians(Utils.p5.rotationZ - 270);
@@ -73,29 +88,22 @@ class GCamera {
         world.getCamera().lookAt(new THREE.Vector3(oPosX, oPosY, oPosZ));
     }
 
+
+
     static switchMobileCamera() {
-        switch (GUI.cameraButton.textContent) {
-            case "First-person camera":
-                GCamera.zoomLevel = 1000;
-                GCamera.setYPos(GCamera.zoomLevel);
-                GUI.cameraButton.textContent = "Adaptive height";
+        switch (GCamera.cameraMode) {
+            case "Top view":
+                GCamera.cameraMode = "First-person";
+                GCamera.zoomLevel = 100;
+                break;
+            case "First-person":
+                GCamera.cameraMode = "Adaptive height";
                 break;
             case "Adaptive height":
-                let maxDistance = 50000;
-                let distanceToGhost = cyclist.mesh.position.distanceToSquared(ghost.mesh.position);
-                if (distanceToGhost > maxDistance) {
-                    distanceToGhost = maxDistance;
-                }
-                let newZoomLevel = Utils.p5.map(distanceToGhost, 0, maxDistance, 1, 1000);
-                GCamera.zoomLevel = newZoomLevel;
-                GCamera.setYPos(GCamera.zoomLevel);
-                GUI.cameraButton.textContent = "Top camera";
-                break;
-            case "Top camera":
-                GCamera.zoomLevel = 100;
-                GCamera.setYPos(GCamera.zoomLevel);
-                GUI.cameraButton.textContent = "First-person camera";
+                GCamera.cameraMode = "Top view";
+                GCamera.zoomLevel = 1000;
                 break;
         }
+        GUI.cameraButton.textContent = GCamera.cameraMode;
     }
 }
