@@ -288,12 +288,12 @@ function connectToFirebase() {
         }
         cyclist.initializeArrowField();
         commEnabled = true;
-        alert("Firebase Communication ACTIVATED");
+        alert("Firebase Communication ENABLED");
         GUI.enableCommFirebase.innerText = "Recording enabled"
         GUI.enableCommFirebase.className = "btn btn-success"
     } else {
         commEnabled = false;
-        alert("Firebase Communication DEACTIVATED");
+        alert("Firebase Communication DISABLED");
         GUI.enableCommFirebase.innerText = "Recording disabled"
         GUI.enableCommFirebase.className = "btn btn-warning"
     }

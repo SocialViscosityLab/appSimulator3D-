@@ -21,7 +21,7 @@ class GCamera {
     static zoomLevel = 1;
 
     // Max zoom level. How high the camera can be above the ground
-    static maxZoom = 1000;
+    static maxZoom = 2800;
 
     // *** events triggered to retrieve 3D objects on geoJSON tiles
     static emitEvent(latlon, point) {
@@ -73,7 +73,7 @@ class GCamera {
             if (distanceToGhost > maxDistance) {
                 distanceToGhost = maxDistance;
             }
-            let newZoomLevel = Utils.p5.map(distanceToGhost, 0, maxDistance, 1, 1000);
+            let newZoomLevel = Utils.p5.map(distanceToGhost, 0, maxDistance, 1, GCamera.maxZoom);
             GCamera.zoomLevel = newZoomLevel;
         }
 
