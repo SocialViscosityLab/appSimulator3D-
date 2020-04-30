@@ -10,7 +10,7 @@ class ArrowheadField {
 
     }
 
-    initializeConcentric = function(rings, radius) {
+    initializeConcentric(rings, radius) {
         let parts = 6
         for (let i = 1; i <= rings; i++) {
             let angle = (Math.PI * 2) / (i * parts)

@@ -31,7 +31,7 @@ class DevicePos {
     }
 
     /** This MUST be invoked to activate the instance  */
-    setup = function() {
+    setup() {
         // a variable holding THIS object
         let obj;
         // getting the position
@@ -45,7 +45,7 @@ class DevicePos {
     }
 
     /** Callback */
-    success = function(obj, position) {
+    success(obj, position) {
         obj.pos.lat = position.coords.latitude;
         obj.pos.lon = position.coords.longitude;
         obj.status = 'GPS OK';

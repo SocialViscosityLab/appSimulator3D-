@@ -2,32 +2,29 @@
  * Utilities availables as static functions of this class.
  */
 class Utils {
-    static p5;
+    // static p5;
 
-    static startTime;
-
-    static mouseX = 0;
-    static mouseY = 0;
+    // static startTime;
 
     static setP5(_p5) {
         Utils.p5 = _p5
     }
 
-    static getHeading = function(x, y, pX, pY) {
+    static getHeading(x, y, pX, pY) {
         return Utils.p5.atan2(pY - y, pX - x);
     }
 
 
-    static getX = function(angle, radius) {
+    static getX(angle, radius) {
         return Utils.p5.cos(angle) * radius;
     }
 
 
-    static getY = function(angle, radius) {
+    static getY(angle, radius) {
         return Utils.p5.sin(angle) * radius;
     }
 
-    static polarToCartesian = function(angle, radius) {
+    static polarToCartesian(angle, radius) {
         let xComp = this.getX(angle, radius);
         let yComp = this.getY(angle, radius);
         return (new THREE.Vector3(xComp, yComp, 0))
@@ -69,3 +66,5 @@ class Utils {
 
     }
 }
+Utils.mouseX = 0;
+Utils.mouseY = 0;

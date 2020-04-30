@@ -15,14 +15,6 @@ class GCamera {
         world.getCamera().position.y = yPos;
     }
 
-    static cameraMode = "First-person";
-
-    // Current zoom level
-    static zoomLevel = 1;
-
-    // Max zoom level. How high the camera can be above the ground
-    static maxZoom = 2800;
-
     // *** events triggered to retrieve 3D objects on geoJSON tiles
     static emitEvent(latlon, point) {
         // retrieve 3D
@@ -89,7 +81,6 @@ class GCamera {
     }
 
 
-
     static switchMobileCamera() {
         switch (GCamera.cameraMode) {
             case "Top view":
@@ -107,3 +98,9 @@ class GCamera {
         GUI.cameraButton.textContent = GCamera.cameraMode;
     }
 }
+
+GCamera.cameraMode = "First-person";
+// Current zoom level
+GCamera.zoomLevel = 1;
+// Max zoom level. How high the camera can be above the ground
+GCamera.maxZoom = 2800;
