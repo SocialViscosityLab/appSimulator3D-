@@ -141,7 +141,7 @@ function init() {
     if (isMobile) {
         GUI.mobile.textContent = "running on mobile";
         // This is the camera height above the ground
-        GCamera.zoomLevel = 100;
+        GCamera.zoomLevel = 50;
         GCamera.setYPos(GCamera.zoomLevel);
         GUI.cameraButton.style.visibility = 'visible';
         // Change to user selected camera
@@ -154,7 +154,7 @@ function init() {
     }
 
     // **** UPDATE INTERVAL ****
-    // This interval controls the update pace of the entire APP except p5's draw() function
+    // This interval controls the update pace of the entire APP
     setupInterval(1000);
 }
 
@@ -172,7 +172,7 @@ function setupInterval(millis) {
 
             // Set the cyclists position to the device position 
             if (device.pos.lat != undefined && device.pos.lon != undefined) {
-                cyclist.setPosition(world.latLonToPoint(device.pos));
+                //****** UNCOMMENT THIS cyclist.setPosition(world.latLonToPoint(device.pos));
             }
 
             /** Set the arrow field direction. This vector is the substraction of the Ghost's
@@ -208,13 +208,13 @@ function setupInterval(millis) {
 
             GCamera.setXPos(cyclist.mesh.position.x);
             GCamera.setZPos(cyclist.mesh.position.z);
-            if (isMobile) {
-                // If the device is a mobile phone move the camera pivot. 
-                GCamera.lookingFrom(cyclist.mesh.position.x, cyclist.mesh.position.z, 50);
-                // emit event to retrieve 3D objects in the GeoJSON layer.
-                // This might consume to many resources. 
-                GCamera.emitEvent();
-            }
+            // if (isMobile) {
+            //     // If the device is a mobile phone move the camera pivot. 
+            //     GCamera.lookingFrom(cyclist.mesh.position.x, cyclist.mesh.position.z, 50);
+            //     // emit event to retrieve 3D objects in the GeoJSON layer.
+            //     // This might consume to many resources. 
+            //     GCamera.emitEvent();
+            // }
         }
 
         /** Save datapoint to Firebase */
@@ -344,3 +344,21 @@ function wheelHandler(e) {
 // attach handler to the click event of the document
 if (document.attachEvent) document.attachEvent('wheel', wheelHandler);
 else document.addEventListener('wheel', wheelHandler);
+
+
+
+function motionEvent() {
+    // let targetPosition = new THREE.Vector3();
+    // targetPosition.subVectors(ghost.mesh.position, cyclist.mesh.position);
+    // cyclist.arrowField.setTarget(targetPosition);
+    // camera
+    if (isMobile) {
+        // If the device is a mobile phone move the camera pivot. 
+        GCamera.lookingFrom(cyclist.mesh.position.x, cyclist.mesh.position.z, 50);
+        // emit event to retrieve 3D objects in the GeoJSON layer.
+        // This function might consume to many resources. Testing if it is not necessary 
+        GCamera.emitEvent();
+    }
+}
+// Attach motion event
+window.addEventListener('devicemotion', motionEvent);
