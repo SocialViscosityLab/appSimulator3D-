@@ -99,7 +99,7 @@ class Communication {
      */
     addThisSession() {
         let time = new Date();
-        let startTime = time.getFullYear() + "/" + time.getMonth() + "/" + time.getDate() + " - " + time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
+        let startTime = time.getFullYear() + "/" + (time.getMonth()+1) + "/" + time.getDate() + " - " + time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
         let metaData = {
             id_user: this.user_id,
             start_time: startTime
