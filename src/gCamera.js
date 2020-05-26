@@ -5,7 +5,7 @@ class GCamera {
         world.getCamera().position.x = xPos;
     }
 
-    /** Sets the z position on the map */
+    /** Sets the y position on the map */
     static setZPos(zPos) {
         world.getCamera().position.z = zPos;
     }
@@ -48,24 +48,23 @@ class GCamera {
     static lookingFrom(centerX, centerZ, frustrumDepth) {
 
         let oPosY;
-        // determines the angle rotating over X axis
+        // determines the angle rotating over X axis. This determines when the horizon is visible when the phone is tilted forwards or backwards
         if (Utils.p5.rotationX < 0) {
             oPosY = 0;
-        } else
-        if (Utils.p5.rotationX >= 0 && Utils.p5.rotationX <= 90) {
-            oPosY = Utils.p5.map(Utils.p5.rotationX, 0, 90, -10, 100)
-        } else if (Utils.p5.rotationX >= 100) {
+        } else if (Utils.p5.rotationX >= 0 && Utils.p5.rotationX <= 90) {
+            oPosY = Utils.p5.map(Utils.p5.rotationX, 0, 90, -10, 100);
+        } else if (Utils.p5.rotationX > 90) {
             oPosY = 70;
         }
 
-        // This is adapts the zoom level at each iteration of the main interval
-        if (GUI.cameraButton.textContent == "Adaptive height") {
+        // This adapts the zoom level at each iteration of the main interval
+        if (GCamera.cameraMode == "Adaptive height") {
             let maxDistance = 50000;
             let distanceToGhost = cyclist.mesh.position.distanceToSquared(ghost.mesh.position);
             if (distanceToGhost > maxDistance) {
                 distanceToGhost = maxDistance;
             }
-            let newZoomLevel = Utils.p5.map(distanceToGhost, 0, maxDistance, 1, GCamera.maxZoom);
+            let newZoomLevel = Utils.p5.map(distanceToGhost, 0, maxDistance, 150, GCamera.maxZoom);
             GCamera.zoomLevel = newZoomLevel;
         }
 
@@ -74,6 +73,7 @@ class GCamera {
         // let oPosX = Math.cos(Utils.p5.radians(-Utils.p5.rotationZ) + (Math.PI / 2)) * frustrumDepth;
         // let oPosY = Math.sin(Utils.p5.radians(-Utils.p5.rotationZ) + (Math.PI / 2)) * frustrumDepth;
         let angle = Utils.p5.radians(Utils.p5.rotationZ - 270);
+        GUI.error.textContent = Utils.p5.rotationZ.toFixed(0);
         let oPosX = centerX + Math.cos(-angle) * frustrumDepth;
         let oPosZ = centerZ + Math.sin(-angle) * frustrumDepth;
 

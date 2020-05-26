@@ -31,7 +31,12 @@ class Utils {
     }
 
     static getEllapsedTime() {
-        return (Date.now() - Utils.startTime) / 1000;
+        return (Date.now() - Utils.startTime);
+    }
+
+    static getEllapsedTimeSeconds() {
+        let tmp = (Date.now() - Utils.startTime) / 1000;
+        return Math.trunc(tmp);
     }
 
     static reformatJSON(json) {

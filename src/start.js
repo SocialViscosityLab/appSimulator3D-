@@ -172,7 +172,7 @@ function setupInterval(millis) {
 
             // Set the cyclists position to the device position 
             if (device.pos.lat != undefined && device.pos.lon != undefined) {
-                //****** UNCOMMENT THIS cyclist.setPosition(world.latLonToPoint(device.pos));
+                cyclist.setPosition(world.latLonToPoint(device.pos));
             }
 
             /** Set the arrow field direction. This vector is the substraction of the Ghost's
@@ -246,7 +246,11 @@ function setupInterval(millis) {
 
         // update device status on GUI
         GUI.status.textContent = device.status;
-        GUI.latLon.textContent = "Time: " + Utils.getEllapsedTime() + ', Lat: ' + device.pos.lat + '°, Lon: ' + device.pos.lon + '°';
+        if (device.pos.lat) {
+            GUI.latLon.textContent = "Time: " + Utils.getEllapsedTimeSeconds() + ', Lat: ' + device.pos.lat.toFixed(5) + '°, Lon: ' + device.pos.lon.toFixed(5) + '°';
+        } else {
+            GUI.latLon.textContent = "Time: " + Utils.getEllapsedTimeSeconds() + ', Searching position';
+        }
         GUI.latLon.href = ('https://www.openstreetmap.org/#map=18/' + device.pos.lat + "/" + device.pos.lon);
     }, millis);
 }
