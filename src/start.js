@@ -59,7 +59,7 @@ let ghost, cyclist, device;
 // The session coordinates
 let dataCoords = [];
 
-/**This ghostCoords must be global becaus eit is updated in communication. 
+/**This ghostCoords must be global because it is updated in communication. 
  * TODO, make it observer pattern*/
 let ghostCoords;
 
@@ -77,11 +77,12 @@ let ghost_loaded = false;
 
 // Map Center 
 //var coords = [40.7359, -73.9911]; // Manhattan
-//var coords = [40.1076407, -88.2119009]; // Urbana Home
-var coords = [41.8879756, -87.6270752]; // Chicago river
+var coords = [40.1076407, -88.2119009]; // Urbana Home
+//var coords = [41.8879756, -87.6270752]; // Chicago river
 //var coords = [-33.4580124, -70.6641774]; // Santiago de Chile
 //var coords = [4.6389637, -74.094946] // Bogota
 //var coords = [3.426171, -76.578768] //MP
+//var coords = [36.1212532, -97.0702415]; //OSU
 
 /**
  *** DEVICE ***
@@ -141,7 +142,7 @@ function init() {
     if (isMobile) {
         GUI.mobile.textContent = "running on mobile";
         // This is the camera height above the ground
-        GCamera.zoomLevel = 50;
+        GCamera.zoomLevel = 100;
         GCamera.setYPos(GCamera.zoomLevel);
         GUI.cameraButton.style.visibility = 'visible';
         // Change to user selected camera
@@ -149,7 +150,7 @@ function init() {
     } else {
         GUI.mobile.textContent = "running on computer";
         // This is the camera height above the ground
-        GCamera.zoomLevel = 30;
+        GCamera.zoomLevel = 100;
         GCamera.setYPos(GCamera.zoomLevel);
     }
 
@@ -182,12 +183,14 @@ function setupInterval(millis) {
             cyclist.arrowField.setTarget(targetPosition);
 
             // Distance to ghost. This changes the header color in DOM
-            let distanceToGhost = cyclist.mesh.position.distanceToSquared(ghost.mesh.position);
-            GUI.distance.textContent = "Distance to ghost: " + distanceToGhost.toFixed(2);
+            // let distanceToGhost = cyclist.mesh.position.distanceToSquared(ghost.mesh.position);
+            let distanceToGhost = device.getDistanceTo({ lat: ghostCoords[0], lon: ghostCoords[1] });
+            GUI.distance.textContent = "Distance to ghost: " + distanceToGhost.toFixed(1) + " m";
+            GUI.error.textContent = distanceToGhost.toFixed(1);
 
             // The max distance between cyclist and ghost be in the range of the 'green wave.' Units undefined.
             // TODO Improve this so the proximity is only accounted when the cyclist is 'behind' the ghost 
-            let greenWaveProximity = 1000; // 700 is really close, almost on top of the ghost.
+            let greenWaveProximity = 15; // in meters
 
             // Change color only if the device is connected
             if (device.status == 'GPS OK') {
@@ -211,8 +214,6 @@ function setupInterval(millis) {
             // if (isMobile) {
             //     // If the device is a mobile phone move the camera pivot. 
             //     GCamera.lookingFrom(cyclist.mesh.position.x, cyclist.mesh.position.z, 50);
-            //     // emit event to retrieve 3D objects in the GeoJSON layer.
-            //     // This might consume to many resources. 
             //     GCamera.emitEvent();
             // }
         }
@@ -228,14 +229,15 @@ function setupInterval(millis) {
                 "coord": coord,
                 "gcoord": world.pointToLatLon([ghost.mesh.position.x, ghost.mesh.position.z])
             });
-            //TODO: add acc and speed(?)
+            //*******TODO: add acc
             let tempDPID = dataCoords.length - 1
             let tempDP = {
-                'acceleration': 0,
+                'acceleration': 'NA',
                 'latitude': coord.lat,
                 'longitude': coord.lon,
-                'speed': 0,
-                'suggestion': 0,
+                'speed': device.getSpeed(), // GPS Speed
+                'heading': device.getHeading(), // GPS Heading
+                'suggestion': 'NA',
                 'time': stamp
             };
             // If comm in enabled save datapoint
@@ -359,8 +361,8 @@ function motionEvent() {
     if (isMobile) {
         // If the device is a mobile phone move the camera pivot. 
         GCamera.lookingFrom(cyclist.mesh.position.x, cyclist.mesh.position.z, 50);
-        // emit event to retrieve 3D objects in the GeoJSON layer.
-        // This function might consume to many resources. Testing if it is not necessary 
+        // // // emit event to retrieve 3D objects in the GeoJSON layer.
+        // // // This function might consume to many resources. Testing if it is not necessary 
         GCamera.emitEvent();
     }
 }

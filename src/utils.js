@@ -68,7 +68,40 @@ class Utils {
         route.geometry.coordinates = rtn;
 
         return route;
+    }
 
+    /** Gets the geodesic distance between two points
+     * @param {Position} startCoords
+     * @param {Position} endCoords
+     * @return {number} The distance between the two points in meters
+     * */
+
+    static getDistance(startCoords, endCoords) {
+        //Distance code taken from: https://www.movable-type.co.uk/scripts/latlong.html
+
+        let lat1 = startCoords.lat;
+        let lon1 = startCoords.lon;
+        let lat2 = endCoords.lat;
+        let lon2 = endCoords.lon;
+
+        const R = 6371e3; // meters
+
+        //Converting latitud and longitude to radians
+        //let fi1 = Math.sin((lat1 * Math.PI) / 180);
+        //let fi2 = Math.sin((lat2 * Math.PI) / 180);
+
+        let fi1 = (lat1 * Math.PI) / 180;
+        let fi2 = (lat2 * Math.PI) / 180;
+
+        let deltaFi = Math.sin((lat2 - lat1) * Math.PI / 180);
+        let deltaLambda = Math.sin((lon2 - lon1) * Math.PI / 180);
+
+        let a = Math.sin(deltaFi / 2) * Math.sin(deltaFi / 2) + Math.cos(fi1) * Math.cos(fi2) * Math.sin(deltaLambda / 2) * Math.sin(deltaLambda / 2);
+        let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        let d = R * c;
+
+        return Number.parseFloat(d);
     }
 }
 Utils.mouseX = 0;

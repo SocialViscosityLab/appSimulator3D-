@@ -52,7 +52,7 @@ class GCamera {
         if (Utils.p5.rotationX < 0) {
             oPosY = 0;
         } else if (Utils.p5.rotationX >= 0 && Utils.p5.rotationX <= 90) {
-            oPosY = Utils.p5.map(Utils.p5.rotationX, 0, 90, -10, 100);
+            oPosY = Utils.p5.map(Utils.p5.rotationX, 0, 90, 0, 100);
         } else if (Utils.p5.rotationX > 90) {
             oPosY = 70;
         }
@@ -70,12 +70,16 @@ class GCamera {
 
         GCamera.setYPos(GCamera.zoomLevel);
 
-        // let oPosX = Math.cos(Utils.p5.radians(-Utils.p5.rotationZ) + (Math.PI / 2)) * frustrumDepth;
-        // let oPosY = Math.sin(Utils.p5.radians(-Utils.p5.rotationZ) + (Math.PI / 2)) * frustrumDepth;
-        let angle = Utils.p5.radians(Utils.p5.rotationZ - 270);
-        GUI.error.textContent = Utils.p5.rotationZ.toFixed(0);
-        let oPosX = centerX + Math.cos(-angle) * frustrumDepth;
-        let oPosZ = centerZ + Math.sin(-angle) * frustrumDepth;
+        // **** NOTES *****
+        // The position of 0 degrees is not consistent across browsers. 
+        // Android: WEST(270), iOS: EAST(90), Opera:NORTH(0), FirefoxMobile: NORTH(0), Chrome Android: WEST(270)
+        // Source:  https://mobiforge.com/design-development/html5-mobile-web-device-orientation-events
+        // Potential solution: https://github.com/ajfisher/deviceapi-normaliser
+
+        let angle = Utils.p5.radians(270 - Utils.p5.rotationZ);
+        //GUI.error.textContent = Utils.p5.rotationZ;
+        let oPosX = centerX + Math.cos(angle) * frustrumDepth;
+        let oPosZ = centerZ + Math.sin(angle) * frustrumDepth;
 
         world.getCamera().lookAt(new THREE.Vector3(oPosX, oPosY, oPosZ));
     }

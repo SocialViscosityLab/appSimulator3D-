@@ -20,6 +20,10 @@ class DevicePos {
     constructor() {
         this.status = "GPS not enabled";
         this.pos = { "lat": undefined, "lon": undefined }
+        this.heading;
+        this.speed;
+        this.altitude;
+        this.accuracy;
         this.watchID = undefined;
         this.geo_options = {
             enableHighAccuracy: true,
@@ -49,6 +53,10 @@ class DevicePos {
         obj.pos.lat = position.coords.latitude;
         obj.pos.lon = position.coords.longitude;
         obj.status = 'GPS OK';
+        obj.altitude = position.coords.altitude;
+        obj.heading = position.coords.heading;
+        obj.speed = position.coords.speed;
+        obj.accuracy = position.coords.accuracy;
     }
 
     /**Callback*/
@@ -68,5 +76,45 @@ class DevicePos {
 
     getLonLat() {
         return [this.pos.lon, this.pos.lat];
+    }
+
+    getAltitude() {
+        return this.altitude;
+    }
+
+    getHeading() {
+        if (this.heading != null) {
+            return this.heading.toFixed(2);
+        } else {
+            return this.heading;
+        }
+    }
+
+    getSpeed() {
+        if (this.speed != null) {
+            return this.speed.toFixed(2);
+        } else {
+            return this.speed;
+        }
+    }
+
+    getSpeedKMH() {
+        return this.getSpeed() * 0.36
+    }
+
+    getAccuracy() {
+        return this.accuracy;
+    }
+
+    stopTracking() {
+        navigator.geolocation.clearWatch(watchID);
+    }
+
+    /**
+     * Estimates the distance between to lon-lat coordinates in meters 
+     * @param {Object} target Object with lat and lon properties.
+     */
+    getDistanceTo(target) {
+        return Utils.getDistance(this.pos, target)
     }
 }

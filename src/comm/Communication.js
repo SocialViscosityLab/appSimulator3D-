@@ -99,13 +99,15 @@ class Communication {
      */
     addThisSession() {
         let time = new Date();
-        let startTime = time.getFullYear() + "/" + (time.getMonth()+1) + "/" + time.getDate() + " - " + time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
+
+        let startTime = time.getFullYear() + "/" + (time.getMonth() + 1) + "/" + time.getDate() + " - " + time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
         let metaData = {
             id_user: this.user_id,
             start_time: startTime
         };
         db.collection('journeys').doc(this.journeyId).collection('sessions').doc(this.sessionId).set(metaData);
         // console.log("metaData added");
+        console.log("Session " + this.sessionId + " started at: " + metaData.start_time);
         this.identified = true;
     }
 
