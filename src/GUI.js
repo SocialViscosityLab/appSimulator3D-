@@ -20,3 +20,5 @@ GUI.header = document.getElementById('header');
 GUI.error = document.getElementById('error');
 GUI.accelerationLabel = document.getElementById('accelerationLabel');
 GUI.cameraButton = document.getElementById('cameraButton');
+GUI.audio1 = document.getElementById('audioClip1');
+GUI.audio2 = document.getElementById('audioClip2');

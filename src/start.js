@@ -134,6 +134,7 @@ function preload() {
 
 
 function init() {
+
     // *** UTILS ****
     Utils.startTime = Date.now();
 
@@ -184,7 +185,7 @@ function setupInterval(millis) {
 
             // Distance to ghost. This changes the header color in DOM
             // let distanceToGhost = cyclist.mesh.position.distanceToSquared(ghost.mesh.position);
-            let distanceToGhost = device.getDistanceTo({ lat: ghostCoords[0], lon: ghostCoords[1] });
+            let distanceToGhost = device.getDistanceTo(ghostCoords);
             GUI.distance.textContent = "Distance to ghost: " + distanceToGhost.toFixed(1) + " m";
             GUI.error.textContent = distanceToGhost.toFixed(1);
 
@@ -198,10 +199,12 @@ function setupInterval(millis) {
                     GUI.header.style.backgroundColor = '#00AFFC'
                     GUI.accelerationLabel.style.backgroundColor = '#00AFFC'
                     GUI.accelerationLabel.textContent = "Flocking!!!"
+                    playAudio();
                 } else {
                     GUI.header.style.backgroundColor = '#3FBF3F' // lime color
                     GUI.accelerationLabel.style.backgroundColor = '#3FBF3F'
                     GUI.accelerationLabel.textContent = "Speed up"
+                    pauseAudio();
                 }
             } else {
                 GUI.accelerationLabel.textContent = "...";
@@ -272,6 +275,7 @@ function generateID() {
 
 /** This is used by the GUI to lint this function to a button */
 function connectToFirebase() {
+    enableAudio();
     if (!commEnabled) {
         if (!comm) {
             console.log('started')
