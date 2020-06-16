@@ -74,6 +74,9 @@ let comm;
 let commEnabled = false;
 let ghost_loaded = false;
 
+//Sound manager
+let soundManager;
+
 
 // Map Center 
 //var coords = [40.7359, -73.9911]; // Manhattan
@@ -130,6 +133,7 @@ function preload() {
 
     /***** INIT ****/
     init();
+    initSound();
 }
 
 
@@ -155,9 +159,17 @@ function init() {
         GCamera.setYPos(GCamera.zoomLevel);
     }
 
+
+
     // **** UPDATE INTERVAL ****
     // This interval controls the update pace of the entire APP
     setupInterval(1000);
+}
+
+function initSound() {
+    soundManager = new SoundManager();
+    soundManager.addMediaNode("ding", document.getElementById("ding"), false);
+    soundManager.addMediaNode("riding", document.getElementById("horses"), true, true);
 }
 
 /**** AUXILIARY FUNCTIONS *****/
@@ -192,19 +204,27 @@ function setupInterval(millis) {
             // The max distance between cyclist and ghost be in the range of the 'green wave.' Units undefined.
             // TODO Improve this so the proximity is only accounted when the cyclist is 'behind' the ghost 
             let greenWaveProximity = 15; // in meters
+            let crowdProximity = 150; // in meters
 
             // Change color only if the device is connected
             if (device.status == 'GPS OK') {
                 if (distanceToGhost < greenWaveProximity) {
-                    GUI.header.style.backgroundColor = '#00AFFC'
-                    GUI.accelerationLabel.style.backgroundColor = '#00AFFC'
-                    GUI.accelerationLabel.textContent = "Flocking!!!"
-                    playAudio();
+                    GUI.header.style.backgroundColor = '#00AFFC';
+                    GUI.accelerationLabel.style.backgroundColor = '#00AFFC';
+                    GUI.accelerationLabel.textContent = "Flocking!!!";
+                    soundManager.play('ding');
                 } else {
-                    GUI.header.style.backgroundColor = '#3FBF3F' // lime color
-                    GUI.accelerationLabel.style.backgroundColor = '#3FBF3F'
-                    GUI.accelerationLabel.textContent = "Speed up"
-                    pauseAudio();
+                    GUI.header.style.backgroundColor = '#3FBF3F'; // lime color
+                    GUI.accelerationLabel.style.backgroundColor = '#3FBF3F';
+                    GUI.accelerationLabel.textContent = "Speed up";
+                    soundManager.pause('ding');
+                }
+                // this is for sound feedback beyound the greenWave zone 
+                if (distanceToGhost < crowdProximity) {
+                    soundManager.volume(distanceToGhost, crowdProximity);
+                    soundManager.play('riding');
+                } else {
+                    soundManager.pause('riding');
                 }
             } else {
                 GUI.accelerationLabel.textContent = "...";
@@ -275,7 +295,10 @@ function generateID() {
 
 /** This is used by the GUI to lint this function to a button */
 function connectToFirebase() {
-    enableAudio();
+
+    // Enable audio
+    soundManager.enableAudioContext();
+
     if (!commEnabled) {
         if (!comm) {
             console.log('started')
@@ -298,7 +321,7 @@ function connectToFirebase() {
         }
         cyclist.initializeArrowField();
         commEnabled = true;
-        alert("Firebase Communication ENABLED");
+        alert("Firebase Communication and ENABLED \n Sound is also enabled");
         GUI.enableCommFirebase.innerText = "Recording enabled"
         GUI.enableCommFirebase.className = "btn btn-success"
     } else {
