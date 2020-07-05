@@ -59,9 +59,11 @@ let ghost, cyclist, device;
 // The session coordinates
 let dataCoords = [];
 
-/**This ghostCoords must be global because it is updated in communication. 
- * TODO, make it observer pattern*/
+/**
+ * ghostCoords and journeyData must be global because they updated in communication. 
+ */
 let ghostCoords;
+let journeyData;
 
 // whether or not this app is ran on a mobile phone
 let isMobile;
@@ -265,7 +267,7 @@ function setupInterval(millis) {
             };
             // If comm in enabled save datapoint
             if (comm && commEnabled) {
-                comm.addNewDataPointInSession(tempDPID, tempDP)
+                comm.addNewDataPointInSession(journeyData.journeyId, journeyData.sessionId, tempDPID, tempDP);
             }
         }
 
@@ -293,35 +295,27 @@ function generateID() {
     return (Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15));
 }
 
-/** This is used by the GUI to lint this function to a button */
-function connectToFirebase() {
-
+/** This is used by the GUI to link this function to a button */
+async function connectToFirebase() {
     // Enable audio
     soundManager.enableAudioContext();
-
+    // Enable communication with Firebase
     if (!commEnabled) {
         if (!comm) {
             console.log('started')
-                //Creates communication, get the id of the journey the reference route
+                //     //Creates communication, get the id of the journey the reference route
             comm = new Communication(generateID());
-            comm.getLastJourneyId().then(j => {
-                comm.getRoute().then(path => {
-                    path = Utils.reformatJSON(path)
-                        // Switch Lat Lon order. This is a BUG and needs to be fixed in route maker
-                    path = Utils.invertLatLonOrder(path)
-                        // Initialize layer with route
-                    Layers.initRoute(path);
-                    //assignr the coordinates to the ghost
-                    let temp_coords = path.geometry.coordinates;
-                    ghostCoords = [temp_coords[0][1], temp_coords[0][0]];
-                    // Set the global ghost position at the begining of the route. This must be done
-                });
-            });
-
+            // Initialize a new session in the latest journey and get journey data
+            journeyData = await comm.initSession();
+            // Initialize route
+            await comm.initRoute(journeyData.refRouteName);
+            // activate ghost coordinate listener
+            comm.listenToGhost(journeyData.journeyId);
         }
+        // Initialize arrow field
         cyclist.initializeArrowField();
         commEnabled = true;
-        alert("Firebase Communication and ENABLED \n Sound is also enabled");
+        alert("Firebase Communication and Sound ENABLED");
         GUI.enableCommFirebase.innerText = "Recording enabled"
         GUI.enableCommFirebase.className = "btn btn-success"
     } else {
