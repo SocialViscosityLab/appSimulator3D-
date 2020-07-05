@@ -53,8 +53,6 @@ class Communication {
             start_time: startTime
         };
         this.journeys.doc(journeyId).collection('sessions').doc(sessionId).set(metaData);
-        // console.log("metaData added");
-        GUI.error.textContent = "Session " + sessionId + " started at: " + metaData.start_time;
         console.log("Session " + sessionId + " started at: " + metaData.start_time);
     }
 
@@ -92,10 +90,6 @@ class Communication {
         routePoints = Utils.invertLatLonOrder(routePoints);
         // Initialize layer with route
         Layers.initRoute(routePoints);
-        //assign the coordinates to the ghost
-        // let temp_coords = routePoints.geometry.coordinates;
-        // Global coords
-        // ghostCoords = [temp_coords[0][1], temp_coords[0][0]];
     }
 
     /** ?
@@ -222,15 +216,12 @@ class Communication {
         var sessions = await this.journeys.doc(journeyId).collection("sessions").doc("00000").collection("data_points")
             .onSnapshot(function(snapshot) {
                 snapshot.docChanges().forEach(function(change) {
-                        if (change.type === "added") {
-                            const ghostCurrentPosition = change.doc.data();
-                            // global variable
-                            ghostCoords = { lat: ghostCurrentPosition.latitude, lon: ghostCurrentPosition.longitude }
-                        }
-                    })
-                    // let ghostCurrentPosition = doc.data().current_ghost_position;
-                    // ghostCoords = { lat: ghostCurrentPosition.latitude, lon: ghostCurrentPosition.longitude }
-                    // return ghostCurrentPosition;
+                    if (change.type === "added") {
+                        const ghostCurrentPosition = change.doc.data();
+                        // global variable
+                        ghostCoords = { lat: ghostCurrentPosition.latitude, lon: ghostCurrentPosition.longitude }
+                    }
+                })
             });
         return sessions;
     }

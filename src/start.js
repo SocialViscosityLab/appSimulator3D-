@@ -316,14 +316,11 @@ async function connectToFirebase() {
         cyclist.initializeArrowField();
         commEnabled = true;
         alert("Firebase Communication and Sound ENABLED");
-        GUI.enableCommFirebase.innerText = "Recording enabled"
-        GUI.enableCommFirebase.className = "btn btn-success"
     } else {
         commEnabled = false;
         alert("Firebase Communication DISABLED");
-        GUI.enableCommFirebase.innerText = "Recording disabled"
-        GUI.enableCommFirebase.className = "btn btn-warning"
     }
+    GUI.switchStatus(GUI.enableCommFirebase, commEnabled, { t: "Recording enabled", f: "Recording disabled" }, { t: "btn btn-success", f: "btn btn-warning" })
 }
 
 
