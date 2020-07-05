@@ -20,18 +20,21 @@ class Communication {
             var journeys = db.collection('journeys').get().then(snapshot => {
                 snapshot.forEach(doc => {
                     let id = parseInt(doc.id);
+
                     if (id !== null) {
                         if (id > jId) {
                             jId = id;
-                            this.reference_route = doc.data().reference_route.id;
+                            if (doc.data().reference_route) {
+                                this.reference_route = doc.data().reference_route.id;
+                            }
                         }
                     }
                 });
                 this.journeyId = this.formatID(jId);
-                // console.log("The journey ID is:");
-                // console.log(this.journeyId);
-                // console.log("Reference route")
-                // console.log(this.reference_route)
+                console.log("The journey ID is:");
+                console.log(this.journeyId);
+                console.log("Reference route")
+                console.log(this.reference_route)
 
                 this.listenToGhost(this.journeyId);
                 return db.collection('journeys').doc(this.journeyId).collection('sessions').get()
