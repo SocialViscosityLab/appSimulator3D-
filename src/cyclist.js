@@ -1,6 +1,6 @@
 class Cyclist extends Marker {
     constructor(_id, _scene, _geometry, _material) {
-        super(_scene, );
+        super(_scene);
         this.id = _id;
         if (_geometry) {
             this.geometry = _geometry;
@@ -19,10 +19,12 @@ class Cyclist extends Marker {
 
     initializeArrowField() {
         // //*** Arrowhead field ***/
-        this.arrowField = new ArrowheadField(this, 3, 30);
-        this.arrowField.scale(0.5);
-        let targetPosition = new THREE.Vector3();
-        ghost.mesh.getWorldPosition(targetPosition);
-        this.arrowField.setTarget(targetPosition);
+        if (this.arrowField == undefined) {
+            this.arrowField = new ArrowheadField(this, 3, 30);
+            this.arrowField.scale(0.5);
+            let targetPosition = new THREE.Vector3();
+            ghost.mesh.getWorldPosition(targetPosition);
+            this.arrowField.setTarget(targetPosition);
+        }
     }
 }

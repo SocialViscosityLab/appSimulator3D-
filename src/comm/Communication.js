@@ -213,7 +213,7 @@ class Communication {
      * @return {Promise}
      */
     async listenToGhost(journeyId) {
-        var sessions = await this.journeys.doc(journeyId).collection("sessions").doc("00000").collection("data_points")
+        var sessions = await this.journeys.doc(journeyId).collection("sessions").doc("00000").collection("data_points").orderBy("time", "desc").limit(1)
             .onSnapshot(function(snapshot) {
                 snapshot.docChanges().forEach(function(change) {
                     if (change.type === "added") {
