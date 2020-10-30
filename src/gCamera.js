@@ -76,7 +76,16 @@ class GCamera {
         // Source:  https://mobiforge.com/design-development/html5-mobile-web-device-orientation-events
         // Potential solution: https://github.com/ajfisher/deviceapi-normaliser
 
-        let angle = Utils.p5.radians(270 - Utils.p5.rotationZ);
+        // October 2020
+        // OSX devices have a different orientation that android devices, thus the angle is determined for each operational system. 
+        // Android and desktop devides, including Apple computers, work with the same angle 
+        let angle;
+
+        if (iOS) {
+            angle = Utils.p5.radians(90 - Utils.p5.rotationZ);
+        } else {
+            angle = Utils.p5.radians(270 - Utils.p5.rotationZ);
+        }
         //GUI.error.textContent = Utils.p5.rotationZ;
         let oPosX = centerX + Math.cos(angle) * frustrumDepth;
         let oPosZ = centerZ + Math.sin(angle) * frustrumDepth;
