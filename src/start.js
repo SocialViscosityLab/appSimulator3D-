@@ -136,9 +136,16 @@ function preload() {
     // *** COMMUNICATION TO FIREBASE ****
     GUI.enableCommFirebase.onclick = connectToFirebase;
 
+    //
+    GUI.enableSound.onclick = function() {
+        soundManager.enableAudioContext();
+    }
+
     /***** INIT ****/
     init();
     initSound();
+
+
 }
 
 
@@ -176,6 +183,7 @@ function initSound() {
     soundManager = new SoundManager();
     soundManager.addMediaNode("ding", document.getElementById("ding"), false);
     soundManager.addMediaNode("riding", document.getElementById("horses"), true, true);
+
 }
 
 // from https://medium.com/simplejs/detect-the-users-device-type-with-a-simple-javascript-check-4fc656b735e1
@@ -326,8 +334,7 @@ function generateID() {
 
 /** This is used by the GUI to link this function to a button */
 async function connectToFirebase() {
-    // Enable audio
-    soundManager.enableAudioContext();
+
     // Enable communication with Firebase
     if (!commEnabled) {
         if (!comm) {
@@ -344,14 +351,14 @@ async function connectToFirebase() {
         // Initialize arrow field
         cyclist.initializeArrowField();
         commEnabled = true;
-        alert("Firebase Communication and Sound ENABLED");
+        alert("Firebase Communication ENABLED");
     } else {
         commEnabled = false;
         alert("Firebase Communication DISABLED");
     }
-    GUI.switchStatus(GUI.enableCommFirebase, commEnabled, { t: "Recording enabled", f: "Recording disabled" }, { t: "btn btn-success", f: "btn btn-warning" })
+    GUI.switchStatus(GUI.enableCommFirebase, commEnabled, { t: "Recording position", f: "Recording disabled" }, { t: "btn btn-success btn-lg btn-block", f: "btn btn-warning btn-lg btn-block" })
+    GUI.location_on.hidden = !commEnabled;
 }
-
 
 /********* EVENTS *********/
 

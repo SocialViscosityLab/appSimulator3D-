@@ -7,6 +7,7 @@ class SoundManager {
         this.mediaNodes = new Map(); // collection of sound DOM elements. Aready contain the sounds src assigned 
         this.track;
         this.gainNode = this.audioContext.createGain();
+        this.soundEnabled = false;
     }
 
     /**
@@ -37,9 +38,18 @@ class SoundManager {
         // check if context is in suspended state (autoplay policy). 
         // Autoplay article: https://developer.mozilla.org/en-US/docs/Web/Media/Autoplay_guide
         if (this.audioContext.state === 'suspended') {
+            this.soundEnabled = true;
             this.audioContext.resume();
-            console.log("Sound enabled")
+            GUI.volume_up.hidden = false;
+            // console.log("Sound enabled")
+        } else if (this.audioContext.state === 'running') {
+            this.soundEnabled = false;
+            this.audioContext.suspend();
+            GUI.volume_up.hidden = true;
+            // console.log("Sound dissabled")
         }
+        GUI.switchStatus(GUI.enableSound, this.soundEnabled, { t: "Sound enabled", f: "Sound disabled" }, { t: "btn btn-success btn-lg btn-block", f: "btn btn-warning btn-lg btn-block" })
+
     }
 
     /**
@@ -47,9 +57,9 @@ class SoundManager {
      * @param {String} name key of the audio element in the map of mediaNodes
      */
     play(name) {
-        if (this.audioContext.state === 'suspended') {
-            alert("Sound not enabled yet in this window");
-        }
+        // if (this.audioContext.state === 'suspended') {
+        //     alert("Sound not enabled yet in this window");
+        // }
         this.mediaNodes.get(name).play();
     }
 
@@ -58,9 +68,9 @@ class SoundManager {
      * @param {String} name key of the audio element in the map of mediaNodes
      */
     pause(name) {
-        if (this.audioContext.state === 'suspended') {
-            alert("Sound not enabled yet in this window");
-        }
+        // if (this.audioContext.state === 'suspended') {
+        //     alert("Sound not enabled yet in this window");
+        // }
         this.mediaNodes.get(name).pause();
     }
 

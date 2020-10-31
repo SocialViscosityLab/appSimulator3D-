@@ -9,11 +9,12 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 
+
         <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" href="css/vizicities.css">
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@700&display=swap" rel="stylesheet">
+        <!-- // metarial design icons -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     </head>
 
@@ -24,47 +25,80 @@
         <audio id="ding" src="sounds/ElevatorDing.mp3"></audio>
         <audio id="horses" src="sounds/alert5.mp3"></audio>
 
-        <!-- Header -->
-        <div class="header" id="header">
-            <div id="title">Flocking</div>
+        <!-- Sidenav -->
+        <div id="mySidenav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="GUI.closeNav()">close</a>
+            <a></a>
+            <a></a>
+            <a><button id="commFirebase" type="button" class="btn btn-light btn-lg btn-block" style="font-size: 40px;">Connect to Firebase</button></a>
+            <a><button id="enableOrientation" type="button" class="btn btn-light btn-lg btn-block" style="font-size: 40px;">Enable Orientation</button></a>
+            <a><button id="enableSound" type="button" class="btn btn-light btn-lg btn-block" style="font-size: 40px;">Enable Sound</button></a>
+            <a href="https://smartartifact.com/researchLab">social viscosity lab</a>
         </div>
 
-        <div class="container-fluid" style="padding:0px; width: 100%; line-height: 12pt ">
-            <!-- GUI elements -->
-            <div class="banner" id="banner">
-                <div class="row ">
 
-                    <div class="col-sm-2 text-center">
-                        <button id="commFirebase" type="button" class="btn btn-light">Connect to Firebase</button>
-                    </div>
-                    <div class="col-sm-1 text-center" style="font-size: 30px; line-height: 80%;">
-                        <div id="status">Missing GPS</div>
-                    </div>
-                    <div class="col-sm-1 text-center" style="font-size: 30px; line-height: 80%;">
-                        <div id="mobile">Device</div>
-                    </div>
-                    <div class="col-sm-4 text-center" style="font-size: 30px; line-height: 80%;">
-                        <a id="map-link">Position not retrieved</a>
-                    </div>
-                    <div class="col-sm-2 text-center" style="font-size: 40px; line-height: 80%;">
-                        <div id="distance"></div>
-                    </div>
-                    <div class="col-sm-2 text-center">
-                        <button id="enableOrientation" type="button" class="btn btn-light">Enable Orientation</button>
-                    </div>
-                </div>
-                <div id="error" style="color:deeppink; font-size: 30px; padding-top: 150px;">Log</div>
+
+        <!-- Sidenav -->
+
+        <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+        <div id="main">
+
+            <!-- Header -->
+            <div class="header" id="header">
+
+                <!-- Use any element to open the sidenav -->
+                <span onclick="GUI.openNav()">
+                    <div class="container-fluid" style="padding:0px; width: 100%; height: 100%">
+                        <div class="row " style="padding:0px; width: 100%; height: 100%">
+                            <div class="col-sm-1">
+                                <i class="material-icons" style="font-size:5vh; color: white; opacity: 30%; padding-top: 3vh;">menu</i>
+                            </div>
+                            <div class="col-sm-7" >
+                                <div id="title" >Flocking</div>
+                            </div>
+                            <div class="col-sm-4" style="text-align: right;">
+                                <i id ="location_on" class="material-icons" style="font-size:3vh; color: white; opacity: 60%; padding-top: 3vh;" hidden>location_on</i>
+                                <i id ="3d_rotation" class="material-icons" style="font-size:3vh; color: white; opacity: 60%; padding-top: 3vh;" hidden>3d_rotation</i>
+                                <i id = "volume_up" class="material-icons" style="font-size:3vh; color: white; opacity: 60%; padding-top: 3vh;" hidden>volume_up</i>
+                            </div>
+                        </div>
+                    </div>                
+                </span>
             </div>
+
+
+            <div class="container-fluid" style="padding:0px; width: 100%; line-height: 12pt ">
+                <!-- GUI elements -->
+                <div class="banner" id="banner">
+                    <div class="row ">
+
+                        <div class="col-sm-2 text-center" style="font-size: 30px; line-height: 80%;">
+                            <div id="status">Missing GPS</div>
+                        </div>
+                        <div class="col-sm-2 text-center" style="font-size: 30px; line-height: 80%;">
+                            <div id="mobile">Device</div>
+                        </div>
+                        <div class="col-sm-4 text-center" style="font-size: 30px; line-height: 80%;">
+                            <a id="map-link">Position not retrieved</a>
+                        </div>
+                        <div class="col-sm-4 text-center" style="font-size: 30px; line-height: 80%;">
+                            <div id="distance">distance to ghost</div>
+                        </div>
+
+                    </div>
+                    <div id="error" style="color:deeppink; font-size: 30px; padding-top: 150px;" hidden>Log</div>
+                </div>
+            </div>
+
+            <div class="map">
+                <!-- Map holder-->
+                <div id="world" class="world"></div>
+            </div>
+
+            <button id="cameraButton" type="button" class="btn btn-outline-danger">First-person</button>
+
+            <div id="accelerationLabel">...</div>
         </div>
-
-        <div class="map">
-            <!-- Map holder-->
-            <div id="world" class="world"></div>
-        </div>
-
-        <button id="cameraButton" type="button" class="btn btn-outline-danger">First-person</button>
-
-        <div id="accelerationLabel">...</div>
 
 
         <!--***** 3D libraries *******-->

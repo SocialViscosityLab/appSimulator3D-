@@ -27,6 +27,16 @@ class GUI {
             }
         }
     }
+
+    /* Set the width of the side navigation to 250px */
+    static openNav() {
+        document.getElementById("mySidenav").style.width = "450px";
+    }
+
+    /* Set the width of the side navigation to 0 */
+    static closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
 }
 
 GUI.status = document.getElementById("status");
@@ -45,3 +55,8 @@ GUI.header = document.getElementById('header');
 GUI.error = document.getElementById('error');
 GUI.accelerationLabel = document.getElementById('accelerationLabel');
 GUI.cameraButton = document.getElementById('cameraButton');
+GUI.enableSound = document.getElementById('enableSound');
+
+GUI.location_on = document.getElementById('location_on');
+GUI.threeD_rotation = document.getElementById('3d_rotation');
+GUI.volume_up = document.getElementById("volume_up");
