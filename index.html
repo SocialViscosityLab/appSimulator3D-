@@ -28,12 +28,11 @@
         <!-- Sidenav -->
         <div id="mySidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" onclick="GUI.closeNav()">close</a>
-            <a></a>
-            <a></a>
-            <a><button id="commFirebase" type="button" class="btn btn-light btn-lg btn-block" style="font-size: 40px;">Connect to Firebase</button></a>
-            <a><button id="enableOrientation" type="button" class="btn btn-light btn-lg btn-block" style="font-size: 40px;">Enable Orientation</button></a>
-            <a><button id="enableSound" type="button" class="btn btn-light btn-lg btn-block" style="font-size: 40px;">Enable Sound</button></a>
-            <a href="https://smartartifact.com/researchLab">social viscosity lab</a>
+            <a style=" padding-top:100px">
+                <button id="commFirebase" type="button" class="btn btn-outline-warning btn-lg btn-block" style="font-size: 40px;">Connect to Database</button></a>
+            <a><button id="enableOrientation" type="button" class="btn btn-outline-warning btn-lg btn-block" style="font-size: 40px;">Enable Orientation</button></a>
+            <a><button id="enableSound" type="button" class="btn btn-outline-warning btn-lg btn-block" style="font-size: 40px;">Enable Sound</button></a>
+            <a href="https://smartartifact.com/d4sv" style="color: burlywood; text-align: center; font-size:28px; position:absolute; bottom: 0px;">Social Viscosity Lab</a>
         </div>
 
 
@@ -57,7 +56,7 @@
                                 <div id="title" >Flocking</div>
                             </div>
                             <div class="col-sm-4" style="text-align: right;">
-                                <i id ="location_on" class="material-icons" style="font-size:3vh; color: white; opacity: 60%; padding-top: 3vh;" hidden>location_on</i>
+                                <i id ="location_on" class="material-icons" style="font-size:3vh; color: white; opacity: 60%; padding-top: 3vh;" hidden>cloud_upload</i>
                                 <i id ="3d_rotation" class="material-icons" style="font-size:3vh; color: white; opacity: 60%; padding-top: 3vh;" hidden>3d_rotation</i>
                                 <i id = "volume_up" class="material-icons" style="font-size:3vh; color: white; opacity: 60%; padding-top: 3vh;" hidden>volume_up</i>
                             </div>
@@ -67,22 +66,27 @@
             </div>
 
 
-            <div class="container-fluid" style="padding:0px; width: 100%; line-height: 12pt ">
+            <div class="container-fluid" style="padding:0px; width: 100%; ">
                 <!-- GUI elements -->
                 <div class="banner" id="banner">
                     <div class="row ">
 
-                        <div class="col-sm-2 text-center" style="font-size: 30px; line-height: 80%;">
-                            <div id="status">Missing GPS</div>
+                        <div class="col-sm-1">
+                            <div>
+                                <i id="status" class="material-icons" style="padding-left:10px; font-size:3vh; color: black; opacity: 60%;">gps_off</i>
+                                <!-- <div id="status">Missing GPS</div> -->
+                            </div>
                         </div>
-                        <div class="col-sm-2 text-center" style="font-size: 30px; line-height: 80%;">
-                            <div id="mobile">Device</div>
+                        <div class="col-sm-1">
+                            <i id="mobile" class="material-icons" style="font-size:3vh; color: black; opacity: 60%;">devices</i>
+                            <!-- <div id="mobile">Device</div> -->
                         </div>
-                        <div class="col-sm-4 text-center" style="font-size: 30px; line-height: 80%;">
-                            <a id="map-link">Position not retrieved</a>
+                        <div class="col-sm-4">
+                            <i id="clock" class="material-icons" style="font-size:3vh; color: black; opacity: 60%;">alarm_off</i>
+                            <span id="map-link" style="font-size:3vh; color: black; opacity: 60%;">...</span>
                         </div>
-                        <div class="col-sm-4 text-center" style="font-size: 30px; line-height: 80%;">
-                            <div id="distance">distance to ghost</div>
+                        <div class="col-sm-6">
+                            <div id="distance" style="font-size:3vh; color: black;">distance to ghost</div>
                         </div>
 
                     </div>

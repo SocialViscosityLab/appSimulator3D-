@@ -37,6 +37,20 @@ class GUI {
     static closeNav() {
         document.getElementById("mySidenav").style.width = "0";
     }
+
+    static setStatus(deviceStatus) {
+        switch (deviceStatus) {
+            case 'GPS OK':
+                GUI.status.textContent = "gps_fixed";
+                break;
+            case 'GPS not enabled':
+                GUI.status.textContent = "gps_off";
+                break;
+            default:
+                GUI.status.textContent = "gps_not_fixed";
+        }
+
+    }
 }
 
 GUI.status = document.getElementById("status");
@@ -56,7 +70,9 @@ GUI.error = document.getElementById('error');
 GUI.accelerationLabel = document.getElementById('accelerationLabel');
 GUI.cameraButton = document.getElementById('cameraButton');
 GUI.enableSound = document.getElementById('enableSound');
+GUI.enableLocation = document.getElementById('enableLocation');
 
 GUI.location_on = document.getElementById('location_on');
 GUI.threeD_rotation = document.getElementById('3d_rotation');
 GUI.volume_up = document.getElementById("volume_up");
+GUI.clock = document.getElementById("clock");

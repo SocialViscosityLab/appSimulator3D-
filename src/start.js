@@ -136,6 +136,9 @@ function preload() {
     // *** COMMUNICATION TO FIREBASE ****
     GUI.enableCommFirebase.onclick = connectToFirebase;
 
+    // *** ENABLE LOCATION ***
+    //GUI.enableLocation.onclick = enableLocation;
+
     //
     GUI.enableSound.onclick = function() {
         soundManager.enableAudioContext();
@@ -160,7 +163,7 @@ function init() {
     iOS = is_iOS();
 
     if (isMobile || iOS) {
-        GUI.mobile.textContent = "running on mobile";
+        GUI.mobile.textContent = "smartphone";
         // This is the camera height above the ground
         GCamera.zoomLevel = 100;
         GCamera.setYPos(GCamera.zoomLevel);
@@ -168,16 +171,23 @@ function init() {
         // Change to user selected camera
         GUI.cameraButton.onclick = GCamera.switchMobileCamera;
     } else {
-        GUI.mobile.textContent = "running on computer";
+        GUI.mobile.textContent = "computer";
         // This is the camera height above the ground
         GCamera.zoomLevel = 100;
         GCamera.setYPos(GCamera.zoomLevel);
     }
 
-    // **** UPDATE INTERVAL ****
+
     // This interval controls the update pace of the entire APP
+    // **** UPDATE INTERVAL ****
     setupInterval(1000);
 }
+
+function enableLocation() {
+    device.setup();
+    console.log("here");
+}
+
 
 function initSound() {
     soundManager = new SoundManager();
@@ -236,7 +246,7 @@ function setupInterval(millis) {
             // Distance to ghost. This changes the header color in DOM
             // let distanceToGhost = cyclist.mesh.position.distanceToSquared(ghost.mesh.position);
             let distanceToGhost = device.getDistanceTo(ghostCoords);
-            GUI.distance.textContent = "" + distanceToGhost.toFixed(1) + "";
+            GUI.distance.textContent = "~" + distanceToGhost.toFixed(1) + " m";
             //GUI.error.textContent = distanceToGhost.toFixed(1);
 
             // The max distance between cyclist and ghost be in the range of the 'green wave.' Units undefined.
@@ -308,12 +318,13 @@ function setupInterval(millis) {
         }
 
         // update device status on GUI
-        GUI.status.textContent = device.status;
+        GUI.setStatus(device.status);
         if (device.pos.lat) {
             // GUI.latLon.textContent = "Time: " + Utils.getEllapsedTimeSeconds() + ', Lat: ' + device.pos.lat.toFixed(5) + '°, Lon: ' + device.pos.lon.toFixed(5) + '°';
-            GUI.latLon.textContent = "Time: " + Utils.getEllapsedTimeSeconds() + '| Lat, Lon';
+            GUI.latLon.textContent = Utils.getEllapsedTimeSeconds() + " s";
+            GUI.clock.textContent = "update"
         } else {
-            GUI.latLon.textContent = "Time: " + Utils.getEllapsedTimeSeconds() + ', Searching position';
+            GUI.latLon.textContent = Utils.getEllapsedTimeSeconds() + ' ...';
         }
         GUI.latLon.href = ('https://www.openstreetmap.org/#map=18/' + device.pos.lat + "/" + device.pos.lon);
     }, millis);
