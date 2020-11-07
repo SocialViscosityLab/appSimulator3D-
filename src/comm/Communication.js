@@ -89,6 +89,7 @@ class Communication {
         // Switch Lat Lon order
         routePoints = Utils.invertLatLonOrder(routePoints);
         // Initialize layer with route
+        console.log(routePoints);
         Layers.initRoute(routePoints);
     }
 

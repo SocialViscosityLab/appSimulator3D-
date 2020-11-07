@@ -3,15 +3,15 @@ https://www.w3.org/2008/geolocation/wiki/images/e/e0/Device_Orientation_%27alpha
 */
 var initialOffset = null;
 
-function requestOrientationPermission() {
+function requestMotionPermission() {
     if (isMobile || iOS) {
-        DeviceOrientationEvent.requestPermission()
+        DeviceMotionEvent.requestPermission()
             .then(response => {
                 GUI.error.textContent = response;
                 if (response == 'granted') {
                     GUI.switchStatus(GUI.enableOrientation, true, { t: "Compass enabled", f: "Compass disabled" }, { t: "btn btn-success btn-lg btn-block", f: "btn btn-warning btn-lg btn-block" })
                     GUI.threeD_rotation.hidden = false;
-                    window.addEventListener('deviceorientation', getCompass(evt))
+                    window.addEventListener('devicemotion', evt => getCompass(evt))
                 }
             })
             .catch(console.error);

@@ -79,13 +79,15 @@ class GCamera {
         // October 2020
         // OSX devices have a different orientation that android devices, thus the angle is determined for each operational system. 
         // Android and desktop devides, including Apple computers, work with the same angle 
-        let angle;
 
+        let angleCorrection;
         if (iOS) {
-            angle = Utils.p5.radians(90 - Utils.p5.rotationZ);
+            angleCorrection = 90 + parseFloat(GUI.manualRotationCorrection.value);
         } else {
-            angle = Utils.p5.radians(270 - Utils.p5.rotationZ);
+            angleCorrection = 270 + parseFloat(GUI.manualRotationCorrection.value);
         }
+
+        let angle = Utils.p5.radians(angleCorrection - Utils.p5.rotationZ);
         //GUI.error.textContent = Utils.p5.rotationZ;
         let oPosX = centerX + Math.cos(angle) * frustrumDepth;
         let oPosZ = centerZ + Math.sin(angle) * frustrumDepth;

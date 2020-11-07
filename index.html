@@ -30,8 +30,12 @@
             <a href="javascript:void(0)" class="closebtn" onclick="GUI.closeNav()">close</a>
             <a style=" padding-top:100px">
                 <button id="commFirebase" type="button" class="btn btn-outline-warning btn-lg btn-block" style="font-size: 40px;">Connect to Database</button></a>
-            <a><button id="enableOrientation" type="button" class="btn btn-outline-warning btn-lg btn-block" style="font-size: 40px;">Enable Orientation</button></a>
+            <a><button id="enableOrientation" type="button" class="btn btn-outline-warning btn-lg btn-block" style="font-size: 40px;">Enable 3D Motion</button></a>
             <a><button id="enableSound" type="button" class="btn btn-outline-warning btn-lg btn-block" style="font-size: 40px;">Enable Sound</button></a>
+            <a><span id="manualRotationValue" style="color: #eab20a;"></span>
+            <input id="manualRotationCorrection" type="range" min=-90 max=90 value=0 class="slider">
+            <label for="manualRotationCorrection"> Map rotation correction </label>
+            </a>
             <a href="https://smartartifact.com/d4sv" style="color: burlywood; text-align: center; font-size:28px; position:absolute; bottom: 0px;">Social Viscosity Lab</a>
         </div>
 
@@ -102,6 +106,7 @@
             <button id="cameraButton" type="button" class="btn btn-outline-danger">First-person</button>
 
             <div id="accelerationLabel">...</div>
+
         </div>
 
 

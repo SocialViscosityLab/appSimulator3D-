@@ -51,6 +51,13 @@ class GUI {
         }
 
     }
+
+    static setupMapRotationSlider() {
+        GUI.manualRotationValue.innerHTML = GUI.manualRotationCorrection.value;
+        GUI.manualRotationCorrection.oninput = function() {
+            GUI.manualRotationValue.innerHTML = this.value;
+        }
+    }
 }
 
 GUI.status = document.getElementById("status");
@@ -71,6 +78,8 @@ GUI.accelerationLabel = document.getElementById('accelerationLabel');
 GUI.cameraButton = document.getElementById('cameraButton');
 GUI.enableSound = document.getElementById('enableSound');
 GUI.enableLocation = document.getElementById('enableLocation');
+GUI.manualRotationCorrection = document.getElementById('manualRotationCorrection');
+GUI.manualRotationValue = document.getElementById('manualRotationValue')
 
 GUI.location_on = document.getElementById('location_on');
 GUI.threeD_rotation = document.getElementById('3d_rotation');

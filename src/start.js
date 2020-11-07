@@ -131,7 +131,8 @@ function preload() {
     GCamera.setZPos(cyclist.mesh.position.z);
 
     /***** GUI ****/
-    GUI.enableOrientation.onclick = requestOrientationPermission;
+    //IMPORTANT RequestMotionPermision is in deviceOrientation.js class
+    GUI.enableOrientation.onclick = requestMotionPermission;
 
     // *** COMMUNICATION TO FIREBASE ****
     GUI.enableCommFirebase.onclick = connectToFirebase;
@@ -139,16 +140,27 @@ function preload() {
     // *** ENABLE LOCATION ***
     //GUI.enableLocation.onclick = enableLocation;
 
-    //
+    // *** ENABLE SOUND ***
+    /**IMPORTANT After days of experimentation I discovered that the alert() function that displays a message on screen interrupts
+     * all running audioContexts, but when the alert windo is closed, the audioContexts remain closed. The moral is: do not use alert(), 
+     * instead use other message windows like Boostrap cards.
+     */
     GUI.enableSound.onclick = function() {
         soundManager.enableAudioContext();
+        // activate all sounds
+        soundManager.play('ding');
+        soundManager.play('riding');
+        // pause loop=ing sounds
+        soundManager.pause('riding');
     }
+
+    // Setup slider for manual correction of map rotation
+    GUI.setupMapRotationSlider();
+
 
     /***** INIT ****/
     init();
     initSound();
-
-
 }
 
 
@@ -349,8 +361,8 @@ async function connectToFirebase() {
     // Enable communication with Firebase
     if (!commEnabled) {
         if (!comm) {
-            console.log('started')
-                //     //Creates communication, get the id of the journey the reference route
+            console.log('started');
+            //Creates communication, get the id of the journey the reference route
             comm = new Communication(generateID());
             // Initialize a new session in the latest journey and get journey data
             journeyData = await comm.initSession();
@@ -362,10 +374,10 @@ async function connectToFirebase() {
         // Initialize arrow field
         cyclist.initializeArrowField();
         commEnabled = true;
-        alert("Firebase Communication ENABLED");
+        // alert("Firebase Communication ENABLED");
     } else {
         commEnabled = false;
-        alert("Firebase Communication DISABLED");
+        //alert("Firebase Communication DISABLED");
     }
     GUI.switchStatus(GUI.enableCommFirebase, commEnabled, { t: "Recording position", f: "Recording disabled" }, { t: "btn btn-success btn-lg btn-block", f: "btn btn-warning btn-lg btn-block" })
     GUI.location_on.hidden = !commEnabled;
