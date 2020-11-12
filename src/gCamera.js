@@ -100,7 +100,7 @@ class GCamera {
         switch (GCamera.cameraMode) {
             case "Top view":
                 GCamera.cameraMode = "First-person";
-                GCamera.zoomLevel = 100;
+                GCamera.zoomLevel = 40;
                 break;
             case "First-person":
                 GCamera.cameraMode = "Adaptive height";

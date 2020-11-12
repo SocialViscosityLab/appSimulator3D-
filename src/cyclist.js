@@ -5,7 +5,7 @@ class Cyclist extends Marker {
         if (_geometry) {
             this.geometry = _geometry;
         } else {
-            this.geometry = new THREE.CylinderGeometry(10, 3, 10, 32);
+            this.geometry = new THREE.CylinderGeometry(10, 3, 8, 32);
         }
 
         if (_material) {

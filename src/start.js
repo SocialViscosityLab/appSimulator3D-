@@ -85,7 +85,8 @@ let soundManager;
 
 // Map Center 
 //var coords = [40.7359, -73.9911]; // Manhattan
-var coords = [40.1076407, -88.2119009]; // Urbana Home
+//var coords = [40.1076407, -88.2119009]; // Urbana Home
+var coords = [40.10839, -88.22704]; // uiuc quad
 //var coords = [41.8879756, -87.6270752]; // Chicago river
 //var coords = [-33.4580124, -70.6641774]; // Santiago de Chile
 //var coords = [4.6389637, -74.094946] // Bogota
@@ -177,7 +178,7 @@ function init() {
     if (isMobile || iOS) {
         GUI.mobile.textContent = "smartphone";
         // This is the camera height above the ground
-        GCamera.zoomLevel = 100;
+        GCamera.zoomLevel = 40;
         GCamera.setYPos(GCamera.zoomLevel);
         GUI.cameraButton.style.visibility = 'visible';
         // Change to user selected camera
@@ -264,7 +265,7 @@ function setupInterval(millis) {
             // The max distance between cyclist and ghost be in the range of the 'green wave.' Units undefined.
             // TODO Improve this so the proximity is only accounted when the cyclist is 'behind' the ghost 
             let greenWaveProximity = 15; // in meters
-            let crowdProximity = 150; // in meters
+            let crowdProximity = 50; // in meters
 
             // Change color only if the device is connected
             if (device.status == 'GPS OK') {
