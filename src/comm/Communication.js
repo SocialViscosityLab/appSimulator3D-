@@ -63,20 +63,20 @@ class Communication {
         // get latest journey
         let tmp = await this.getLastJourney();
         const journeyId = tmp.docs[0].id;
-        console.log(journeyId);
+        console.log("journeyId: " + journeyId);
 
         //get reference route
         const refRouteName = await this.getReferenceRouteName(journeyId);
-        console.log(refRouteName);
+        console.log("Route name: " + refRouteName);
 
         // get latest session in journey
         tmp = await this.getLastSessionInJourney(journeyId);
         let sessionId = tmp.docs[0].id;
-        console.log(sessionId);
+        console.log("Last session in journey: " + sessionId);
 
         // Increment session ID by 1
         sessionId = this.formatID(Number(sessionId) + 1);
-        console.log(sessionId);
+        console.log("Current session id: " + sessionId);
 
         // Add new session
         this.addSession(journeyId, sessionId);
@@ -89,8 +89,6 @@ class Communication {
      */
     async initRoute(refRouteName) {
         let routePoints = await this.getRoutePoints(refRouteName);
-        console.log(routePoints);
-        console.log(routePoints.features[0]);
 
         // Initialize a route
         route = new Route(refRouteName);
@@ -103,7 +101,6 @@ class Communication {
         routePoints = Utils.invertLatLonOrder(routePoints);
 
         // Initialize layer with route
-        console.log(routePoints);
         Layers.initRoute(routePoints);
     }
 

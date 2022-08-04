@@ -20,7 +20,7 @@ class DevicePos {
     constructor() {
         this.status = "GPS not enabled";
         this.pos = { "lat": undefined, "lon": undefined }
-        this.heading; // a double representing the direction towards which the device is facing. This value, specified in degrees, indicates how far off from heading true north the device is.
+        this.heading = 0; // a double representing the direction towards which the device is facing. This value, specified in degrees, indicates how far off from heading true north the device is.
         this.speed; // a double representing the velocity of the device in meters per second. This value can be null.
         this.altitude; // a double representing the position's altitude in meters, relative to sea level
         this.accuracy; // a double representing the accuracy of the latitude and longitude properties, expressed in meters.
