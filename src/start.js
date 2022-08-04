@@ -273,7 +273,7 @@ function setupInterval(millis) {
             GUI.distance.textContent = distanceToGhost.toFixed(1) + " m (in route)";
 
             // The max distance between cyclist and ghost for the cyclist to be in the range of the 'green wave.'
-            let greenWaveProximity = 15; // in meters
+            let greenWaveProximity = 20; // in meters
             let crowdProximity = 50; // in meters
 
             // Change color only if the device is connected
@@ -281,8 +281,8 @@ function setupInterval(millis) {
 
                 if (distanceToGhost < 0 && Math.abs(distanceToGhost) > greenWaveProximity) {
                     // cyclist after the ghost
-                    GUI.header.style.backgroundColor = '#FF00FF'; // magenta color
-                    GUI.accelerationLabel.style.backgroundColor = '#FF00FF';
+                    GUI.header.style.backgroundColor = '#f90060'; // magenta color
+                    GUI.accelerationLabel.style.backgroundColor = '#f90060';
                     GUI.accelerationLabel.textContent = "Slow down";
                     soundManager.pause('ding');
 
