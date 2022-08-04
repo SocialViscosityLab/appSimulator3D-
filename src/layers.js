@@ -61,7 +61,7 @@ class Layers {
                 var colour = (feature.properties.color) ? '#' + feature.properties.color : '#800080';
                 return {
                     lineColor: colour,
-                    lineWidth: 1,
+                    lineWidth: 4,
                     lineRenderOrder: 2
                 };
             },

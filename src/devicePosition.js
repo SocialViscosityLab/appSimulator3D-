@@ -20,10 +20,10 @@ class DevicePos {
     constructor() {
         this.status = "GPS not enabled";
         this.pos = { "lat": undefined, "lon": undefined }
-        this.heading;
-        this.speed;
-        this.altitude;
-        this.accuracy;
+        this.heading; // a double representing the direction towards which the device is facing. This value, specified in degrees, indicates how far off from heading true north the device is.
+        this.speed; // a double representing the velocity of the device in meters per second. This value can be null.
+        this.altitude; // a double representing the position's altitude in meters, relative to sea level
+        this.accuracy; // a double representing the accuracy of the latitude and longitude properties, expressed in meters.
         this.watchID = undefined;
         this.geo_options = {
             enableHighAccuracy: true,
@@ -43,18 +43,22 @@ class DevicePos {
             this.status = 'Geolocation is not supported by your browser';
         } else {
             this.status = 'Locating…';
-            //callback is called multiple times, allowing the browser to either update your location as you move, or provide a more accurate location as different techniques are used to geolocate you.
+            /* Navigator is native browser object. This callback is called whenever the device location changes, 
+             * allowing the browser to either update your location as you move, or provide a more 
+             * accurate location as different techniques are used to geolocate you.*/
             this.watchID = navigator.geolocation.watchPosition(this.success.bind(obj, this), this.error.bind(obj), this.geo_options);
         }
     }
 
-    /** Callback */
+    /** Callback 
+     * position is the GeolocationPosition object returned by navigator.geolocation.watchPosition()
+     */
     success(obj, position) {
         obj.pos.lat = position.coords.latitude;
         obj.pos.lon = position.coords.longitude;
         obj.status = 'GPS OK';
-        obj.altitude = position.coords.altitude;
-        obj.heading = position.coords.heading;
+        if (position.coords.altitude) obj.altitude = position.coords.altitude;
+        if (position.coords.heading) obj.heading = position.coords.heading;
         obj.speed = position.coords.speed;
         obj.accuracy = position.coords.accuracy;
     }
@@ -111,10 +115,11 @@ class DevicePos {
     }
 
     /**
-     * Estimates the distance between to lon-lat coordinates in meters 
+     * Estimates the geodesic distance between to lon-lat coordinates in meters 
      * @param {Object} target Object with lat and lon properties.
      */
-    getDistanceTo(target) {
+    //getDistanceTo(target) {
+    getGeodesicDistanceTo(target) {
         return Utils.getDistance(this.pos, target)
     }
 }

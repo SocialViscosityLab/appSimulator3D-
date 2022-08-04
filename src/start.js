@@ -46,6 +46,14 @@
  * VIDEO RESOURCES
  * http://blog.cjgammon.com/threejs-geometry
  * 
+ * 
+ * DEBUGGING
+ * For debugging in Safari:
+ * Run the app on a secure server (use Servez. SSL Certificate need renewal after Sep 2022)
+ * Connect the iPhone to the mac using a wire
+ * Open Safari in the iPhone and go to the IP and port address
+ * Open Safari in mac > develop > select iPhone
+ * Start debbuging
  */
 
 /*** GLOBAL VARIABLES */
@@ -55,6 +63,9 @@ Utils.setP5(new p5());
 
 // The ghost, cyclists and cyclists's device
 let ghost, cyclist, device;
+
+// The route
+let route;
 
 // The session coordinates
 let dataCoords = [];
@@ -85,8 +96,8 @@ let soundManager;
 
 // Map Center 
 //var coords = [40.7359, -73.9911]; // Manhattan
-//var coords = [40.1076407, -88.2119009]; // Urbana Home
-var coords = [40.10839, -88.22704]; // uiuc quad
+var coords = [40.1076407, -88.2119009]; // Urbana Home
+//var coords = [40.10839, -88.22704]; // uiuc quad
 //var coords = [41.8879756, -87.6270752]; // Chicago river
 //var coords = [-33.4580124, -70.6641774]; // Santiago de Chile
 //var coords = [4.6389637, -74.094946] // Bogota
@@ -143,7 +154,7 @@ function preload() {
 
     // *** ENABLE SOUND ***
     /**IMPORTANT After days of experimentation I discovered that the alert() function that displays a message on screen interrupts
-     * all running audioContexts, but when the alert windo is closed, the audioContexts remain closed. The moral is: do not use alert(), 
+     * all running audioContexts, but when the alert window is closed, the audioContexts remain closed. The moral is: do not use alert(), 
      * instead use other message windows like Boostrap cards.
      */
     GUI.enableSound.onclick = function() {
@@ -198,7 +209,6 @@ function init() {
 
 function enableLocation() {
     device.setup();
-    console.log("here");
 }
 
 
@@ -258,31 +268,42 @@ function setupInterval(millis) {
 
             // Distance to ghost. This changes the header color in DOM
             // let distanceToGhost = cyclist.mesh.position.distanceToSquared(ghost.mesh.position);
-            let distanceToGhost = device.getDistanceTo(ghostCoords);
-            GUI.distance.textContent = "~" + distanceToGhost.toFixed(1) + " m";
-            //GUI.error.textContent = distanceToGhost.toFixed(1);
+            // let distanceToGhost = device.getDistanceTo(ghostCoords); OLD VERSION AUGUST 03 2022
+            let distanceToGhost = route.getAtoBDistance(new Position(ghostCoords.lat, ghostCoords.lon), new Position(device.pos.lat, device.pos.lon));
+            GUI.distance.textContent = distanceToGhost.toFixed(1) + " m (in route)";
 
-            // The max distance between cyclist and ghost be in the range of the 'green wave.' Units undefined.
-            // TODO Improve this so the proximity is only accounted when the cyclist is 'behind' the ghost 
+            // The max distance between cyclist and ghost for the cyclist to be in the range of the 'green wave.'
             let greenWaveProximity = 15; // in meters
             let crowdProximity = 50; // in meters
 
             // Change color only if the device is connected
             if (device.status == 'GPS OK') {
-                if (distanceToGhost < greenWaveProximity) {
-                    GUI.header.style.backgroundColor = '#00AFFC';
-                    GUI.accelerationLabel.style.backgroundColor = '#00AFFC';
-                    GUI.accelerationLabel.textContent = "Flocking!!!";
-                    soundManager.play('ding');
-                } else {
+
+                if (distanceToGhost < 0 && Math.abs(distanceToGhost) > greenWaveProximity) {
+                    // cyclist after the ghost
+                    GUI.header.style.backgroundColor = '#FF00FF'; // magenta color
+                    GUI.accelerationLabel.style.backgroundColor = '#FF00FF';
+                    GUI.accelerationLabel.textContent = "Slow down";
+                    soundManager.pause('ding');
+
+                } else if (distanceToGhost > 0) {
+                    // cyclist behind the ghost
                     GUI.header.style.backgroundColor = '#3FBF3F'; // lime color
                     GUI.accelerationLabel.style.backgroundColor = '#3FBF3F';
                     GUI.accelerationLabel.textContent = "Speed up";
                     soundManager.pause('ding');
+
+                } else {
+                    // cyclist in blue zone
+                    GUI.header.style.backgroundColor = '#00AFFC'; // blue color
+                    GUI.accelerationLabel.style.backgroundColor = '#00AFFC';
+                    GUI.accelerationLabel.textContent = "Flocking!!!";
+                    soundManager.play('ding');
+
                 }
                 // this is for sound feedback beyound the greenWave zone 
                 if (distanceToGhost < crowdProximity) {
-                    soundManager.volume(distanceToGhost, crowdProximity);
+                    soundManager.volume(Math.abs(distanceToGhost), crowdProximity);
                     soundManager.play('riding');
                 } else {
                     soundManager.pause('riding');
@@ -365,10 +386,13 @@ async function connectToFirebase() {
             console.log('started');
             //Creates communication, get the id of the journey the reference route
             comm = new Communication(generateID());
+
             // Initialize a new session in the latest journey and get journey data
             journeyData = await comm.initSession();
+
             // Initialize route
             await comm.initRoute(journeyData.refRouteName);
+
             // activate ghost coordinate listener
             comm.listenToGhost(journeyData.journeyId);
         }

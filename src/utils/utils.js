@@ -44,13 +44,11 @@ class Utils {
         // Strict geoJSON. see https://tools.ietf.org/html/rfc7946
 
         if (json.features) {
-            // console.log(json.features[0]);
-
             return json.features[0];
 
         } else {
             // Leafet geoJSON
-            console.log("NON STRICT geoJSON format");
+            console.log("NON COMPLIANT geoJSON format");
             return json;
         }
     }
@@ -70,7 +68,10 @@ class Utils {
         return route;
     }
 
-    /** Gets the geodesic distance between two points
+    /** Gets the geodesic distance between two points. "This uses the ‘haversine’ formula to calculate 
+     * the great-circle distance between two points – that is, the shortest distance over the earth’s 
+     * surface – giving an ‘as-the-crow-flies’ distance between the points." 
+     * Source: https://www.movable-type.co.uk/scripts/latlong.html
      * @param {Position} startCoords
      * @param {Position} endCoords
      * @return {number} The distance between the two points in meters
