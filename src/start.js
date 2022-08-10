@@ -69,6 +69,7 @@ let route;
 
 // The session coordinates
 let dataCoords = [];
+let tempDPID = 1;
 
 /**
  * ghostCoords and journeyData must be global because they updated in communication. 
@@ -81,7 +82,6 @@ let isMobile;
 // whether or not this app is ran on an Apple mobile device
 let iOS;
 
-
 // the update interval
 let updateInterval;
 
@@ -92,6 +92,10 @@ let ghost_loaded = false;
 
 //Sound manager
 let soundManager;
+
+// The max distance between cyclist and ghost for the cyclist to be in the range of the 'green wave.'
+let greenWaveProximity = 20; // in meters
+let crowdProximity = 50; // in meters
 
 
 // Map Center 
@@ -269,35 +273,37 @@ function setupInterval(millis) {
             // Distance to ghost. This changes the header color in DOM
             // let distanceToGhost = cyclist.mesh.position.distanceToSquared(ghost.mesh.position);
             // let distanceToGhost = device.getDistanceTo(ghostCoords); OLD VERSION AUGUST 03 2022
-            let distanceToGhost = route.getAtoBDistance(new Position(ghostCoords.lat, ghostCoords.lon), new Position(device.pos.lat, device.pos.lon));
-            GUI.distance.textContent = distanceToGhost.toFixed(1) + " m (in route)";
-
-            // The max distance between cyclist and ghost for the cyclist to be in the range of the 'green wave.'
-            let greenWaveProximity = 20; // in meters
-            let crowdProximity = 50; // in meters
+            let distanceToGhost = route.getAtoBDistance(new Position(device.pos.lat, device.pos.lon), new Position(ghostCoords.lat, ghostCoords.lon));
+            GUI.distance.textContent = distanceToGhost.toFixed(1) + " m. in route";
 
             // Change color only if the device is connected
             if (device.status == 'GPS OK') {
 
-                if (distanceToGhost < 0 && Math.abs(distanceToGhost) > greenWaveProximity) {
-                    // cyclist after the ghost
+                // When the rider is ahead the ghost. 
+                // SUGGESTION: DOWN
+                if (distanceToGhost > 0) {
                     GUI.header.style.backgroundColor = '#f90060'; // magenta color
                     GUI.accelerationLabel.style.backgroundColor = '#f90060';
                     GUI.accelerationLabel.textContent = "Slow down";
+                    device.setSuggestion(-1); // -1:slowDOWN
                     soundManager.pause('ding');
 
-                } else if (distanceToGhost > 0) {
-                    // cyclist behind the ghost
+                    // When the rider is behind the ghost AND the dustance beteewn them is greater than the green wave proximity.
+                    // SUGGESTION: UP
+                } else if (distanceToGhost < 0 && Math.abs(distanceToGhost) >= greenWaveProximity) {
                     GUI.header.style.backgroundColor = '#3FBF3F'; // lime color
                     GUI.accelerationLabel.style.backgroundColor = '#3FBF3F';
                     GUI.accelerationLabel.textContent = "Speed up";
+                    device.setSuggestion(1); // 1: speedUP
                     soundManager.pause('ding');
 
                 } else {
-                    // cyclist in blue zone
+                    // When the rider is in the sweet spot
+                    // SUGGESTION: MAINTAIN
                     GUI.header.style.backgroundColor = '#00AFFC'; // blue color
                     GUI.accelerationLabel.style.backgroundColor = '#00AFFC';
                     GUI.accelerationLabel.textContent = "Flocking!!!";
+                    device.setSuggestion(0); // 0:MAINTAIN
                     soundManager.play('ding');
 
                 }
@@ -328,27 +334,41 @@ function setupInterval(millis) {
             //manage registers of datapoints (for json and database)
             let stamp = Utils.getEllapsedTime();
             let coord = { "lat": device.pos.lat, "lon": device.pos.lon };
+
+            //******* ACCELERATION
+            let deltaTime = 0;
+            let acc = 0;
+            if (dataCoords.length > 0) {
+                deltaTime = (Utils.getEllapsedTime() - dataCoords[dataCoords.length - 1].stamp) / 1000 // in seconds
+                acc = Utils.calcAcceleration(dataCoords[dataCoords.length - 1].speed, device.getSpeed(), deltaTime);
+            }
+
             // store record
             dataCoords.push({
                 "stamp": stamp,
                 "coord": coord,
-                "gcoord": world.pointToLatLon([ghost.mesh.position.x, ghost.mesh.position.z])
+                "gcoord": world.pointToLatLon([ghost.mesh.position.x, ghost.mesh.position.z]),
+                "speed": device.getSpeed()
             });
-            //*******TODO: add acc
-            let tempDPID = dataCoords.length - 1
+
+            //
+            // let tempDPID = dataCoords.length - 1;
             let tempDP = {
-                'acceleration': 'NA',
+                'acceleration': acc,
                 'latitude': coord.lat,
                 'longitude': coord.lon,
                 'speed': device.getSpeed(), // GPS Speed
                 'heading': device.getHeading(), // GPS Heading
-                'suggestion': 'NA',
+                'altitude': device.getAltitude(), // GPS Altitude
+                'suggestion': device.getSuggestion(),
                 'time': stamp
             };
             // If comm in enabled save datapoint
             if (comm && commEnabled) {
                 comm.addNewDataPointInSession(journeyData.journeyId, journeyData.sessionId, tempDPID, tempDP);
             }
+            // increase counter id
+            tempDPID++;
         }
 
         // update device status on GUI

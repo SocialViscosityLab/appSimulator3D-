@@ -104,6 +104,19 @@ class Utils {
 
         return Number.parseFloat(d);
     }
+
+    /**
+     * Calculates the acceleration given two velocities and the duration of velocity change. Time units must be the same for every parameter. 
+     * @param {*} velocityA 
+     * @param {*} velocityB 
+     * @param {*} deltaTime 
+     * @returns 
+     */
+    static calcAcceleration(velocityA, velocityB, deltaTime) {
+        let acc = (velocityA - velocityB) / deltaTime;
+        return acc;
+    }
 }
+
 Utils.mouseX = 0;
 Utils.mouseY = 0;

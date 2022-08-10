@@ -25,6 +25,7 @@ class DevicePos {
         this.altitude; // a double representing the position's altitude in meters, relative to sea level
         this.accuracy; // a double representing the accuracy of the latitude and longitude properties, expressed in meters.
         this.watchID = undefined;
+        this.suggestion = "NA"; //either 1: speedUP, -1:slowDOWN, or 0:MAINTAIN
         this.geo_options = {
             enableHighAccuracy: true,
             //milliseconds of a possible cached position that is acceptable to return
@@ -108,6 +109,14 @@ class DevicePos {
 
     getAccuracy() {
         return this.accuracy;
+    }
+
+    setSuggestion(suggestion) {
+        this.suggestion = suggestion;
+    }
+
+    getSuggestion() {
+        return this.suggestion;
     }
 
     stopTracking() {
