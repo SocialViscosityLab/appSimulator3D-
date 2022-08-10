@@ -129,6 +129,6 @@ class DevicePos {
      */
     //getDistanceTo(target) {
     getGeodesicDistanceTo(target) {
-        return Utils.getDistance(this.pos, target)
+        return Utils.getGeodesicDistance(this.pos, target)
     }
 }

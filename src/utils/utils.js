@@ -77,7 +77,7 @@ class Utils {
      * @return {number} The distance between the two points in meters
      * */
 
-    static getDistance(startCoords, endCoords) {
+    static getGeodesicDistance(startCoords, endCoords) {
         //Distance code taken from: https://www.movable-type.co.uk/scripts/latlong.html
 
         let lat1 = startCoords.lat;
@@ -115,6 +115,11 @@ class Utils {
     static calcAcceleration(velocityA, velocityB, deltaTime) {
         let acc = (velocityA - velocityB) / deltaTime;
         return acc;
+    }
+
+    static catchUpTime(pA, pB) {
+        let time = undefined;
+        let deltaX = pA.get
     }
 }
 
