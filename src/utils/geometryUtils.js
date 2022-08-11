@@ -23,7 +23,7 @@ class GeometryUtils {
         rtn.push(tempDataPoint);
 
         // 1 calculate the distance between the startCoords and endCoords. The distance is calculated in meters.
-        let distAtoB = Utils.getGeodesicDistance(startCoords, endCoords);
+        let distAtoB = GeometryUtils.getGeodesicDistance(startCoords, endCoords);
 
         // 2 estimate the duration to get from startCoords to endCoords at the given speed
         let duration = distAtoB / speed;
@@ -65,7 +65,7 @@ class GeometryUtils {
     */
     static calculateCurrentPosition(startCoords, endCoords, speed, ellapsedTime) {
 
-        let distance = Utils.getGeodesicDistance(startCoords, endCoords); //
+        let distance = GeometryUtils.getGeodesicDistance(startCoords, endCoords); //
 
         let fraction = this.getTrajectoryFraction(ellapsedTime, speed, distance);
 
@@ -88,7 +88,7 @@ class GeometryUtils {
 
         let R = 6371e3; // metres
 
-        let d = Utils.getGeodesicDistance(startCoords, endCoords) / R;
+        let d = GeometryUtils.getGeodesicDistance(startCoords, endCoords) / R;
 
         let a = Math.sin((1 - fraction) * d) / Math.sin(d);
 
@@ -165,6 +165,42 @@ class GeometryUtils {
         return Math.sqrt(this.distToSegmentSquared(p, v, w));
     }
 
+    /** Gets the geodesic distance between two points. "This uses the ‘haversine’ formula to calculate 
+    * the great-circle distance between two points – that is, the shortest distance over the earth’s 
+    * surface – giving an ‘as-the-crow-flies’ distance between the points." 
+    * Source: https://www.movable-type.co.uk/scripts/latlong.html
+    @param {Position} startCoords
+    @param {Position} endCoords
+    @return {number} The distance between the two points in meters
+    */
+    static getGeodesicDistance(startCoords, endCoords) {
+        //Distance code taken from: https://www.movable-type.co.uk/scripts/latlong.html
+
+        let lat1 = startCoords.lat;
+        let lon1 = startCoords.lon;
+        let lat2 = endCoords.lat;
+        let lon2 = endCoords.lon;
+
+        const R = 6371e3; // meters
+
+        //Converting latitud and longitude to radians
+        //let fi1 = Math.sin((lat1 * Math.PI) / 180);
+        //let fi2 = Math.sin((lat2 * Math.PI) / 180);
+
+        let fi1 = (lat1 * Math.PI) / 180;
+        let fi2 = (lat2 * Math.PI) / 180;
+
+        let deltaFi = Math.sin((lat2 - lat1) * Math.PI / 180);
+        let deltaLambda = Math.sin((lon2 - lon1) * Math.PI / 180);
+
+        let a = Math.sin(deltaFi / 2) * Math.sin(deltaFi / 2) + Math.cos(fi1) * Math.cos(fi2) * Math.sin(deltaLambda / 2) * Math.sin(deltaLambda / 2);
+        let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        let d = R * c;
+
+        return Number.parseFloat(d);
+    }
+
     /**
      * Calculates distance of a position to a segment using vector projection on a plane.
      * WARNING: it is only valid for short distances beacuse it asumes a planar 2D surface instead of a spheric surface
@@ -213,7 +249,7 @@ class GeometryUtils {
         let dx = x - xx;
         let dy = y - yy;
         //and finally we return the length that vector
-        return Utils.getGeodesicDistance(p, new Position(yy, xx));
+        return GeometryUtils.getGeodesicDistance(p, new Position(yy, xx));
     }
 
     /**

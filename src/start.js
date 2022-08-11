@@ -64,6 +64,11 @@ Utils.setP5(new p5());
 // The ghost, cyclists and cyclists's device
 let ghost, cyclist, device;
 
+//DELETEEEEEEE
+let deviceTst
+deviceTst = new DevicePos();
+deviceTst.setupTst();
+
 // The route
 let route;
 
@@ -74,7 +79,8 @@ let tempDPID = 1;
 /**
  * ghostCoords and journeyData must be global because they updated in communication. 
  */
-let ghostCoords;
+//let ghostCoords;
+let ghostData;
 let journeyData;
 
 // whether or not this app is ran on a mobile phone
@@ -88,7 +94,7 @@ let updateInterval;
 //The instance of the communication
 let comm;
 let commEnabled = false;
-let ghost_loaded = false;
+//let ghost_loaded = false;
 
 //Sound manager
 let soundManager;
@@ -253,10 +259,11 @@ function setupInterval(millis) {
     updateInterval = setInterval(function() {
 
         // Update ghost, cyclist and arrowfield if needed
-        if (ghostCoords) {
+        /** ghostData is a global variable updated in Communication.*/
+        if (ghostData) {
 
-            /** ghostCoords is a global variable updated in Communication. At each interval
-             * iteration the ghost is repositioned to its latest value */
+            /** At each interval iteration the ghost is repositioned to its latest value */
+            let ghostCoords = { lat: ghostData.latitude, lon: ghostData.longitude }
             ghost.setPosition(world.latLonToPoint(ghostCoords));
 
             // Set the cyclists position to the device position 
@@ -335,12 +342,12 @@ function setupInterval(millis) {
             let stamp = Utils.getEllapsedTime();
             let coord = { "lat": device.pos.lat, "lon": device.pos.lon };
 
-            //******* ACCELERATION
+            //******* DEVICE's ACCELERATION
             let deltaTime = 0;
-            let acc = 0;
+            //let acc = 0;
             if (dataCoords.length > 0) {
                 deltaTime = (Utils.getEllapsedTime() - dataCoords[dataCoords.length - 1].stamp) / 1000 // in seconds
-                acc = Utils.calcAcceleration(dataCoords[dataCoords.length - 1].speed, device.getSpeed(), deltaTime);
+                device.setAcceleration(KinematicUtils.calcAcceleration(dataCoords[dataCoords.length - 1].speed, device.getSpeed(), deltaTime));
             }
 
             // store record
@@ -354,7 +361,7 @@ function setupInterval(millis) {
             //
             // let tempDPID = dataCoords.length - 1;
             let tempDP = {
-                'acceleration': acc,
+                'acceleration': device.getAcceleration(),
                 'latitude': coord.lat,
                 'longitude': coord.lon,
                 'speed': device.getSpeed(), // GPS Speed

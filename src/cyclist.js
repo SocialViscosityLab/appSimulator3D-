@@ -1,3 +1,12 @@
+/**
+ * The Cyclist class has visual purpose only. It represents a cyclists in the app, usually as a position on a map. 
+ * 
+ * If you want to access the position of a cyclist it us usually better to get the cyclist's device position from the
+ * instance of devicePosition.js. 
+ * 
+ * If you need to get the cyclists's position on the map you need to use getPositionOnMap() of the Marker superclass.
+ * 
+ */
 class Cyclist extends Marker {
     constructor(_id, _scene, _geometry, _material) {
         super(_scene);

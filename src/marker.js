@@ -31,4 +31,8 @@ class Marker {
             this.mesh.position.set(pos.x, pos.z + this.elevation, pos.y);
         }
     }
+
+    getPositionOnMap() {
+        return world.pointToLatLon([this.mesh.position.x, this.mesh.position.z]);
+    }
 }

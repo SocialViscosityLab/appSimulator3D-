@@ -26,6 +26,7 @@ class DevicePos {
         this.accuracy; // a double representing the accuracy of the latitude and longitude properties, expressed in meters.
         this.watchID = undefined;
         this.suggestion = "NA"; //either 1: speedUP, -1:slowDOWN, or 0:MAINTAIN
+        this.acceleration = undefined;
         this.geo_options = {
             enableHighAccuracy: true,
             //milliseconds of a possible cached position that is acceptable to return
@@ -49,6 +50,38 @@ class DevicePos {
              * accurate location as different techniques are used to geolocate you.*/
             this.watchID = navigator.geolocation.watchPosition(this.success.bind(obj, this), this.error.bind(obj), this.geo_options);
         }
+    }
+
+    /** DELETEEEEEEE
+     * This MUST be invoked to activate the instance  */
+    setupTst() {
+        // a variable holding THIS object
+        let obj;
+        // getting the position
+        if (!navigator.geolocation) {
+            this.status = 'Geolocation is not supported by your browser';
+        } else {
+            this.status = 'Locating…';
+            /* Navigator is native browser object. This callback is called whenever the device location changes, 
+             * allowing the browser to either update your location as you move, or provide a more 
+             * accurate location as different techniques are used to geolocate you.*/
+            this.watchID = navigator.geolocation.watchPosition(this.successTst.bind(obj, this), this.error.bind(obj), this.geo_options);
+        }
+    }
+
+    /** DELETEEEEEEE
+     * Callback 
+     * position is the GeolocationPosition object returned by navigator.geolocation.watchPosition()
+     */
+    successTst(obj, position) {
+        obj.pos.lat = position.coords.latitude;
+        obj.pos.lon = position.coords.longitude;
+        obj.status = 'GPS OK';
+        if (position.coords.altitude) obj.altitude = position.coords.altitude;
+        if (position.coords.heading) obj.heading = position.coords.heading;
+        obj.speed = 3;
+        obj.acceleration = -2;
+        obj.accuracy = position.coords.accuracy;
     }
 
     /** Callback 
@@ -89,7 +122,7 @@ class DevicePos {
 
     getHeading() {
         if (this.heading != null) {
-            return this.heading.toFixed(2);
+            return this.heading;
         } else {
             return this.heading;
         }
@@ -97,7 +130,7 @@ class DevicePos {
 
     getSpeed() {
         if (this.speed != null) {
-            return this.speed.toFixed(2);
+            return this.speed;
         } else {
             return this.speed;
         }
@@ -119,6 +152,14 @@ class DevicePos {
         return this.suggestion;
     }
 
+    setAcceleration(value) {
+        this.acceleration = value;
+    }
+
+    getAcceleration() {
+        return this.acceleration;
+    }
+
     stopTracking() {
         navigator.geolocation.clearWatch(watchID);
     }
@@ -129,6 +170,6 @@ class DevicePos {
      */
     //getDistanceTo(target) {
     getGeodesicDistanceTo(target) {
-        return Utils.getGeodesicDistance(this.pos, target)
+        return GeometryUtils.getGeodesicDistance(this.pos, target)
     }
 }

@@ -229,9 +229,10 @@ class Communication {
             .onSnapshot(function(snapshot) {
                 snapshot.docChanges().forEach(function(change) {
                     if (change.type === "added") {
-                        const ghostCurrentPosition = change.doc.data();
+                        //const ghostCurrentPosition = change.doc.data();
+                        ghostData = change.doc.data();
                         // global variable
-                        ghostCoords = { lat: ghostCurrentPosition.latitude, lon: ghostCurrentPosition.longitude }
+                        //ghostCoords = { lat: ghostCurrentPosition.latitude, lon: ghostCurrentPosition.longitude }
                     }
                 })
             });

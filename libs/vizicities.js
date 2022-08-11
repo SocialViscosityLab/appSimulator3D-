@@ -13963,7 +13963,7 @@
                                 _this2._request = null;
                                 _this2._processTileData(res);
                             })['catch'](function(err) {
-                                console.error(err);
+                                console.error("error status: " + err.status);
 
                                 // Clear request reference
                                 _this2._request = null;

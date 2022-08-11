@@ -7,7 +7,7 @@ class Segment {
     constructor(startPosition, endPosition) {
         this.start = startPosition;
         this.end = endPosition;
-        this.length = Utils.getGeodesicDistance(this.start, this.end).toPrecision(4);
+        this.length = GeometryUtils.getGeodesicDistance(this.start, this.end).toPrecision(4);
         this.bearing = GeometryUtils.getBearing(this.start, this.end); // in radians (bteween -pi and pi)
     }
 
@@ -49,7 +49,7 @@ class Segment {
     @return {Number} distance Distance in meters
     */
     getDistanceOnSegment(position) {
-        return Utils.getGeodesicDistance(this.start, position);
+        return GeometryUtils.getGeodesicDistance(this.start, position);
     }
 
     /**

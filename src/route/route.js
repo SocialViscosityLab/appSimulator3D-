@@ -248,12 +248,9 @@ class Route {
     getTotalLength() {
 
         let totalLength = 0;
-
         for (let leg of this.segments) {
-
             totalLength = totalLength + Number(leg.length);
         }
-
         return totalLength;
     }
 
