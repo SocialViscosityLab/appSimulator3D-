@@ -89,6 +89,8 @@ GUI.clock = document.getElementById("clock");
 // Gauge
 // retrieving GUI elements
 GUI.gauge = document.getElementById('gauge');
-GUI.vehicle = document.getElementById('vehicleGauge');
-GUI.gapUX = document.getElementById('gapGauge');
-GUI.ghst = document.getElementById('ghostGauge');
+GUI.gaugeBox = document.getElementsByClassName('gaugeBox');
+GUI.vehicleBox = document.getElementById('vehicleGaugeBox')
+GUI.vehicleLabel = document.getElementById('vehicleGaugeLabel');
+GUI.ghostBox = document.getElementById('ghostGaugeBox')
+GUI.ghstLabel = document.getElementById('ghostGaugeLabel');

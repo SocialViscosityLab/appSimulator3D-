@@ -58,7 +58,7 @@
                                 <div id="title" >Flocking</div>
                             </div>
                             <div class="col-sm-4" style="text-align: right;">
-                                <div id="version" style="color:#eab20a"> Version 3.0 </div>
+                                <div id="version" style="color:#f8e7b3; font-size: 1.5rem;" > Version 3.1 </div>
                                 <i id ="location_on" class="material-icons" style="font-size:3vh; color: white; opacity: 60%; padding-top: 3vh;" hidden>cloud_upload</i>
                                 <i id ="3d_rotation" class="material-icons" style="font-size:3vh; color: white; opacity: 60%; padding-top: 3vh;" hidden>3d_rotation</i>
                                 <i id = "volume_up" class="material-icons" style="font-size:3vh; color: white; opacity: 60%; padding-top: 3vh;" hidden>volume_up</i>
@@ -96,13 +96,6 @@
                     <div id="error" style="color:deeppink; font-size: 30px; padding-top: 150px;" hidden>Log</div>
                 </div>
                 <!-- Speed visualizer -->
-
-            </div>
-
-            <div id="gauge">
-                <div class="gaugeElement" id="vehicleGauge"></div>
-                <div class="gaugeElement" id="gapGauge"></div>
-                <div class="gaugeElement" id="ghostGauge"></div>
             </div>
 
 
@@ -112,6 +105,26 @@
             </div>
 
             <button id="cameraButton" type="button" class="btn btn-outline-danger">First-person</button>
+
+            <!-- <div class="container"> -->
+            <div id="gauge">
+
+                <div class="gaugeWrapper">
+                    <div class="gaugeContainer">
+                        <div class="gaugeBox" id="vehicleGaugeBox"></div>
+                    </div>
+                    <div class="gaugeBox" id="vehicleGaugeLabel"></div>
+                </div>
+
+                <div class="gaugeWrapper">
+                    <div class="gaugeContainer">
+                        <div class="gaugeBox" id="ghostGaugeBox"></div>
+                    </div>
+                    <div class="gaugeBox" id="ghostGaugeLabel"></div>
+                </div>
+            </div>
+
+            <!-- </div> -->
 
             <div id="accelerationLabel">...</div>
 

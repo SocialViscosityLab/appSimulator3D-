@@ -285,7 +285,7 @@ function setupInterval(millis) {
         /** ghostData is a global variable updated in Communication.*/
         if (ghostData) {
 
-            GUI.gauge.style.display = 'inline';
+            // GUI.gauge.style.display = 'inline';
 
             /** At each interval iteration the ghost is repositioned to its latest value */
             let ghostCoords = { lat: ghostData.latitude, lon: ghostData.longitude }
@@ -311,49 +311,47 @@ function setupInterval(millis) {
             // Change color only if the device is connected
             if (device.status == 'GPS OK') {
 
+                let htmlInsert;
+
                 // SPEED GAUGE
                 gauge.setUpSizes(device.getSpeed(), ghostData.speed);
-                gauge.displayGap(distanceToGhost);
+
                 // get time-to-ghost data
                 let catchUpData = KinematicUtils.catchUpTimeToGhost(device);
 
-                //check whether the cyclist is ahead or behind the ghost.
-                //then, check wether the cyclists acceleration is positive or negative
-
-                // if the cyclists is ahead the ghost
-                if (distanceToGhost > 0) {
-                    // if acceleration is positive the distance is getting longer
-                    if (device.acceleration > 0) {
-                        GUI.gapUX.innerText = "Decelerate\n Dist to ghost " + distanceToGhost.toFixed(1) + " m\n Acc: " + device.acceleration + " m/s2"
-                    } else {
-                        // if acceleration is negative the distance is getting shorter
-                        GUI.gapUX.innerText = "Time gap ahead " + catchUpData.timeA.toFixed(0) + " sec.\n" + distanceToGhost.toFixed(1) + " m. to ghost\n Acc: " + device.acceleration + " m/s2";
-                    }
-                } else {
-                    // if the cyclists is behind the ghost and
-                    // acceleration is positive the distance is getting shorter
-                    if (device.acceleration > 0) {
-                        GUI.gapUX.innerText = "Time gap behind " + catchUpData.timeA.toFixed(0) + " sec.\n" + distanceToGhost.toFixed(1) + " m. to ghost\n Acc: " + device.acceleration + " m/s2";
-                    } else {
-                        // if acceleration is negative the distance is getting longer
-                        GUI.gapUX.innerText = "Accelerate\n Dist to ghost " + distanceToGhost.toFixed(1) + " m\n Acc: " + device.acceleration + " m/s2"
-                    }
-                }
-
+                // set labels in GUI
                 if (device.getSpeed() != null) {
-                    GUI.vehicle.innerText = "My speed " + device.getSpeed().toFixed(1) + "m/s";
+                    htmlInsert = "<span class='mini'>My speed</span> \n" + +device.getSpeed().toFixed(1) + "<span class='mini'>m/s</span>";
+                } else {
+                    htmlInsert = "<span class='mini'>My speed</span> 0 <span class='mini'>m/s</span>"
                 }
-                GUI.ghst.innerText = "Ghost's speed " + ghostData.speed.toFixed(1) + "m/s";
+                GUI.vehicleLabel.innerHTML = htmlInsert;
 
 
+                htmlInsert = "<span class='mini'> Ghost 's speed </span> \n" + ghostData.speed.toFixed(1) + "<span class='mini'>m/s</span>";
+                GUI.ghstLabel.innerHTML = htmlInsert;
+
+                if (Number.isNaN(catchUpData.timeA)) {
+                    GUI.accelerationLabel.textContent = "---"
+                } else {
+
+                    htmlInsert = catchUpData.timeA.toFixed(0) + "s to ghost. <span class='mini'>Acc,</span> " + device.acceleration.toFixed(1) + "<span class='mini'>m/s2<span>";
+                    GUI.accelerationLabel.innerHTML = htmlInsert;
+                }
 
                 // When the rider is ahead the ghost. 
                 // SUGGESTION: DOWN
                 if (distanceToGhost > 0) {
                     GUI.header.style.backgroundColor = '#f90060'; // magenta color
-                    GUI.accelerationLabel.style.backgroundColor = '#f90060';
-                    GUI.gapUX.style.backgroundColor = '#f9006033';
-                    GUI.accelerationLabel.textContent = "Slow down";
+                    GUI.accelerationLabel.style.backgroundColor = '#fd99bf';
+                    GUI.accelerationLabel.style.color = '#b3003f';
+
+                    for (const box of GUI.gaugeBox) {
+                        box.style.backgroundColor = '#f90060'
+                    }
+                    GUI.vehicleLabel.style.color = '#feccdf'
+                    GUI.ghstLabel.style.color = '#feccdf'
+
                     device.setSuggestion(-1); // -1:slowDOWN
                     soundManager.pause('ding');
 
@@ -362,8 +360,14 @@ function setupInterval(millis) {
                 } else if (distanceToGhost < 0 && Math.abs(distanceToGhost) >= greenWaveProximity) {
                     GUI.header.style.backgroundColor = '#3FBF3F'; // lime color
                     GUI.accelerationLabel.style.backgroundColor = '#3FBF3F';
-                    GUI.gapUX.style.backgroundColor = '#3FBF3F33';
-                    GUI.accelerationLabel.textContent = "Speed up";
+
+                    for (const box of GUI.gaugeBox) {
+                        box.style.backgroundColor = '#00673e'
+                    }
+
+                    GUI.vehicleLabel.style.color = '#73ce6b'
+                    GUI.ghstLabel.style.color = '#73ce6b'
+
                     device.setSuggestion(1); // 1: speedUP
                     soundManager.pause('ding');
 
@@ -372,7 +376,14 @@ function setupInterval(millis) {
                     // SUGGESTION: MAINTAIN
                     GUI.header.style.backgroundColor = '#00AFFC'; // blue color
                     GUI.accelerationLabel.style.backgroundColor = '#00AFFC';
-                    GUI.gapUX.style.backgroundColor = '#00AFFC33';
+                    GUI.accelerationLabel.style.color = '#00673e';
+
+                    for (const box of GUI.gaugeBox) {
+                        box.style.backgroundColor = '#1d5567'
+                    }
+                    GUI.vehicleLabel.style.color = '#d2dfe3'
+                    GUI.ghstLabel.style.color = '#d2dfe3'
+
                     GUI.accelerationLabel.textContent = "Flocking!!!";
                     device.setSuggestion(0); // 0:MAINTAIN
                     soundManager.play('ding');
