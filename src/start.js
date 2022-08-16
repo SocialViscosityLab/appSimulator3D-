@@ -61,13 +61,28 @@
 // An instance of p5
 Utils.setP5(new p5());
 
-// The ghost, cyclists and cyclists's device
-let ghost, cyclist, device;
+// The ghost, cyclists and cyclists's device, speed gauge
+let ghost, cyclist, device, gauge;
 
 //DELETEEEEEEE
-let deviceTst
-deviceTst = new DevicePos();
-deviceTst.setupTst();
+let devicePos
+devicePos = new DevicePos();
+devicePos.setupTst();
+
+let deviceNeg
+deviceNeg = new DevicePos();
+deviceNeg.setupTst2();
+
+// function runKinematics() {
+//     let rtn =
+//         tempDPID + ', device,' + KinematicUtils.catchUpTimeToGhost(device).timeA + ',' + KinematicUtils.catchUpTimeToGhost(device).timeB + ',' + KinematicUtils.catchUpTimeToGhost(device).deltaPos + ',' + device.acceleration + ',' + device.speed + '\n' +
+//         tempDPID + ', positive,' + KinematicUtils.catchUpTimeToGhost(devicePos).timeA + ',' + KinematicUtils.catchUpTimeToGhost(devicePos).timeB + ',' + KinematicUtils.catchUpTimeToGhost(devicePos).deltaPos + ',' + devicePos.acceleration + ',' + devicePos.speed + '\n' +
+//         tempDPID + ', negative,' + KinematicUtils.catchUpTimeToGhost(deviceNeg).timeA + ',' + KinematicUtils.catchUpTimeToGhost(deviceNeg).timeB + ',' + KinematicUtils.catchUpTimeToGhost(deviceNeg).deltaPos + ',' + deviceNeg.acceleration + ',' + deviceNeg.speed
+//     return rtn;
+// }
+// END DELETTEEE
+
+
 
 // The route
 let route;
@@ -119,6 +134,15 @@ var coords = [40.1076407, -88.2119009]; // Urbana Home
  */
 device = new DevicePos();
 device.setup();
+
+/**
+ *** GAUGE and Low pass filter ***
+ */
+gauge = new Gauge();
+//low pass filter initilized with smooth factor 0.5. This is used to smooth the acceleration signal
+lpf = new LPF(0.5);
+// positive values because cyclists have positive acceleration starting the ride
+lpf.init([0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]);
 
 /**
  *** Instantiation of world ***
@@ -221,7 +245,6 @@ function enableLocation() {
     device.setup();
 }
 
-
 function initSound() {
     soundManager = new SoundManager();
     soundManager.addMediaNode("ding", document.getElementById("ding"), false);
@@ -262,6 +285,8 @@ function setupInterval(millis) {
         /** ghostData is a global variable updated in Communication.*/
         if (ghostData) {
 
+            GUI.gauge.style.display = 'inline';
+
             /** At each interval iteration the ghost is repositioned to its latest value */
             let ghostCoords = { lat: ghostData.latitude, lon: ghostData.longitude }
             ghost.setPosition(world.latLonToPoint(ghostCoords));
@@ -281,16 +306,53 @@ function setupInterval(millis) {
             // let distanceToGhost = cyclist.mesh.position.distanceToSquared(ghost.mesh.position);
             // let distanceToGhost = device.getDistanceTo(ghostCoords); OLD VERSION AUGUST 03 2022
             let distanceToGhost = route.getAtoBDistance(new Position(device.pos.lat, device.pos.lon), new Position(ghostCoords.lat, ghostCoords.lon));
-            GUI.distance.textContent = distanceToGhost.toFixed(1) + " m. in route";
+            GUI.distance.textContent = distanceToGhost.toFixed(1) + " m. to ghost";
 
             // Change color only if the device is connected
             if (device.status == 'GPS OK') {
+
+                // SPEED GAUGE
+                gauge.setUpSizes(device.getSpeed(), ghostData.speed);
+                gauge.displayGap(distanceToGhost);
+                // get time-to-ghost data
+                let catchUpData = KinematicUtils.catchUpTimeToGhost(device);
+
+                //check whether the cyclist is ahead or behind the ghost.
+                //then, check wether the cyclists acceleration is positive or negative
+
+                // if the cyclists is ahead the ghost
+                if (distanceToGhost > 0) {
+                    // if acceleration is positive the distance is getting longer
+                    if (device.acceleration > 0) {
+                        GUI.gapUX.innerText = "Decelerate\n Dist to ghost " + distanceToGhost.toFixed(1) + " m\n Acc: " + device.acceleration + " m/s2"
+                    } else {
+                        // if acceleration is negative the distance is getting shorter
+                        GUI.gapUX.innerText = "Time gap ahead " + catchUpData.timeA.toFixed(0) + " sec.\n" + distanceToGhost.toFixed(1) + " m. to ghost\n Acc: " + device.acceleration + " m/s2";
+                    }
+                } else {
+                    // if the cyclists is behind the ghost and
+                    // acceleration is positive the distance is getting shorter
+                    if (device.acceleration > 0) {
+                        GUI.gapUX.innerText = "Time gap behind " + catchUpData.timeA.toFixed(0) + " sec.\n" + distanceToGhost.toFixed(1) + " m. to ghost\n Acc: " + device.acceleration + " m/s2";
+                    } else {
+                        // if acceleration is negative the distance is getting longer
+                        GUI.gapUX.innerText = "Accelerate\n Dist to ghost " + distanceToGhost.toFixed(1) + " m\n Acc: " + device.acceleration + " m/s2"
+                    }
+                }
+
+                if (device.getSpeed() != null) {
+                    GUI.vehicle.innerText = "My speed " + device.getSpeed().toFixed(1) + "m/s";
+                }
+                GUI.ghst.innerText = "Ghost's speed " + ghostData.speed.toFixed(1) + "m/s";
+
+
 
                 // When the rider is ahead the ghost. 
                 // SUGGESTION: DOWN
                 if (distanceToGhost > 0) {
                     GUI.header.style.backgroundColor = '#f90060'; // magenta color
                     GUI.accelerationLabel.style.backgroundColor = '#f90060';
+                    GUI.gapUX.style.backgroundColor = '#f9006033';
                     GUI.accelerationLabel.textContent = "Slow down";
                     device.setSuggestion(-1); // -1:slowDOWN
                     soundManager.pause('ding');
@@ -300,6 +362,7 @@ function setupInterval(millis) {
                 } else if (distanceToGhost < 0 && Math.abs(distanceToGhost) >= greenWaveProximity) {
                     GUI.header.style.backgroundColor = '#3FBF3F'; // lime color
                     GUI.accelerationLabel.style.backgroundColor = '#3FBF3F';
+                    GUI.gapUX.style.backgroundColor = '#3FBF3F33';
                     GUI.accelerationLabel.textContent = "Speed up";
                     device.setSuggestion(1); // 1: speedUP
                     soundManager.pause('ding');
@@ -309,6 +372,7 @@ function setupInterval(millis) {
                     // SUGGESTION: MAINTAIN
                     GUI.header.style.backgroundColor = '#00AFFC'; // blue color
                     GUI.accelerationLabel.style.backgroundColor = '#00AFFC';
+                    GUI.gapUX.style.backgroundColor = '#00AFFC33';
                     GUI.accelerationLabel.textContent = "Flocking!!!";
                     device.setSuggestion(0); // 0:MAINTAIN
                     soundManager.play('ding');
@@ -334,6 +398,10 @@ function setupInterval(millis) {
             //     GCamera.lookingFrom(cyclist.mesh.position.x, cyclist.mesh.position.z, 50);
             //     GCamera.emitEvent();
             // }
+
+
+            // delete!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!
+            // console.log(runKinematics());
         }
 
         /** Save datapoint to Firebase */
@@ -376,6 +444,8 @@ function setupInterval(millis) {
             }
             // increase counter id
             tempDPID++;
+
+
         }
 
         // update device status on GUI
@@ -463,7 +533,6 @@ if (document.attachEvent) document.attachEvent('mousemove', mouseHandler);
 else document.addEventListener('mousemove', mouseHandler);
 
 
-
 function wheelHandler(e) {
     e = e || window.event;
     // Set zoom level
@@ -479,7 +548,6 @@ function wheelHandler(e) {
 // attach handler to the click event of the document
 if (document.attachEvent) document.attachEvent('wheel', wheelHandler);
 else document.addEventListener('wheel', wheelHandler);
-
 
 
 function motionEvent() {

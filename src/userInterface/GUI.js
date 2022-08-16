@@ -85,3 +85,10 @@ GUI.location_on = document.getElementById('location_on');
 GUI.threeD_rotation = document.getElementById('3d_rotation');
 GUI.volume_up = document.getElementById("volume_up");
 GUI.clock = document.getElementById("clock");
+
+// Gauge
+// retrieving GUI elements
+GUI.gauge = document.getElementById('gauge');
+GUI.vehicle = document.getElementById('vehicleGauge');
+GUI.gapUX = document.getElementById('gapGauge');
+GUI.ghst = document.getElementById('ghostGauge');

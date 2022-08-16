@@ -39,11 +39,11 @@ class KinematicUtils {
 
         if (route) {
             let p = {
-                vel: particle.getSpeed(),
-                acc: particle.getAcceleration(),
-                pos: route.getTraveledDistanceToPosition(new Position(particle.getPos().pos.lat, particle.getPos().pos.lon))
-            }
-            console.log(p);
+                    vel: particle.getSpeed(),
+                    acc: lpf.next(particle.getAcceleration()), // acceleration is filtered to smooth the signal with a low pass filter.
+                    pos: route.getTraveledDistanceToPosition(new Position(particle.getPos().pos.lat, particle.getPos().pos.lon))
+                }
+                // console.log(p);
 
             /**These data come from a global variable in start.js */
             let g = {
@@ -69,15 +69,11 @@ class KinematicUtils {
             let timeA = (-deltaVelocity + Math.sqrt(preSqrt)) / (2 * deltaHalfAcc);
             let timeB = (-deltaVelocity - Math.sqrt(preSqrt)) / (2 * deltaHalfAcc);
 
-            if (deltaPos < 0) {
-                // Case A: The ghost is behind the vehicle
-                console.log("Ghost behind");
-                return { timeA: timeA, deltaPos: deltaPos, timeB: timeB };
-            } else {
-                //Case B: The ghost is ahead the vehicle
-                console.log("Ghost ahead");
-                return { timeB: timeB, deltaPos: deltaPos, timeA: timeA };
-            }
+            let rtn = { timeA: timeA, timeB: timeB, deltaPos: deltaPos };
+
+            //console.log(rtn);
+
+            return rtn;
         } else {
             window.alert("No route yet. Connect to database");
             return undefined

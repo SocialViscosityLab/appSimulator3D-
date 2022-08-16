@@ -1,0 +1,42 @@
+/* SPEED GAUGE */
+
+#gauge {
+    position: absolute;
+    display: inline;
+    width: 100%;
+    height: 100%;
+    /* outline: auto; */
+    /* background-color: rgba(181, 173, 16, 0.135); */
+}
+
+.gaugeElement {
+    position: absolute;
+    display: inline-block;
+    font-size: 4em;
+    padding-left: 10%;
+}
+
+#vehicleGauge {
+    width: 100%;
+    height: 1%;
+    margin-top: 50%;
+    background-color: rgba(0, 0, 255, 0.374);
+    color: black
+}
+
+#gapGauge {
+    width: 100%;
+    height: 1%;
+    margin-top: 50%;
+    /* outline: auto; */
+    background-color: rgba(181, 173, 16, 0.431);
+    color: black
+}
+
+#ghostGauge {
+    width: 100%;
+    height: 1%;
+    margin-top: 50%;
+    background-color: rgb(247, 0, 255, 0.3);
+    color: black
+}
