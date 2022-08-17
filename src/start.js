@@ -502,6 +502,9 @@ async function connectToFirebase() {
 
             // activate ghost coordinate listener
             comm.listenToGhost(journeyData.journeyId);
+
+            // display route name
+            GUI.routeName.innerText = "Route: " + journeyData.refRouteName;
         }
         // Initialize arrow field
         cyclist.initializeArrowField();

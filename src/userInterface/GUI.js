@@ -74,6 +74,7 @@ GUI.enableOrientation = document.getElementById('enableOrientation');
 GUI.distance = document.getElementById('distance');
 GUI.header = document.getElementById('header');
 GUI.error = document.getElementById('error');
+GUI.routeName = document.getElementById("routeName");
 GUI.accelerationLabel = document.getElementById('accelerationLabel');
 GUI.cameraButton = document.getElementById('cameraButton');
 GUI.enableSound = document.getElementById('enableSound');
