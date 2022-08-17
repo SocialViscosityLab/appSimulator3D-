@@ -426,7 +426,7 @@ function setupInterval(millis) {
             //let acc = 0;
             if (dataCoords.length > 0) {
                 deltaTime = (Utils.getEllapsedTime() - dataCoords[dataCoords.length - 1].stamp) / 1000 // in seconds
-                device.setAcceleration(KinematicUtils.calcAcceleration(dataCoords[dataCoords.length - 1].speed, device.getSpeed(), deltaTime));
+                device.setAcceleration(KinematicUtils.calcAcceleration(dataCoords[device.getSpeed(), dataCoords.length - 1].speed, deltaTime));
             }
 
             // store record
