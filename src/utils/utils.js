@@ -77,7 +77,25 @@ class Utils {
         let hours = Math.trunc(seconds / 3600);
         let minutes = Math.trunc((seconds % 3600) / 60);
         let secs = (seconds % 3600) % 60;
-        return hours + ":" + minutes + ":" + secs.toFixed(2);
+        return hours + ":" + minutes + ":" + secs.toFixed(0);
+    }
+
+    /**
+     * Gives distance format km to numbers
+     * @param {float} meters 
+     * @returns a string
+     */
+    static distanceFormater(meters) {
+        return meters / 1000;
+    }
+
+    /**
+     * Gives speed in m/s format km/h to numbers
+     * @param {float} velocity
+     * @returns a string
+     */
+    static speedFormater(velocity) {
+        return velocity * 3.6
     }
 
     /**

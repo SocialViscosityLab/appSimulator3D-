@@ -306,7 +306,7 @@ function setupInterval(millis) {
             // let distanceToGhost = cyclist.mesh.position.distanceToSquared(ghost.mesh.position);
             // let distanceToGhost = device.getDistanceTo(ghostCoords); OLD VERSION AUGUST 03 2022
             let distanceToGhost = route.getAtoBDistance(new Position(device.pos.lat, device.pos.lon), new Position(ghostCoords.lat, ghostCoords.lon));
-            GUI.distance.textContent = distanceToGhost.toFixed(1) + " m. to ghost";
+            GUI.distance.textContent = Utils.distanceFormater(distanceToGhost).toFixed(1) + " k";
 
             // Change color only if the device is connected
             if (device.status == 'GPS OK') {
@@ -321,14 +321,14 @@ function setupInterval(millis) {
 
                 // set labels in GUI
                 if (device.getSpeed() != null) {
-                    htmlInsert = "<span class='mini'>My speed</span> \n" + +device.getSpeed().toFixed(1) + "<span class='mini'>m/s</span>";
+                    htmlInsert = "<span class='mini'>My speed</span> \n" + +device.getSpeed().toFixed(1) + "<span class='mini' >m/s</span>";
                 } else {
-                    htmlInsert = "<span class='mini'>My speed</span> 0 <span class='mini'>m/s</span>"
+                    htmlInsert = "<span class='mini'>My speed</span> 0 <span class='mini'> m/s</span>"
                 }
                 GUI.vehicleLabel.innerHTML = htmlInsert;
 
 
-                htmlInsert = "<span class='mini'> Ghost 's speed </span> \n" + ghostData.speed.toFixed(1) + "<span class='mini'>m/s</span>";
+                htmlInsert = "<span class='mini'> Ghost 's speed </span> \n" + ghostData.speed.toFixed(1) + "<span class='mini'> m/s</span>";
                 GUI.ghstLabel.innerHTML = htmlInsert;
 
                 if (Number.isNaN(catchUpData.timeA)) {
@@ -463,11 +463,10 @@ function setupInterval(millis) {
         GUI.setStatus(device.status);
         if (device.pos.lat) {
             // GUI.latLon.textContent = "Time: " + Utils.getEllapsedTimeSeconds() + ', Lat: ' + device.pos.lat.toFixed(5) + '°, Lon: ' + device.pos.lon.toFixed(5) + '°';
-            GUI.latLon.textContent = Utils.getEllapsedTimeSeconds() + " s";
+            GUI.latLon.textContent = Utils.timeFormater(Utils.getEllapsedTimeSeconds());
             GUI.clock.textContent = "update"
-        } else {
-            GUI.latLon.textContent = Utils.getEllapsedTimeSeconds() + ' ...';
         }
+
         GUI.latLon.href = ('https://www.openstreetmap.org/#map=18/' + device.pos.lat + "/" + device.pos.lon);
     }, millis);
 }
