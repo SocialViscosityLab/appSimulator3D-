@@ -52,68 +52,6 @@ class DevicePos {
         }
     }
 
-    /** DELETEEEEEEE
-     * This MUST be invoked to activate the instance  */
-    setupTst() {
-        // a variable holding THIS object
-        let obj;
-        // getting the position
-        if (!navigator.geolocation) {
-            this.status = 'Geolocation is not supported by your browser';
-        } else {
-            this.status = 'Locating…';
-            /* Navigator is native browser object. This callback is called whenever the device location changes, 
-             * allowing the browser to either update your location as you move, or provide a more 
-             * accurate location as different techniques are used to geolocate you.*/
-            this.watchID = navigator.geolocation.watchPosition(this.successTst.bind(obj, this), this.error.bind(obj), this.geo_options);
-        }
-    }
-
-    /** DELETEEEEEEE
-     * Callback 
-     * position is the GeolocationPosition object returned by navigator.geolocation.watchPosition()
-     */
-    successTst(obj, position) {
-            obj.pos.lat = position.coords.latitude;
-            obj.pos.lon = position.coords.longitude;
-            obj.status = 'GPS OK';
-            if (position.coords.altitude) obj.altitude = position.coords.altitude;
-            if (position.coords.heading) obj.heading = position.coords.heading;
-            obj.speed = 1.5;
-            obj.acceleration = .5;
-            obj.accuracy = position.coords.accuracy;
-        }
-        /** DELETEEEEEEE
-         * This MUST be invoked to activate the instance  */
-    setupTst2() {
-        // a variable holding THIS object
-        let obj;
-        // getting the position
-        if (!navigator.geolocation) {
-            this.status = 'Geolocation is not supported by your browser';
-        } else {
-            this.status = 'Locating…';
-            /* Navigator is native browser object. This callback is called whenever the device location changes, 
-             * allowing the browser to either update your location as you move, or provide a more 
-             * accurate location as different techniques are used to geolocate you.*/
-            this.watchID = navigator.geolocation.watchPosition(this.successTst2.bind(obj, this), this.error.bind(obj), this.geo_options);
-        }
-    }
-
-    /** DELETEEEEEEE
-     * Callback 
-     * position is the GeolocationPosition object returned by navigator.geolocation.watchPosition()
-     */
-    successTst2(obj, position) {
-        obj.pos.lat = position.coords.latitude;
-        obj.pos.lon = position.coords.longitude;
-        obj.status = 'GPS OK';
-        if (position.coords.altitude) obj.altitude = position.coords.altitude;
-        if (position.coords.heading) obj.heading = position.coords.heading;
-        obj.speed = 1.5;
-        obj.acceleration = -0.5;
-        obj.accuracy = position.coords.accuracy;
-    }
 
     /** Callback 
      * position is the GeolocationPosition object returned by navigator.geolocation.watchPosition()

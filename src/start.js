@@ -64,26 +64,6 @@ Utils.setP5(new p5());
 // The ghost, cyclists and cyclists's device, speed gauge
 let ghost, cyclist, device, gauge;
 
-//DELETEEEEEEE
-let devicePos
-devicePos = new DevicePos();
-devicePos.setupTst();
-
-let deviceNeg
-deviceNeg = new DevicePos();
-deviceNeg.setupTst2();
-
-// function runKinematics() {
-//     let rtn =
-//         tempDPID + ', device,' + KinematicUtils.catchUpTimeToGhost(device).timeA + ',' + KinematicUtils.catchUpTimeToGhost(device).timeB + ',' + KinematicUtils.catchUpTimeToGhost(device).deltaPos + ',' + device.acceleration + ',' + device.speed + '\n' +
-//         tempDPID + ', positive,' + KinematicUtils.catchUpTimeToGhost(devicePos).timeA + ',' + KinematicUtils.catchUpTimeToGhost(devicePos).timeB + ',' + KinematicUtils.catchUpTimeToGhost(devicePos).deltaPos + ',' + devicePos.acceleration + ',' + devicePos.speed + '\n' +
-//         tempDPID + ', negative,' + KinematicUtils.catchUpTimeToGhost(deviceNeg).timeA + ',' + KinematicUtils.catchUpTimeToGhost(deviceNeg).timeB + ',' + KinematicUtils.catchUpTimeToGhost(deviceNeg).deltaPos + ',' + deviceNeg.acceleration + ',' + deviceNeg.speed
-//     return rtn;
-// }
-// END DELETTEEE
-
-
-
 // The route
 let route;
 
@@ -124,10 +104,6 @@ let crowdProximity = 50; // in meters
 var coords = [40.1076407, -88.2119009]; // Urbana Home
 //var coords = [40.10839, -88.22704]; // uiuc quad
 //var coords = [41.8879756, -87.6270752]; // Chicago river
-//var coords = [-33.4580124, -70.6641774]; // Santiago de Chile
-//var coords = [4.6389637, -74.094946] // Bogota
-//var coords = [3.426171, -76.578768] //MP
-//var coords = [36.1212532, -97.0702415]; //OSU
 
 /**
  *** DEVICE ***
@@ -142,7 +118,7 @@ gauge = new Gauge();
 //low pass filter initilized with smooth factor 0.5. This is used to smooth the acceleration signal
 lpf = new LPF(0.5);
 // positive values because cyclists have positive acceleration starting the ride
-lpf.init([0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]);
+lpf.init([0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]);
 
 /**
  *** Instantiation of world ***
@@ -306,12 +282,12 @@ function setupInterval(millis) {
             // let distanceToGhost = cyclist.mesh.position.distanceToSquared(ghost.mesh.position);
             // let distanceToGhost = device.getDistanceTo(ghostCoords); OLD VERSION AUGUST 03 2022
             let distanceToGhost = route.getAtoBDistance(new Position(device.pos.lat, device.pos.lon), new Position(ghostCoords.lat, ghostCoords.lon));
-            GUI.distance.textContent = Utils.distanceFormater(distanceToGhost).toFixed(1) + " k";
+            GUI.distance.textContent = Utils.distanceFormater(distanceToGhost).toFixed(2) + " k";
 
             // Change color only if the device is connected
             if (device.status == 'GPS OK') {
 
-                let htmlInsert;
+                let htmlInsert; // variable for temporal html content
 
                 // SPEED GAUGE
                 gauge.setUpSizes(device.getSpeed(), ghostData.speed);
@@ -410,9 +386,6 @@ function setupInterval(millis) {
             //     GCamera.emitEvent();
             // }
 
-
-            // delete!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!*!
-            // console.log(runKinematics());
         }
 
         /** Save datapoint to Firebase */
@@ -426,7 +399,7 @@ function setupInterval(millis) {
             //let acc = 0;
             if (dataCoords.length > 0) {
                 deltaTime = (Utils.getEllapsedTime() - dataCoords[dataCoords.length - 1].stamp) / 1000 // in seconds
-                device.setAcceleration(KinematicUtils.calcAcceleration(dataCoords[device.getSpeed(), dataCoords.length - 1].speed, deltaTime));
+                device.setAcceleration(KinematicUtils.calcAcceleration(device.getSpeed() - dataCoords[dataCoords.length - 1].speed, deltaTime));
             }
 
             // store record
