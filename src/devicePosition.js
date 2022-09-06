@@ -68,11 +68,12 @@ class DevicePos {
 
     /**Callback*/
     error(obj) {
-            obj.status = 'Unable to retrieve your location';
-        }
-        /** Retruns the status and position
-         * @return Object with status and pos objects
-         */
+        obj.status = 'Unable to retrieve your location';
+    }
+
+    /** Returns the status and position
+     * @return Object with status and pos objects
+     */
     getPos() {
         return { "status": this.status, "pos": this.pos }
     }

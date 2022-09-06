@@ -58,6 +58,60 @@ class GUI {
             GUI.manualRotationValue.innerHTML = this.value;
         }
     }
+
+    /**
+     * Changes the colors of GUI elements base don acceleration
+     * @param {string} key either 'hold', 'up', or 'down'
+     */
+    static setColors(key) {
+        switch (key) {
+            case 'hold':
+                GUI.header.style.backgroundColor = '#00AFFC'; // blue color
+                GUI.accelerationLabel.style.backgroundColor = '#00AFFC';
+                GUI.accelerationLabel.style.color = '#00673e';
+
+                for (const box of GUI.gaugeBox) {
+                    box.style.backgroundColor = '#1d5567'
+                }
+                GUI.vehicleLabel.style.color = '#d2dfe3'
+                GUI.ghstLabel.style.color = '#d2dfe3'
+
+                GUI.accelerationLabel.textContent = "Flocking!!!";
+
+                break;
+
+            case 'up':
+                GUI.header.style.backgroundColor = '#3FBF3F'; // lime color
+                GUI.accelerationLabel.style.backgroundColor = '#3FBF3F';
+                GUI.accelerationLabel.style.color = '#00673e';
+
+                for (const box of GUI.gaugeBox) {
+                    box.style.backgroundColor = '#00673e'
+                }
+
+                GUI.vehicleLabel.style.color = '#73ce6b'
+                GUI.ghstLabel.style.color = '#73ce6b'
+
+
+                break;
+
+            case 'down':
+                GUI.header.style.backgroundColor = '#f90060'; // magenta color
+                GUI.accelerationLabel.style.backgroundColor = '#fd99bf';
+                GUI.accelerationLabel.style.color = '#b3003f';
+
+                for (const box of GUI.gaugeBox) {
+                    box.style.backgroundColor = '#f90060'
+                }
+                GUI.vehicleLabel.style.color = '#feccdf'
+                GUI.ghstLabel.style.color = '#feccdf'
+
+                break;
+
+            default:
+                break;
+        }
+    }
 }
 
 GUI.status = document.getElementById("status");

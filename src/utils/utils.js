@@ -77,7 +77,11 @@ class Utils {
         let hours = Math.trunc(seconds / 3600);
         let minutes = Math.trunc((seconds % 3600) / 60);
         let secs = (seconds % 3600) % 60;
-        return hours + ":" + minutes + ":" + secs.toFixed(0);
+        if (hours > 0) {
+            return hours + ":" + minutes + ":" + secs.toFixed(0);
+        } else {
+            return minutes + ":" + secs.toFixed(0);
+        }
     }
 
     /**
@@ -86,7 +90,13 @@ class Utils {
      * @returns a string
      */
     static distanceFormater(meters) {
-        return meters / 1000;
+        let kilometers = Math.trunc(meters / 1000);
+        let remaining = meters % 1000;
+        if (kilometers > 0) {
+            return kilometers + "k " + remaining.toFixed(0) + "m";
+        } else {
+            return remaining.toFixed(0) + "m";
+        }
     }
 
     /**

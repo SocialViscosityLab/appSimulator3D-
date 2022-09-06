@@ -11,8 +11,7 @@ class KinematicUtils {
      * @returns 
      */
     static calcAcceleration(velocityA, velocityB, deltaTime) {
-        let acc = (velocityA - velocityB) / deltaTime;
-        return acc;
+        return (velocityA - velocityB) / deltaTime;
     }
 
 

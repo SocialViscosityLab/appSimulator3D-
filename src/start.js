@@ -282,7 +282,16 @@ function setupInterval(millis) {
             // let distanceToGhost = cyclist.mesh.position.distanceToSquared(ghost.mesh.position);
             // let distanceToGhost = device.getDistanceTo(ghostCoords); OLD VERSION AUGUST 03 2022
             let distanceToGhost = route.getAtoBDistance(new Position(device.pos.lat, device.pos.lon), new Position(ghostCoords.lat, ghostCoords.lon));
-            GUI.distance.textContent = Utils.distanceFormater(distanceToGhost).toFixed(2) + " k";
+
+            let message;
+            if (distanceToGhost < 0) {
+                message = Utils.distanceFormater(Math.abs(distanceToGhost));
+
+            } else {
+                message = Utils.distanceFormater(Math.abs(distanceToGhost));
+            }
+            GUI.distance.innerHTML = message;
+
 
             // Change color only if the device is connected
             if (device.status == 'GPS OK') {
@@ -311,57 +320,27 @@ function setupInterval(millis) {
                     GUI.accelerationLabel.textContent = "---"
                 } else {
 
-                    htmlInsert = catchUpData.timeA.toFixed(0) + "s to ghost. <span class='mini'>Acc,</span> " + device.acceleration.toFixed(1) + "<span class='mini'>m/s2<span>";
+                    htmlInsert = Math.abs(catchUpData.timeA.toFixed(0)) + "s to ghost. <span class='mini'>Acc,</span> " + device.acceleration.toFixed(1) + "<span class='mini'>m/s2<span>";
                     GUI.accelerationLabel.innerHTML = htmlInsert;
                 }
 
                 // When the rider is ahead the ghost. 
                 // SUGGESTION: DOWN
                 if (distanceToGhost > 0) {
-                    GUI.header.style.backgroundColor = '#f90060'; // magenta color
-                    GUI.accelerationLabel.style.backgroundColor = '#fd99bf';
-                    GUI.accelerationLabel.style.color = '#b3003f';
-
-                    for (const box of GUI.gaugeBox) {
-                        box.style.backgroundColor = '#f90060'
-                    }
-                    GUI.vehicleLabel.style.color = '#feccdf'
-                    GUI.ghstLabel.style.color = '#feccdf'
-
+                    GUI.setColors('down')
                     device.setSuggestion(-1); // -1:slowDOWN
                     soundManager.pause('ding');
 
                     // When the rider is behind the ghost AND the dustance beteewn them is greater than the green wave proximity.
                     // SUGGESTION: UP
                 } else if (distanceToGhost < 0 && Math.abs(distanceToGhost) >= greenWaveProximity) {
-                    GUI.header.style.backgroundColor = '#3FBF3F'; // lime color
-                    GUI.accelerationLabel.style.backgroundColor = '#3FBF3F';
-
-                    for (const box of GUI.gaugeBox) {
-                        box.style.backgroundColor = '#00673e'
-                    }
-
-                    GUI.vehicleLabel.style.color = '#73ce6b'
-                    GUI.ghstLabel.style.color = '#73ce6b'
-
+                    GUI.setColors('up')
                     device.setSuggestion(1); // 1: speedUP
                     soundManager.pause('ding');
 
                 } else {
-                    // When the rider is in the sweet spot
-                    // SUGGESTION: MAINTAIN
-                    GUI.header.style.backgroundColor = '#00AFFC'; // blue color
-                    GUI.accelerationLabel.style.backgroundColor = '#00AFFC';
-                    GUI.accelerationLabel.style.color = '#00673e';
-
-                    for (const box of GUI.gaugeBox) {
-                        box.style.backgroundColor = '#1d5567'
-                    }
-                    GUI.vehicleLabel.style.color = '#d2dfe3'
-                    GUI.ghstLabel.style.color = '#d2dfe3'
-
-                    GUI.accelerationLabel.textContent = "Flocking!!!";
-                    device.setSuggestion(0); // 0:MAINTAIN
+                    GUI.setColors('hold')
+                    device.setSuggestion(0); // 0:hold
                     soundManager.play('ding');
 
                 }
@@ -399,7 +378,14 @@ function setupInterval(millis) {
             //let acc = 0;
             if (dataCoords.length > 0) {
                 deltaTime = (Utils.getEllapsedTime() - dataCoords[dataCoords.length - 1].stamp) / 1000 // in seconds
-                device.setAcceleration(KinematicUtils.calcAcceleration(device.getSpeed() - dataCoords[dataCoords.length - 1].speed, deltaTime));
+                device.setAcceleration(KinematicUtils.calcAcceleration(device.getSpeed(), dataCoords[dataCoords.length - 1].speed, deltaTime));
+
+                // GUI.error.innerText = 'current: ' + device.getSpeed() +
+                //     "\n | last: " + dataCoords[dataCoords.length - 1].speed +
+                //     "\n | deltaTime: " + deltaTime +
+                //     "\n | acc: " + device.getAcceleration() +
+                //     "\n | acc2: " + ((device.getSpeed() - dataCoords[dataCoords.length - 1].speed) / deltaTime)
+
             }
 
             // store record
