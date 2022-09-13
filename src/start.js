@@ -319,7 +319,6 @@ function setupInterval(millis) {
                 if (Number.isNaN(catchUpData.timeA)) {
                     GUI.accelerationLabel.textContent = "---"
                 } else {
-
                     htmlInsert = Math.abs(catchUpData.timeA.toFixed(0)) + "s to ghost. <span class='mini'>Acc,</span> " + device.acceleration.toFixed(1) + "<span class='mini'>m/s2<span>";
                     GUI.accelerationLabel.innerHTML = htmlInsert;
                 }
