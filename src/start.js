@@ -342,9 +342,9 @@ function setupInterval(millis) {
                     GUI.setColors('hold')
                     device.setSuggestion(0); // 0:hold
                     soundManager.play('ding');
-
                 }
-                // this is for sound feedback beyound the greenWave zone 
+
+                // this changes the sound volume (gain) feedback beyond the greenWave zone 
                 if (distanceToGhost < crowdProximity) {
                     soundManager.volume(Math.abs(distanceToGhost), crowdProximity);
                     soundManager.play('riding');
