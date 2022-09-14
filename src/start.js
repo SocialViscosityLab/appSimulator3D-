@@ -92,7 +92,8 @@ let commEnabled = false;
 //let ghost_loaded = false;
 
 //Sound manager
-let soundManager;
+//let soundManager;
+let clappingHands;
 
 // The max distance between cyclist and ghost for the cyclist to be in the range of the 'green wave.'
 let greenWaveProximity = 20; // in meters
@@ -168,12 +169,13 @@ function preload() {
      * instead use other message windows like Boostrap cards.
      */
     GUI.enableSound.onclick = function() {
-        soundManager.enableAudioContext();
+        clappingHands.enableAudioContext();
+        //soundManager.enableAudioContext();
         // activate all sounds
-        soundManager.play('ding');
-        soundManager.play('riding');
+        //soundManager.play('ding');
+        //soundManager.play('riding');
         // pause loop=ing sounds
-        soundManager.pause('riding');
+        //soundManager.pause('riding');
     }
 
     // Setup slider for manual correction of map rotation
@@ -222,9 +224,10 @@ function enableLocation() {
 }
 
 function initSound() {
-    soundManager = new SoundManager();
-    soundManager.addMediaNode("ding", document.getElementById("ding"), false);
-    soundManager.addMediaNode("riding", document.getElementById("horses"), true, true);
+    clappingHands = new EuclideanRhythm(100);
+    clappingHands.noteUP();
+    //soundManager.addMediaNode("ding", document.getElementById("ding"), false);
+    //soundManager.addMediaNode("riding", document.getElementById("horses"), true, true);
 
 }
 
@@ -328,28 +331,26 @@ function setupInterval(millis) {
                 if (distanceToGhost > 0) {
                     GUI.setColors('down')
                     device.setSuggestion(-1); // -1:slowDOWN
-                    soundManager.pause('ding');
+                    //soundManager.pause('ding');
+                    clappingHands.exec(-1, distanceToGhost) // -1:slowDOWN
+
 
                     // When the rider is behind the ghost AND the dustance beteewn them is greater than the green wave proximity.
                     // SUGGESTION: UP
                 } else if (distanceToGhost < 0 && Math.abs(distanceToGhost) >= greenWaveProximity) {
                     GUI.setColors('up')
                     device.setSuggestion(1); // 1: speedUP
-                    soundManager.pause('ding');
+                    //soundManager.pause('ding');
+                    clappingHands.exec(1, distanceToGhost) // 1: speedUP
 
                 } else {
                     GUI.setColors('hold')
                     device.setSuggestion(0); // 0:hold
-                    soundManager.play('ding');
+                    //soundManager.play('ding');
+                    clappingHands.exec(0, distanceToGhost) // 0:hold
                 }
 
-                // this changes the sound volume (gain) feedback beyond the greenWave zone 
-                if (distanceToGhost < crowdProximity) {
-                    soundManager.volume(Math.abs(distanceToGhost), crowdProximity);
-                    soundManager.play('riding');
-                } else {
-                    soundManager.pause('riding');
-                }
+
             } else {
                 GUI.accelerationLabel.textContent = "...";
             }

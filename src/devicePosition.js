@@ -86,8 +86,16 @@ class DevicePos {
         return [this.pos.lon, this.pos.lat];
     }
 
+    /**
+     * 
+     * @returns the current altitude if the device is a mobile phone else 0
+     */
     getAltitude() {
-        return this.altitude;
+        if (this.altitude != undefined) {
+            return this.altitude;
+        } else {
+            return 0;
+        }
     }
 
     getHeading() {
