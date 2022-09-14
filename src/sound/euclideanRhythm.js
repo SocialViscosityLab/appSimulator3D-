@@ -109,6 +109,7 @@ class EuclideanRhythm {
      * @param {*} step 
      */
     callbackA(time, step) {
+
         var osc = this.context.createOscillator();
         osc.connect(this.gainNodeA).connect(this.context.destination);
         let note = this.beet.utils.ntof('C3');
