@@ -50,6 +50,11 @@ class EuclideanRhythm {
         this.beet.add(this.layerC);
     }
 
+    /**
+     * 
+     * @param {Integer} condition -1: slow down, 1:speed up or 0: hold.
+     * @param {*} distance 
+     */
     exec(condition, distance) {
         // Playing layers based on condition
         switch (condition) {
