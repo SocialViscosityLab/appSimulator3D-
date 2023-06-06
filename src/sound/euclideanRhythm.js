@@ -1,5 +1,7 @@
 /**
  * Inspired in Steve Reich Clapping hands pattern
+ * For reference see: http://zya.github.io/beet.js/
+ * uses the beet lid. See libs/beet.min.js in index.html
  */
 class EuclideanRhythm {
 

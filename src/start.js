@@ -93,7 +93,7 @@ let commEnabled = false;
 
 //Sound manager
 //let soundManager;
-let clappingHands;
+let sonar;
 
 // The max distance between cyclist and ghost for the cyclist to be in the range of the 'green wave.'
 let greenWaveProximity = 20; // in meters
@@ -102,7 +102,7 @@ let crowdProximity = 50; // in meters
 
 // Map Center 
 //var coords = [40.7359, -73.9911]; // Manhattan
-var coords = [40.1076407, -88.2119009]; // Urbana Home
+var coords = [40.1069631, -88.2133065]; // Urbana Home
 //var coords = [40.10839, -88.22704]; // uiuc quad
 //var coords = [41.8879756, -87.6270752]; // Chicago river
 
@@ -169,7 +169,7 @@ function preload() {
      * instead use other message windows like Boostrap cards.
      */
     GUI.enableSound.onclick = function() {
-        clappingHands.enableAudioContext();
+        sonar.enableAudioContext();
         //soundManager.enableAudioContext();
         // activate all sounds
         //soundManager.play('ding');
@@ -224,8 +224,7 @@ function enableLocation() {
 }
 
 function initSound() {
-    clappingHands = new EuclideanRhythm(100);
-    clappingHands.noteUP();
+    sonar = new Sonar(130);
     //soundManager.addMediaNode("ding", document.getElementById("ding"), false);
     //soundManager.addMediaNode("riding", document.getElementById("horses"), true, true);
 
@@ -332,7 +331,7 @@ function setupInterval(millis) {
                     GUI.setColors('down')
                     device.setSuggestion(-1); // -1:slowDOWN
                     //soundManager.pause('ding');
-                    clappingHands.exec(-1, distanceToGhost) // -1:slowDOWN
+                    sonar.exec(-1, distanceToGhost) // -1:slowDOWN
 
 
                     // When the rider is behind the ghost AND the dustance beteewn them is greater than the green wave proximity.
@@ -341,13 +340,13 @@ function setupInterval(millis) {
                     GUI.setColors('up')
                     device.setSuggestion(1); // 1: speedUP
                     //soundManager.pause('ding');
-                    clappingHands.exec(1, distanceToGhost) // 1: speedUP
+                    sonar.exec(1, distanceToGhost) // 1: speedUP
 
                 } else {
                     GUI.setColors('hold')
                     device.setSuggestion(0); // 0:hold
                     //soundManager.play('ding');
-                    clappingHands.exec(0, distanceToGhost) // 0:hold
+                    sonar.exec(0, distanceToGhost) // 0:hold
                 }
 
 
