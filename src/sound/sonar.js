@@ -60,25 +60,28 @@ class Sonar {
      */
     exec(condition, distance) {
 
-        console.log(condition);
+
         // Playing layers based on condition
         switch (condition) {
-            case -1: // ghost behind, slow down
-                this.beet.layers[0].pause(); // snore
-                if (!sonar.beet.layers[1].metro._is_running) this.beet.layers[1].start(); // kick
+            case -1: // ghost behind, slow down 
+                console.log("ghost behind, slow down");
+                if (!this.beet.layers[0].metro._is_running) this.beet.layers[0].start(); // snore
+                this.beet.layers[1].pause(); // kick
                 this.beet.layers[2].pause(); // key
                 break;
 
-            case 0: // sweet spot
-                this.beet.layers[0].pause(); // snore
-                if (!sonar.beet.layers[1].metro._is_running) this.beet.layers[1].start(); // kick
-                if (!sonar.beet.layers[2].metro._is_running) this.beet.layers[2].start(); // key
+            case 0: // 
+                console.log("sweet spot, hold on");
+                if (!this.beet.layers[0].metro._is_running) this.beet.layers[0].start(); // snore
+                this.beet.layers[1].pause(); // kick
+                if (!this.beet.layers[2].metro._is_running) this.beet.layers[2].start(); // key
                 break;
 
             case 1: // ghost ahead, speed up
-                if (!sonar.beet.layers[0].metro._is_running) this.beet.layers[0].start(); // snore
-                if (!sonar.beet.layers[1].metro._is_running) this.beet.layers[1].start(); // kick
-                if (!sonar.beet.layers[2].metro._is_running) this.beet.layers[2].start(); // key
+                console.log("ghost ahead, speed up");
+                this.beet.layers[0].pause(); // snore
+                if (!this.beet.layers[1].metro._is_running) this.beet.layers[1].start(); // kick
+                this.beet.layers[2].pause(); // key
                 break;
         }
 
@@ -86,9 +89,6 @@ class Sonar {
         // this changes the sound volume (gain) feedback beyond the greenWave zone 
         if (distance < crowdProximity) {
             this.setVolumePatternA(Math.abs(distance), crowdProximity);
-        } else {
-            this.beet.layers[0].stop();
-            this.beet.layers[1].stop();
         }
 
         this.setTempoByProximity(distance, 100, 270)
@@ -116,29 +116,64 @@ class Sonar {
     }
 
 
+    // /**
+    //  * Reproduces the pattern of player A using an Oscillator. Inspired by https://dev.opera.com/articles/drum-sounds-webaudio/
+    //  * @param {} time 
+    //  * @param {*} step 
+    //  */
+    // kick(time, step) {
+
+    //     var osc = this.context.createOscillator();
+    //     // this sets the kick sound
+    //     osc.frequency.setValueAtTime(150, time);
+    //     // this is a kind of fade out
+    //     osc.frequency.exponentialRampToValueAtTime(0.001, time + 0.3);
+
+    //     osc.connect(this.gainNodeA).connect(this.context.destination);
+
+    //     // sets the volume 
+    //     this.gainNodeA.gain.setValueAtTime(1.5, time);
+    //     // sets the volume fade out to remove the 'click' when stops. See article: https://marcgg.com/blog/2016/11/01/javascript-audio/
+    //     this.gainNodeA.gain.exponentialRampToValueAtTime(0.001, time + 0.3)
+
+    //     osc.start(time);
+    //     osc.stop(time + 0.5);
+
+    // }
+
     /**
-     * Reproduces the pattern of player A using an Oscillator. Inspired by https://dev.opera.com/articles/drum-sounds-webaudio/
+     *  see: https://dev.opera.com/articles/drum-sounds-webaudio/
      * @param {} time 
      * @param {*} step 
      */
     kick(time, step) {
+        //noise
+
+        this.noise = this.context.createBufferSource();
+        this.noise.buffer = this.noiseBuffer();
+        var noiseFilter = this.context.createBiquadFilter();
+        noiseFilter.type = 'highpass';
+        noiseFilter.frequency.value = 1000;
+        this.noise.connect(noiseFilter);
+
+        this.noiseEnvelope = this.context.createGain();
+        noiseFilter.connect(this.noiseEnvelope);
+        this.noiseEnvelope.connect(this.context.destination);
 
         var osc = this.context.createOscillator();
-        // this sets the kick sound
-        osc.frequency.setValueAtTime(150, time);
-        // this is a kind of fade out
-        osc.frequency.exponentialRampToValueAtTime(0.001, time + 0.3);
-
+        osc.type = 'triangle';
         osc.connect(this.gainNodeA).connect(this.context.destination);
 
-        // sets the volume 
-        this.gainNodeA.gain.setValueAtTime(1.5, time);
-        // sets the volume fade out to remove the 'click' when stops. See article: https://marcgg.com/blog/2016/11/01/javascript-audio/
-        this.gainNodeA.gain.exponentialRampToValueAtTime(0.001, time + 0.3)
+        this.noiseEnvelope.gain.setValueAtTime(1, time);
+        this.noiseEnvelope.gain.exponentialRampToValueAtTime(0.01, time + 0.2);
+        this.noise.start(time)
+
+        osc.frequency.setValueAtTime(500, time);
+        this.gainNodeA.gain.setValueAtTime(1, time);
+        this.gainNodeA.gain.exponentialRampToValueAtTime(0.01, time + 0.1);
 
         osc.start(time);
         osc.stop(time + 0.5);
-
     }
 
     /**
@@ -153,7 +188,7 @@ class Sonar {
         this.noise.buffer = this.noiseBuffer();
         var noiseFilter = this.context.createBiquadFilter();
         noiseFilter.type = 'highpass';
-        noiseFilter.frequency.value = 1000;
+        noiseFilter.frequency.value = 1000; //1000
         this.noise.connect(noiseFilter);
 
         this.noiseEnvelope = this.context.createGain();
@@ -198,13 +233,33 @@ class Sonar {
      * @param {} time 
      * @param {*} step 
      */
-    keyC(time, step) {
+    key(time, step) {
+
+        this.noise = this.context.createBufferSource();
+        this.noise.buffer = this.noiseBuffer();
+        var noiseFilter = this.context.createBiquadFilter();
+        noiseFilter.type = 'highpass';
+        noiseFilter.frequency.value = 1000; //1000
+        this.noise.connect(noiseFilter);
+
+        this.noiseEnvelope = this.context.createGain();
+        noiseFilter.connect(this.noiseEnvelope);
+        this.noiseEnvelope.connect(this.context.destination);
+
         var osc = this.context.createOscillator();
+        osc.type = 'triangle';
         osc.connect(this.gainNodeC).connect(this.context.destination);
+
+
+        // var osc = this.context.createOscillator();
+        // osc.connect(this.gainNodeC).connect(this.context.destination);
         let note = this.beet.utils.ntof('G3');
 
-        osc.frequency.setValueAtTime(note, time)
+        this.noiseEnvelope.gain.setValueAtTime(1, time);
+        this.noiseEnvelope.gain.exponentialRampToValueAtTime(0.01, time + 0.2);
+        this.noise.start(time)
 
+        osc.frequency.setValueAtTime(note, time)
         this.gainNodeC.gain.setValueAtTime(0.3, time);
         this.gainNodeC.gain.exponentialRampToValueAtTime(0.01, time + 0.4);
 
@@ -221,11 +276,11 @@ class Sonar {
     getRhythm(shift) {
         switch (shift) {
             case 'snore':
-                return '0001000000100';
+                return '00001000000100';
             case 'kick':
-                return '1000001010000';
+                return '10000001010000';
             case 'key':
-                return '0000100000010';
+                return '00001000000100';
         }
     }
 
@@ -270,11 +325,11 @@ class Sonar {
 
         let clampedDistance = Utils.clamp(proximity, -proxThreshold, proxThreshold);
 
-        let distanceFactor = 1 / Utils.p5.map(clampedDistance, -proxThreshold, proxThreshold, 1, 4) // last parameter: the larger the faster the tempo.
+        let distanceFactor = 1 / Utils.p5.map(clampedDistance, -proxThreshold, proxThreshold, 1, 3) // last parameter: the larger the faster the tempo.
 
         let nuTempo = maxTempo * distanceFactor
 
-        console.log(nuTempo);
+        //  console.log(nuTempo);
         this.setTempo(nuTempo)
     }
 }
