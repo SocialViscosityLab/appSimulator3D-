@@ -77,7 +77,7 @@ class Communication {
     async initSession(journeyIdentifier) {
 
 
-        if (await this.validateJourneyID(journeyIdentifier) == true) {
+        if (await this.validateJourneyID(journeyIdentifier)) {
             let journeyId = journeyIdentifier;
             console.log("journeyId 2: " + journeyId);
 
@@ -99,6 +99,7 @@ class Communication {
             return { journeyId: journeyId, sessionId: sessionId, refRouteName: refRouteName }
 
         } else {
+            alert("Journey ID not found. Loading the last journey available on the database");
             console.log('Getting last journey in DB')
                 // get latest journey
             let tmp = await this.getLastJourney();

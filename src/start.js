@@ -445,6 +445,16 @@ function generateID() {
 /** This is used by the GUI to link this function to a button */
 async function connectToFirebase() {
 
+    let journeyIdentifier = '';
+    // ask the user to type the hourney ID 
+    let userInput = prompt("Please enter the journey ID. It has the form 00000", "");
+
+    if (userInput == null || userInput == "") {
+        alert("Loading the last journey available");
+    } else {
+        journeyIdentifier = userInput;
+    }
+
     // Enable communication with Firebase
     if (!commEnabled) {
         if (!comm) {
@@ -453,7 +463,7 @@ async function connectToFirebase() {
             comm = new Communication(generateID());
 
             // Initialize a new session in the latest journey and get journey data
-            journeyData = await comm.initSession('00580');
+            journeyData = await comm.initSession(journeyIdentifier);
 
             // Initialize route
             await comm.initRoute(journeyData.refRouteName);
