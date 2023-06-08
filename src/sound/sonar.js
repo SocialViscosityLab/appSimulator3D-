@@ -29,7 +29,7 @@ class Sonar {
         // this.currentNoteShift = 1;
 
         // create a euclidean pattern
-        this.patternA = this.beet.pattern(this.getRhythm('snore'));
+        this.patternA = this.beet.pattern(this.getRhythm('down'));
 
         // create a beet layer - pass it the pattern and a callback
         this.layerA = this.beet.layer(this.patternA, this.kick.bind(this));
@@ -41,7 +41,7 @@ class Sonar {
         this.layerB = this.beet.layer(this.patternB, this.snare.bind(this));
 
         // // create a euclidean pattern 
-        this.patternC = this.beet.pattern(this.getRhythm('key'));
+        this.patternC = this.beet.pattern(this.getRhythm('hold'));
 
         // // create a beet layer - pass it the pattern and a callback
         this.layerC = this.beet.layer(this.patternC, this.key.bind(this));
@@ -72,7 +72,7 @@ class Sonar {
 
             case 0: // 
                 console.log("sweet spot, hold on");
-                if (!this.beet.layers[0].metro._is_running) this.beet.layers[0].start(); // snore
+                this.beet.layers[0].pause(); // snore
                 this.beet.layers[1].pause(); // kick
                 if (!this.beet.layers[2].metro._is_running) this.beet.layers[2].start(); // key
                 break;
@@ -116,31 +116,6 @@ class Sonar {
     }
 
 
-    // /**
-    //  * Reproduces the pattern of player A using an Oscillator. Inspired by https://dev.opera.com/articles/drum-sounds-webaudio/
-    //  * @param {} time 
-    //  * @param {*} step 
-    //  */
-    // kick(time, step) {
-
-    //     var osc = this.context.createOscillator();
-    //     // this sets the kick sound
-    //     osc.frequency.setValueAtTime(150, time);
-    //     // this is a kind of fade out
-    //     osc.frequency.exponentialRampToValueAtTime(0.001, time + 0.3);
-
-    //     osc.connect(this.gainNodeA).connect(this.context.destination);
-
-    //     // sets the volume 
-    //     this.gainNodeA.gain.setValueAtTime(1.5, time);
-    //     // sets the volume fade out to remove the 'click' when stops. See article: https://marcgg.com/blog/2016/11/01/javascript-audio/
-    //     this.gainNodeA.gain.exponentialRampToValueAtTime(0.001, time + 0.3)
-
-    //     osc.start(time);
-    //     osc.stop(time + 0.5);
-
-    // }
-
     /**
      *  see: https://dev.opera.com/articles/drum-sounds-webaudio/
      * @param {} time 
@@ -173,7 +148,7 @@ class Sonar {
         this.gainNodeA.gain.exponentialRampToValueAtTime(0.01, time + 0.1);
 
         osc.start(time);
-        osc.stop(time + 0.5);
+        osc.stop(time + 0.2);
     }
 
     /**
@@ -208,7 +183,7 @@ class Sonar {
         this.gainNodeB.gain.exponentialRampToValueAtTime(0.01, time + 0.1);
 
         osc.start(time);
-        osc.stop(time + 0.5);
+        osc.stop(time + 0.2);
     }
 
     /**
@@ -275,12 +250,14 @@ class Sonar {
      */
     getRhythm(shift) {
         switch (shift) {
-            case 'snore':
-                return '00001000000100';
+            case 'down':
+                return '00100100100100';
             case 'kick':
-                return '10000001010000';
+                return '10000001000000';
             case 'key':
                 return '00001000000100';
+            case 'hold':
+                return '10000010010000';
         }
     }
 

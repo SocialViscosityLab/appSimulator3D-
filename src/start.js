@@ -453,7 +453,7 @@ async function connectToFirebase() {
             comm = new Communication(generateID());
 
             // Initialize a new session in the latest journey and get journey data
-            journeyData = await comm.initSession();
+            journeyData = await comm.initSession('00580');
 
             // Initialize route
             await comm.initRoute(journeyData.refRouteName);
