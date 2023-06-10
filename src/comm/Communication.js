@@ -99,7 +99,7 @@ class Communication {
             return { journeyId: journeyId, sessionId: sessionId, refRouteName: refRouteName }
 
         } else {
-            alert("Journey ID not found. Loading the last journey available on the database");
+            alert("Journey ID not found. \nLoading the LAST journey available on the database");
             console.log('Getting last journey in DB')
                 // get latest journey
             let tmp = await this.getLastJourney();

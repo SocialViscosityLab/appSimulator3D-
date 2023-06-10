@@ -445,19 +445,17 @@ function generateID() {
 /** This is used by the GUI to link this function to a button */
 async function connectToFirebase() {
 
-    let journeyIdentifier = '';
-    // ask the user to type the hourney ID 
-    let userInput = prompt("Please enter the journey ID. It has the form 00000", "");
 
-    if (userInput == null || userInput == "") {
-        alert("Loading the last journey available");
-    } else {
-        journeyIdentifier = userInput;
-    }
+
+
 
     // Enable communication with Firebase
     if (!commEnabled) {
         if (!comm) {
+            // asking the user to type the hourney ID 
+            let userInput = prompt("Please enter the journey ID. It has the form 00000", "");
+            let journeyIdentifier = userInput;
+
             console.log('started');
             //Creates communication, get the id of the journey the reference route
             comm = new Communication(generateID());
@@ -474,13 +472,16 @@ async function connectToFirebase() {
             // display route name
             GUI.routeName.innerText = "Route: " + journeyData.refRouteName;
         }
+        // once the connection to the server is enabled
+
         // Initialize arrow field
         cyclist.initializeArrowField();
         commEnabled = true;
-        // alert("Firebase Communication ENABLED");
+        // alert("Connection to server ENABLED");
+
     } else {
         commEnabled = false;
-        //alert("Firebase Communication DISABLED");
+        alert("Connection to server DISABLED");
     }
     GUI.switchStatus(GUI.enableCommFirebase, commEnabled, { t: "Recording position", f: "Recording disabled" }, { t: "btn btn-success btn-lg btn-block", f: "btn btn-warning btn-lg btn-block" })
     GUI.location_on.hidden = !commEnabled;

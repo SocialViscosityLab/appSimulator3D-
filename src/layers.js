@@ -54,7 +54,7 @@ class Layers {
             routeData = { properties: route.properties, geometry: route.geometry };
         }
 
-        console.log(routeData)
+        // console.log(routeData)
 
         VIZI.geoJSONLayer(routeData, {
             output: true,

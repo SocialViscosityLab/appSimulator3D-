@@ -64,21 +64,21 @@ class Sonar {
         // Playing layers based on condition
         switch (condition) {
             case -1: // ghost behind, slow down 
-                console.log("ghost behind, slow down");
+                //   console.log("ghost behind, slow down");
                 if (!this.beet.layers[0].metro._is_running) this.beet.layers[0].start(); // snore
                 this.beet.layers[1].pause(); // kick
                 this.beet.layers[2].pause(); // key
                 break;
 
             case 0: // 
-                console.log("sweet spot, hold on");
+                //   console.log("sweet spot, hold on");
                 this.beet.layers[0].pause(); // snore
                 this.beet.layers[1].pause(); // kick
                 if (!this.beet.layers[2].metro._is_running) this.beet.layers[2].start(); // key
                 break;
 
             case 1: // ghost ahead, speed up
-                console.log("ghost ahead, speed up");
+                //   console.log("ghost ahead, speed up");
                 this.beet.layers[0].pause(); // snore
                 if (!this.beet.layers[1].metro._is_running) this.beet.layers[1].start(); // kick
                 this.beet.layers[2].pause(); // key
@@ -97,6 +97,7 @@ class Sonar {
     enableAudioContext() {
         // check if context is in suspended state (autoplay policy). 
         // Autoplay article: https://developer.mozilla.org/en-US/docs/Web/Media/Autoplay_guide
+        console.log(this.context.state)
         if (this.context.state === 'suspended') {
             this.soundEnabled = true;
             this.context.resume().then(rslt => {
