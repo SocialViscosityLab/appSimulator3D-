@@ -48,7 +48,7 @@ class GCamera {
     static lookingFrom(centerX, centerZ, frustrumDepth) {
 
         let oPosY;
-        // determines the angle rotating over X axis. This determines when the horizon is visible when the phone is tilted forwards or backwards
+        // determines the angle rotating over X axis. This determines when the horizon is visible when the phone is tilted forward or backward
         if (Utils.p5.rotationX < 0) {
             oPosY = 0;
         } else if (Utils.p5.rotationX >= 0 && Utils.p5.rotationX <= 90) {
@@ -78,17 +78,30 @@ class GCamera {
 
         // October 2020
         // OSX devices have a different orientation that android devices, thus the angle is determined for each operational system. 
-        // Android and desktop devides, including Apple computers, work with the same angle 
+        // Android and desktop devices, including Apple computers, work with the same angle 
 
         let angleCorrection;
+
         if (iOS) {
             angleCorrection = 90 + parseFloat(GUI.manualRotationCorrection.value);
         } else {
             angleCorrection = 270 + parseFloat(GUI.manualRotationCorrection.value);
         }
 
+        // the angle read from the gyroscope
         let angle = Utils.p5.radians(angleCorrection - Utils.p5.rotationZ);
+
+        // To move the camera behind the cyclist this creates a pivot 100 units behind in the oposite direction of the rotation
+        let pivotX = Math.cos(angle + Math.PI) * 100;
+        let pivotZ = Math.sin(angle + Math.PI) * 100;
+
+        // set the camera at the pivot
+        GCamera.setXPos(pivotX);
+        GCamera.setZPos(pivotZ);
         //GUI.error.textContent = Utils.p5.rotationZ;
+
+
+        // these coords define the camera target
         let oPosX = centerX + Math.cos(angle) * frustrumDepth;
         let oPosZ = centerZ + Math.sin(angle) * frustrumDepth;
 

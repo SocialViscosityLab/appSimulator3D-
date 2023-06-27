@@ -1,7 +1,7 @@
 /**
  * Notes about Vizicities
  * 
- * - Vizicities is built on top of three.js.
+ * - Vizicities is built on top of three.js by https://twitter.com/robhawkes.
  * 
  * - The root of the structure is a World class with one THREE.scene and a render (THREE.WebGLRenderer) engine.
  * 
@@ -141,11 +141,11 @@ Layers.init()
 function preload() {
     /***** GHOST ****/
     ghost = new Fantasma(world._engine._scene);
-    ghost.init();
+    ghost.init('attractor');
 
     /***** CYCLIST ****/
     cyclist = new Cyclist("firstCyclist", world._engine._scene);
-    cyclist.init();
+    cyclist.init('cyclist');
     cyclist.setPosition(world.latLonToPoint(coords));
 
     /***** CAMERA ****/
@@ -354,10 +354,14 @@ function setupInterval(millis) {
                 GUI.accelerationLabel.textContent = "...";
             }
 
-            // Move the camera to the latest cyclist's position
+            // Move the camera to the latest cyclist's position. 
+            // Version Summer 2023. The camera is moved behind the cyclist include it in the frustrum.
+            // see GCamera.lookingFrom()
 
-            GCamera.setXPos(cyclist.mesh.position.x);
-            GCamera.setZPos(cyclist.mesh.position.z);
+
+            // GCamera.setXPos(cyclist.mesh.position.x);
+            // GCamera.setZPos(cyclist.mesh.position.z);
+
             // if (isMobile) {
             //     // If the device is a mobile phone move the camera pivot. 
             //     GCamera.lookingFrom(cyclist.mesh.position.x, cyclist.mesh.position.z, 50);
@@ -407,7 +411,7 @@ function setupInterval(millis) {
                 'suggestion': device.getSuggestion(),
                 'time': stamp
             };
-            // If comm in enabled save datapoint
+            // If comm is enabled save datapoint
             if (comm && commEnabled) {
                 comm.addNewDataPointInSession(journeyData.journeyId, journeyData.sessionId, tempDPID, tempDP);
             }
@@ -540,8 +544,8 @@ function motionEvent() {
     if (isMobile || iOS) {
         // If the device is a mobile phone move the camera pivot. 
         GCamera.lookingFrom(cyclist.mesh.position.x, cyclist.mesh.position.z, 50);
-        // // // emit event to retrieve 3D objects in the GeoJSON layer.
-        // // // This function might consume to many resources. Testing if it is not necessary 
+        // emit event to retrieve 3D objects in the GeoJSON layer.
+        // This function might consume to many resources. Testing if it is not necessary 
         GCamera.emitEvent();
     }
 }
