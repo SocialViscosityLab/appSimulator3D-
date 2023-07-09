@@ -41,6 +41,16 @@ class Fantasma extends Marker {
 
                 // called when the resource is loaded
                 function(gltf) {
+                    let o3D = new THREE.Object3D();
+                    let geom = new THREE.CylinderGeometry(20, 10, 15, 32); //gltf.scene.children[0].geometry; //
+                    let mat = new THREE.MeshPhongMaterial({ color: 0x552811 });
+                    let mesh = new THREE.Mesh(geom, mat);
+
+                    // o3D.add(mesh);
+                    // o3D.name = "testing";
+
+                    console.log(gltf.scene.children[0]);
+
                     let model = gltf.scene;
                     model.traverse((o) => {
                         if (o.isMesh) {
@@ -50,13 +60,18 @@ class Fantasma extends Marker {
                         }
                     });
 
-                    console.log(model.isObject3D);
+                    //  ghost.marker.children[0].mesh = mesh;
+
+                    console.log(model);
+                    o3D.add(model.children[0]);
                     // console.log(world._engine._scene.children[3]);
                     // world._engine._scene.children[3].children[0] = model.children[0];
                     // ghost.mesh = model.children[0];
                     // console.log(world._engine._scene.children[3]);
 
-                    //      world._engine._scene.add(model);
+                    world._engine._scene.add(o3D);
+
+                    //   world._engine._scene.add(model);
                 },
                 // called while loading is progressing
                 function(xhr) {
@@ -66,6 +81,7 @@ class Fantasma extends Marker {
                 // called when loading has errors
                 function(error) {
                     console.log('An error happened');
+                    console.log(error);
                 }
             );
 

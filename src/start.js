@@ -102,9 +102,10 @@ let crowdProximity = 50; // in meters
 
 // Map Center 
 //var coords = [40.7359, -73.9911]; // Manhattan
-var coords = [40.1069631, -88.2133065]; // Urbana Home
+//var coords = [40.1069631, -88.2133065]; // Urbana Home
 //var coords = [40.10839, -88.22704]; // uiuc quad
 //var coords = [41.8879756, -87.6270752]; // Chicago river
+var coords = [40.1026852, -88.2327807]; // siebel center for design
 
 /**
  *** DEVICE ***
@@ -128,6 +129,7 @@ var world = VIZI.world('world', {
     skybox: false,
     postProcessing: false
 }).setView(coords);
+
 
 // Add controls
 //VIZI.Controls.orbit().addTo(world);

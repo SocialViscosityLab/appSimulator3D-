@@ -65,7 +65,8 @@ class Sonar {
         switch (condition) {
             case -1: // ghost behind, slow down 
                 //   console.log("ghost behind, slow down");
-                if (!this.beet.layers[0].metro._is_running) this.beet.layers[0].start(); // snore
+                // if (!this.beet.layers[0].metro._is_running) this.beet.layers[0].pause(); // snore
+                this.beet.layers[0].pause(); // snore
                 this.beet.layers[1].pause(); // kick
                 this.beet.layers[2].pause(); // key
                 break;

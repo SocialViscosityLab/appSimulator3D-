@@ -92,8 +92,8 @@ class GCamera {
         let angle = Utils.p5.radians(angleCorrection - Utils.p5.rotationZ);
 
         // To move the camera behind the cyclist this creates a pivot 100 units behind in the oposite direction of the rotation
-        let pivotX = Math.cos(angle + Math.PI) * 100;
-        let pivotZ = Math.sin(angle + Math.PI) * 100;
+        let pivotX = centerX + Math.cos(angle + Math.PI) * 100;
+        let pivotZ = centerZ + Math.sin(angle + Math.PI) * 100;
 
         // set the camera at the pivot
         GCamera.setXPos(pivotX);

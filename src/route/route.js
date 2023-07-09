@@ -1,7 +1,7 @@
 /**
 *A route is a collection of corner points defined as instances of the Position class. The collection describes a trajectory
 that could be a closed loop. By default routes are not loops. The route is labeled with an ID. If the route is active, then
-is can be used by a journey and its sessions.
+it can be used by a journey and its sessions.
 
 The distance operations on the route are based on its segments. A segment is a portion of the route defined by two route points,
 often named as cornerPoints.
