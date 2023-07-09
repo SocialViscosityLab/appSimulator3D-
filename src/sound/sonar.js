@@ -75,7 +75,8 @@ class Sonar {
                 //   console.log("sweet spot, hold on");
                 this.beet.layers[0].pause(); // snore
                 this.beet.layers[1].pause(); // kick
-                if (!this.beet.layers[2].metro._is_running) this.beet.layers[2].start(); // key
+                // if (!this.beet.layers[2].metro._is_running) this.beet.layers[2].start(); // key
+                this.beet.layers[2].pause();
                 break;
 
             case 1: // ghost ahead, speed up

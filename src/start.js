@@ -92,7 +92,7 @@ let commEnabled = false;
 //let ghost_loaded = false;
 
 //Sound manager
-//let soundManager;
+let soundManager;
 let sonar;
 
 // The max distance between cyclist and ghost for the cyclist to be in the range of the 'green wave.'
@@ -172,12 +172,12 @@ function preload() {
      */
     GUI.enableSound.onclick = function() {
         sonar.enableAudioContext();
-        //soundManager.enableAudioContext();
+        soundManager.enableAudioContext();
         // activate all sounds
         //soundManager.play('ding');
-        //soundManager.play('riding');
+        soundManager.play('riding');
         // pause loop=ing sounds
-        //soundManager.pause('riding');
+        soundManager.pause('riding');
     }
 
     // Setup slider for manual correction of map rotation
@@ -227,8 +227,9 @@ function enableLocation() {
 
 function initSound() {
     sonar = new Sonar(130);
+    soundManager = new SoundManager();
     //soundManager.addMediaNode("ding", document.getElementById("ding"), false);
-    //soundManager.addMediaNode("riding", document.getElementById("horses"), true, true);
+    soundManager.addMediaNode("riding", document.getElementById("alertMP3"), true, true);
 
 }
 
@@ -347,7 +348,7 @@ function setupInterval(millis) {
                 } else {
                     GUI.setColors('hold')
                     device.setSuggestion(0); // 0:hold
-                    //soundManager.play('ding');
+                    soundManager.play('riding');
                     sonar.exec(0, distanceToGhost) // 0:hold
                 }
 
