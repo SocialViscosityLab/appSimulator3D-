@@ -171,7 +171,7 @@ function preload() {
      * instead use other message windows like Boostrap cards.
      */
     GUI.enableSound.onclick = function() {
-        sonar.enableAudioContext();
+        sonar.enableAudioContext(commEnabled);
         soundManager.enableAudioContext();
         // activate all sounds
         //soundManager.play('ding');
@@ -333,7 +333,7 @@ function setupInterval(millis) {
                 if (distanceToGhost > 0) {
                     GUI.setColors('down')
                     device.setSuggestion(-1); // -1:slowDOWN
-                    //soundManager.pause('ding');
+                    soundManager.play('riding');
                     sonar.exec(-1, distanceToGhost) // -1:slowDOWN
 
 
@@ -342,9 +342,10 @@ function setupInterval(millis) {
                 } else if (distanceToGhost < 0 && Math.abs(distanceToGhost) >= greenWaveProximity) {
                     GUI.setColors('up')
                     device.setSuggestion(1); // 1: speedUP
-                    //soundManager.pause('ding');
+                    soundManager.pause('riding');
                     sonar.exec(1, distanceToGhost) // 1: speedUP
 
+                    // SUGGESTION: HOLD
                 } else {
                     GUI.setColors('hold')
                     device.setSuggestion(0); // 0:hold
@@ -459,8 +460,8 @@ async function connectToFirebase() {
     // Enable communication with Firebase
     if (!commEnabled) {
         if (!comm) {
-            // asking the user to type the hourney ID 
-            let userInput = prompt("Please enter the journey ID. It has the form 00000", "");
+            // asking the user to type the journey ID 
+            let userInput = prompt("Please enter the journey ID", "");
             let journeyIdentifier = userInput;
 
             console.log('started');
@@ -488,7 +489,7 @@ async function connectToFirebase() {
 
     } else {
         commEnabled = false;
-        alert("Connection to server DISABLED");
+        // alert("Connection to server DISABLED");
     }
     GUI.switchStatus(GUI.enableCommFirebase, commEnabled, { t: "Recording position", f: "Recording disabled" }, { t: "btn btn-success btn-lg btn-block", f: "btn btn-warning btn-lg btn-block" })
     GUI.location_on.hidden = !commEnabled;

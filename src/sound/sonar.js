@@ -51,6 +51,8 @@ class Sonar {
         this.beet.add(this.layerA); // snore
         this.beet.add(this.layerB); // kick
         this.beet.add(this.layerC); // key
+
+        this.exec('mute', 0);
     }
 
     /**
@@ -85,6 +87,11 @@ class Sonar {
                 if (!this.beet.layers[1].metro._is_running) this.beet.layers[1].start(); // kick
                 this.beet.layers[2].pause(); // key
                 break;
+            case 'mute':
+                this.beet.layers[0].pause(); // snore
+                this.beet.layers[1].pause(); // kick
+                this.beet.layers[2].pause(); // key
+                break;
         }
 
         // adjusting sound gain
@@ -96,11 +103,11 @@ class Sonar {
         this.setTempoByProximity(distance, 100, 270)
     }
 
-    enableAudioContext() {
+    enableAudioContext(onRoute) {
         // check if context is in suspended state (autoplay policy). 
         // Autoplay article: https://developer.mozilla.org/en-US/docs/Web/Media/Autoplay_guide
         console.log(this.context.state)
-        if (this.context.state === 'suspended') {
+        if (this.context.state === 'suspended' && onRoute) {
             this.soundEnabled = true;
             this.context.resume().then(rslt => {
                 this.beet.start();
