@@ -174,9 +174,10 @@ function preload() {
         sonar.enableAudioContext(commEnabled);
         soundManager.enableAudioContext();
         // activate all sounds
-        //soundManager.play('ding');
+        soundManager.play('ding');
         soundManager.play('riding');
         // pause loop=ing sounds
+        soundManager.pause('ding');
         soundManager.pause('riding');
     }
 
@@ -228,7 +229,7 @@ function enableLocation() {
 function initSound() {
     sonar = new Sonar(130);
     soundManager = new SoundManager();
-    //soundManager.addMediaNode("ding", document.getElementById("ding"), false);
+    soundManager.addMediaNode("ding", document.getElementById("ding"), true, true);
     soundManager.addMediaNode("riding", document.getElementById("alertMP3"), true, true);
 
 }
@@ -334,6 +335,7 @@ function setupInterval(millis) {
                     GUI.setColors('down')
                     device.setSuggestion(-1); // -1:slowDOWN
                     soundManager.play('riding');
+                    soundManager.pause('ding');
                     sonar.exec(-1, distanceToGhost) // -1:slowDOWN
 
 
@@ -343,13 +345,15 @@ function setupInterval(millis) {
                     GUI.setColors('up')
                     device.setSuggestion(1); // 1: speedUP
                     soundManager.pause('riding');
+                    soundManager.pause('ding');
                     sonar.exec(1, distanceToGhost) // 1: speedUP
 
                     // SUGGESTION: HOLD
                 } else {
                     GUI.setColors('hold')
                     device.setSuggestion(0); // 0:hold
-                    soundManager.play('riding');
+                    soundManager.pause('riding');
+                    soundManager.play('ding');
                     sonar.exec(0, distanceToGhost) // 0:hold
                 }
 
