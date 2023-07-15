@@ -5,7 +5,6 @@ class Communication {
         this.reference_route;
         this.sessionId = 0;
         this.identified = false;
-        //this.getLastJourneyId();
 
         this.journeys = db.collection('journeys');
         this.routes = db.collection('routes');
@@ -29,6 +28,7 @@ class Communication {
         const journey = await this.journeys.where("id", "==", journeyID).get();
         //This is a work around. There might be a better way to find if the journey ID exists in the db.
         try {
+            console.log(journey.docs[0].data().id);
             return journey.docs[0].data().id == journeyID;
         } catch (error) {
             return false;
