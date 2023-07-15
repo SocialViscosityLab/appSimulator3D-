@@ -229,7 +229,7 @@ function enableLocation() {
 function initSound() {
     sonar = new Sonar(130);
     soundManager = new SoundManager();
-    soundManager.addMediaNode("ding", document.getElementById("ding"), true, true);
+    soundManager.addMediaNode("ding", document.getElementById("ding"), false, true);
     soundManager.addMediaNode("riding", document.getElementById("alertMP3"), true, true);
 
 }
