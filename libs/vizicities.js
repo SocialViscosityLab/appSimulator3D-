@@ -7,72 +7,72 @@
         exports["VIZI"] = factory(require("THREE"), require("TweenLite"));
     else
         root["VIZI"] = factory(root["THREE"], root["TweenLite"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_10__, __WEBPACK_EXTERNAL_MODULE_41__) {
-    return /******/ (function(modules) { // webpackBootstrap
-            /******/ // The module cache
+})(this, function (__WEBPACK_EXTERNAL_MODULE_10__, __WEBPACK_EXTERNAL_MODULE_41__) {
+    return /******/ (function (modules) { // webpackBootstrap
+        /******/ // The module cache
+        /******/
+        var installedModules = {};
+        /******/
+        /******/ // The require function
+        /******/
+        function __webpack_require__(moduleId) {
             /******/
-            var installedModules = {};
+            /******/ // Check if module is in cache
             /******/
-            /******/ // The require function
-            /******/
-            function __webpack_require__(moduleId) {
+            if (installedModules[moduleId])
                 /******/
-                /******/ // Check if module is in cache
-                /******/
-                if (installedModules[moduleId])
-                /******/
-                    return installedModules[moduleId].exports;
-                /******/
-                /******/ // Create a new module (and put it into the cache)
-                /******/
-                var module = installedModules[moduleId] = {
-                    /******/
-                    exports: {},
-                    /******/
-                    id: moduleId,
-                    /******/
-                    loaded: false
-                        /******/
-                };
-                /******/
-                /******/ // Execute the module function
-                /******/
-                modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-                /******/
-                /******/ // Flag the module as loaded
-                /******/
-                module.loaded = true;
-                /******/
-                /******/ // Return the exports of the module
-                /******/
-                return module.exports;
-                /******/
-            }
+                return installedModules[moduleId].exports;
             /******/
+            /******/ // Create a new module (and put it into the cache)
             /******/
-            /******/ // expose the modules object (__webpack_modules__)
+            var module = installedModules[moduleId] = {
+                /******/
+                exports: {},
+                /******/
+                id: moduleId,
+                /******/
+                loaded: false
+                /******/
+            };
             /******/
-            __webpack_require__.m = modules;
+            /******/ // Execute the module function
             /******/
-            /******/ // expose the module cache
+            modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
             /******/
-            __webpack_require__.c = installedModules;
+            /******/ // Flag the module as loaded
             /******/
-            /******/ // __webpack_public_path__
+            module.loaded = true;
             /******/
-            __webpack_require__.p = "";
+            /******/ // Return the exports of the module
             /******/
-            /******/ // Load entry module and return exports
+            return module.exports;
             /******/
-            return __webpack_require__(0);
-            /******/
-        })
+        }
+        /******/
+        /******/
+        /******/ // expose the modules object (__webpack_modules__)
+        /******/
+        __webpack_require__.m = modules;
+        /******/
+        /******/ // expose the module cache
+        /******/
+        __webpack_require__.c = installedModules;
+        /******/
+        /******/ // __webpack_public_path__
+        /******/
+        __webpack_require__.p = "";
+        /******/
+        /******/ // Load entry module and return exports
+        /******/
+        return __webpack_require__(0);
+        /******/
+    })
         /************************************************************************/
         /******/
         ([
             /* 0 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
@@ -191,13 +191,13 @@
             },
             /* 1 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
                 });
 
-                var _createClass = (function() {
+                var _createClass = (function () {
                     function defineProperties(target, props) {
                         for (var i = 0; i < props.length; i++) {
                             var descriptor = props[i];
@@ -207,7 +207,7 @@
                             Object.defineProperty(target, descriptor.key, descriptor);
                         }
                     }
-                    return function(Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
+                    return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
                 })();
 
                 var _get = function get(_x, _x2, _x3) {
@@ -272,7 +272,7 @@
                 // Pretty much any event someone using ViziCities would need will be emitted or
                 // proxied by World (eg. render events, etc)
 
-                var World = (function(_EventEmitter) {
+                var World = (function (_EventEmitter) {
                     _inherits(World, _EventEmitter);
 
                     function World(domId, options) {
@@ -392,7 +392,7 @@
                             window.requestAnimationFrame(this._update.bind(this));
 
                             // Update controls
-                            this._controls.forEach(function(controls) {
+                            this._controls.forEach(function (controls) {
                                 controls.update(delta);
                             });
 
@@ -637,7 +637,7 @@
             },
             /* 2 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 'use strict';
 
@@ -946,7 +946,7 @@
             },
             /* 3 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 /**
                  * lodash (Custom Build) <https://lodash.com/>
@@ -1014,7 +1014,7 @@
                  * @returns {Function} Returns the new accessor function.
                  */
                 function baseProperty(key) {
-                    return function(object) {
+                    return function (object) {
                         return object == null ? undefined : object[key];
                     };
                 }
@@ -1055,7 +1055,7 @@
                  * @returns {Function} Returns the new assigner function.
                  */
                 function createAssigner(assigner) {
-                    return rest(function(object, sources) {
+                    return rest(function (object, sources) {
                         var index = -1,
                             length = sources.length,
                             customizer = length > 1 ? sources[length - 1] : undefined,
@@ -1331,7 +1331,7 @@
                  * _.assign({ 'a': 1 }, new Foo, new Bar);
                  * // => { 'a': 1, 'c': 3, 'e': 5 }
                  */
-                var assign = createAssigner(function(object, source) {
+                var assign = createAssigner(function (object, source) {
                     if (nonEnumShadows || isPrototype(source) || isArrayLike(source)) {
                         copyObject(source, keys(source), object);
                         return;
@@ -1350,7 +1350,7 @@
             },
             /* 4 */
             /***/
-            function(module, exports) {
+            function (module, exports) {
 
                 /**
                  * lodash (Custom Build) <https://lodash.com/>
@@ -1448,7 +1448,7 @@
                  * @returns {Function} Returns the new accessor function.
                  */
                 function baseProperty(key) {
-                    return function(object) {
+                    return function (object) {
                         return object == null ? undefined : object[key];
                     };
                 }
@@ -1826,7 +1826,7 @@
             },
             /* 5 */
             /***/
-            function(module, exports) {
+            function (module, exports) {
 
                 /**
                  * lodash (Custom Build) <https://lodash.com/>
@@ -1933,7 +1933,7 @@
                         throw new TypeError(FUNC_ERROR_TEXT);
                     }
                     start = nativeMax(start === undefined ? (func.length - 1) : toInteger(start), 0);
-                    return function() {
+                    return function () {
                         var args = arguments,
                             index = -1,
                             length = nativeMax(args.length - start, 0),
@@ -2186,7 +2186,7 @@
             },
             /* 6 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
@@ -2206,14 +2206,14 @@
                 Geo.ECC = 0.081819191;
                 Geo.ECC2 = 0.081819191 * 0.081819191;
 
-                Geo.project = function(latlon) {
+                Geo.project = function (latlon) {
                     var d = Math.PI / 180;
                     var max = Geo.MAX_LATITUDE;
                     var lat = Math.max(Math.min(max, latlon.lat), -max);
                     var sin = Math.sin(lat * d);
 
                     return (0, _Point.point)(Geo.R * latlon.lon * d, Geo.R * Math.log((1 + sin) / (1 - sin)) / 2);
-                }, Geo.unproject = function(point) {
+                }, Geo.unproject = function (point) {
                     var d = 180 / Math.PI;
 
                     return (0, _LatLon.latLon)((2 * Math.atan(Math.exp(point.y / Geo.R)) - Math.PI / 2) * d, point.x * d / Geo.R);
@@ -2221,7 +2221,7 @@
 
                 // Converts geo coords to pixel / WebGL ones
                 // This just reverses the Y axis to match WebGL
-                Geo.latLonToPoint = function(latlon) {
+                Geo.latLonToPoint = function (latlon) {
                     var projected = Geo.project(latlon);
                     projected.y *= -1;
 
@@ -2230,7 +2230,7 @@
 
                 // Converts pixel / WebGL coords to geo coords
                 // This just reverses the Y axis to match WebGL
-                Geo.pointToLatLon = function(point) {
+                Geo.pointToLatLon = function (point) {
                     var _point = (0, _Point.point)(point.x, point.y * -1);
                     return Geo.unproject(_point);
                 };
@@ -2243,7 +2243,7 @@
                 // Accurate scale factor uses proper Web Mercator scaling
                 // See pg.9: http://www.hydrometronics.com/downloads/Web%20Mercator%20-%20Non-Conformal,%20Non-Mercator%20(notes).pdf
                 // See: http://jsfiddle.net/robhawkes/yws924cf/
-                Geo.pointScale = function(latlon, accurate) {
+                Geo.pointScale = function (latlon, accurate) {
                     var rad = Math.PI / 180;
 
                     var k;
@@ -2284,19 +2284,19 @@
                 // Convert real metres to projected units
                 //
                 // Latitude scale is chosen because it fluctuates more than longitude
-                Geo.metresToProjected = function(metres, pointScale) {
+                Geo.metresToProjected = function (metres, pointScale) {
                     return metres * pointScale[1];
                 };
 
                 // Convert projected units to real metres
                 //
                 // Latitude scale is chosen because it fluctuates more than longitude
-                Geo.projectedToMetres = function(projectedUnits, pointScale) {
+                Geo.projectedToMetres = function (projectedUnits, pointScale) {
                     return projectedUnits / pointScale[1];
                 };
 
                 // Convert real metres to a value in world (WebGL) units
-                Geo.metresToWorld = function(metres, pointScale) {
+                Geo.metresToWorld = function (metres, pointScale) {
                     // Transform metres to projected metres using the latitude point scale
                     //
                     // Latitude scale is chosen because it fluctuates more than longitude
@@ -2311,7 +2311,7 @@
                 };
 
                 // Convert world (WebGL) units to a value in real metres
-                Geo.worldToMetres = function(worldUnits, pointScale) {
+                Geo.worldToMetres = function (worldUnits, pointScale) {
                     var scale = Geo.scale();
 
                     var projectedUnits = worldUnits / scale;
@@ -2322,7 +2322,7 @@
 
                 // If zoom is provided, returns the map width in pixels for a given zoom
                 // Else, provides fixed scale value
-                Geo.scale = function(zoom) {
+                Geo.scale = function (zoom) {
                     // If zoom is provided then return scale based on map tile zoom
                     if (zoom >= 0) {
                         return 256 * Math.pow(2, zoom);
@@ -2335,7 +2335,7 @@
 
                 // Returns zoom level for a given scale value
                 // This only works with a scale value that is based on map pixel width
-                Geo.zoom = function(scale) {
+                Geo.zoom = function (scale) {
                     return Math.log(scale / 256) / Math.LN2;
                 };
 
@@ -2343,7 +2343,7 @@
                 // approximation or Haversine
                 //
                 // See: http://www.movable-type.co.uk/scripts/latlong.html
-                Geo.distance = function(latlon1, latlon2, accurate) {
+                Geo.distance = function (latlon1, latlon2, accurate) {
                     var rad = Math.PI / 180;
 
                     var lat1;
@@ -2379,7 +2379,7 @@
                     }
                 };
 
-                Geo.bounds = (function() {
+                Geo.bounds = (function () {
                     var d = Geo.R * Math.PI;
                     return [
                         [-d, -d],
@@ -2394,13 +2394,13 @@
             },
             /* 7 */
             /***/
-            function(module, exports) {
+            function (module, exports) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
                 });
 
-                var _createClass = (function() {
+                var _createClass = (function () {
                     function defineProperties(target, props) {
                         for (var i = 0; i < props.length; i++) {
                             var descriptor = props[i];
@@ -2410,7 +2410,7 @@
                             Object.defineProperty(target, descriptor.key, descriptor);
                         }
                     }
-                    return function(Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
+                    return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
                 })();
 
                 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
@@ -2422,7 +2422,7 @@
                  * https://github.com/Leaflet/Leaflet/blob/master/src/geo/LatLng.js
                  */
 
-                var LatLon = (function() {
+                var LatLon = (function () {
                     function LatLon(lat, lon, alt) {
                         _classCallCheck(this, LatLon);
 
@@ -2484,13 +2484,13 @@
             },
             /* 8 */
             /***/
-            function(module, exports) {
+            function (module, exports) {
 
                 Object.defineProperty(exports, "__esModule", {
                     value: true
                 });
 
-                var _createClass = (function() {
+                var _createClass = (function () {
                     function defineProperties(target, props) {
                         for (var i = 0; i < props.length; i++) {
                             var descriptor = props[i];
@@ -2500,7 +2500,7 @@
                             Object.defineProperty(target, descriptor.key, descriptor);
                         }
                     }
-                    return function(Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
+                    return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
                 })();
 
                 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2512,7 +2512,7 @@
                  * https://github.com/Leaflet/Leaflet/blob/master/src/geo/Point.js
                  */
 
-                var Point = (function() {
+                var Point = (function () {
                     function Point(x, y, round) {
                         _classCallCheck(this, Point);
 
@@ -2585,13 +2585,13 @@
             },
             /* 9 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
                 });
 
-                var _createClass = (function() {
+                var _createClass = (function () {
                     function defineProperties(target, props) {
                         for (var i = 0; i < props.length; i++) {
                             var descriptor = props[i];
@@ -2601,7 +2601,7 @@
                             Object.defineProperty(target, descriptor.key, descriptor);
                         }
                     }
-                    return function(Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
+                    return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
                 })();
 
                 var _get = function get(_x, _x2, _x3) {
@@ -2705,7 +2705,7 @@
 
                 var _vendorFXAAShader2 = _interopRequireDefault(_vendorFXAAShader);
 
-                var Engine = (function(_EventEmitter) {
+                var Engine = (function (_EventEmitter) {
                     _inherits(Engine, _EventEmitter);
 
                     function Engine(container, world) {
@@ -2897,7 +2897,7 @@
             },
             /* 10 */
             /***/
-            function(module, exports) {
+            function (module, exports) {
 
                 module.exports = __WEBPACK_EXTERNAL_MODULE_10__;
 
@@ -2905,7 +2905,7 @@
             },
             /* 11 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
@@ -2920,7 +2920,7 @@
                 // This can be imported from anywhere and will still reference the same scene,
                 // though there is a helper reference in Engine.scene
 
-                exports['default'] = (function() {
+                exports['default'] = (function () {
                     var scene = new _three2['default'].Scene();
 
                     // TODO: Re-enable when this works with the skybox
@@ -2934,7 +2934,7 @@
             },
             /* 12 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
@@ -2949,7 +2949,7 @@
                 // This can be imported from anywhere and will still reference the same scene,
                 // though there is a helper reference in Engine.scene
 
-                exports['default'] = (function() {
+                exports['default'] = (function () {
                     var scene = new _three2['default'].Scene();
                     return scene;
                 })();
@@ -2960,7 +2960,7 @@
             },
             /* 13 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
@@ -2975,7 +2975,7 @@
                 // This can be imported from anywhere and will still reference the same scene,
                 // though there is a helper reference in Engine.scene
 
-                exports['default'] = (function() {
+                exports['default'] = (function () {
                     var scene = new _three2['default'].Scene();
                     return scene;
                 })();
@@ -2986,7 +2986,7 @@
             },
             /* 14 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
@@ -3005,7 +3005,7 @@
                 // This can only be accessed from Engine.renderer if you want to reference the
                 // same scene in multiple places
 
-                exports['default'] = function(container, antialias) {
+                exports['default'] = function (container, antialias) {
                     var renderer = new _three2['default'].WebGLRenderer({
                         antialias: antialias
                     });
@@ -3055,7 +3055,7 @@
             },
             /* 15 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
@@ -3076,7 +3076,7 @@
                 // This can only be accessed from Engine.renderer if you want to reference the
                 // same scene in multiple places
 
-                exports['default'] = function(container) {
+                exports['default'] = function (container) {
                     var renderer = new _vendorCSS3DRenderer.CSS3DRenderer();
 
                     renderer.domElement.style.position = 'static';
@@ -3101,7 +3101,7 @@
             },
             /* 16 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
@@ -3128,7 +3128,7 @@
                     this.element = element;
                     this.element.style.position = 'static';
 
-                    this.addEventListener('removed', function(event) {
+                    this.addEventListener('removed', function (event) {
 
                         if (this.element.parentNode !== null) {
 
@@ -3185,9 +3185,9 @@
 
                     domElement.appendChild(cameraElement);
 
-                    this.setClearColor = function() {};
+                    this.setClearColor = function () { };
 
-                    this.getSize = function() {
+                    this.getSize = function () {
 
                         return {
                             width: _width,
@@ -3195,7 +3195,7 @@
                         };
                     };
 
-                    this.setSize = function(width, height) {
+                    this.setSize = function (width, height) {
                         _width = width;
                         _height = height;
 
@@ -3279,7 +3279,7 @@
                         }
                     };
 
-                    this.render = function(scene, camera) {
+                    this.render = function (scene, camera) {
 
                         var fov = 0.5 / Math.tan(_three2['default'].Math.degToRad(camera.fov * 0.5)) * _height;
 
@@ -3327,7 +3327,7 @@
             },
             /* 17 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
@@ -3348,7 +3348,7 @@
                 // This can only be accessed from Engine.renderer if you want to reference the
                 // same scene in multiple places
 
-                exports['default'] = function(container) {
+                exports['default'] = function (container) {
                     var renderer = new _vendorCSS2DRenderer.CSS2DRenderer();
 
                     renderer.domElement.style.position = 'static';
@@ -3373,7 +3373,7 @@
             },
             /* 18 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
@@ -3399,7 +3399,7 @@
                     this.element = element;
                     this.element.style.position = 'static';
 
-                    this.addEventListener('removed', function(event) {
+                    this.addEventListener('removed', function (event) {
 
                         if (this.element.parentNode !== null) {
 
@@ -3433,7 +3433,7 @@
                     this.domElement.style.display = 'none';
                     console.log('CSS2DRenderer DOM_Element display set to NONE');
 
-                    this.setSize = function(width, height) {
+                    this.setSize = function (width, height) {
 
                         _width = width;
                         _height = height;
@@ -3479,7 +3479,7 @@
                         }
                     };
 
-                    this.render = function(scene, camera) {
+                    this.render = function (scene, camera) {
 
                         scene.updateMatrixWorld();
 
@@ -3506,7 +3506,7 @@
             },
             /* 19 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
@@ -3524,7 +3524,7 @@
                 // TODO: Ensure that FOV looks natural on all aspect ratios
                 // http://stackoverflow.com/q/26655930/997339
 
-                exports['default'] = function(container) {
+                exports['default'] = function (container) {
                     var camera = new _three2['default'].PerspectiveCamera(45, 1, 1, 2000000);
                     camera.position.y = 4000;
                     camera.position.z = 4000;
@@ -3547,13 +3547,13 @@
             },
             /* 20 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
                 });
 
-                var _createClass = (function() {
+                var _createClass = (function () {
                     function defineProperties(target, props) {
                         for (var i = 0; i < props.length; i++) {
                             var descriptor = props[i];
@@ -3563,7 +3563,7 @@
                             Object.defineProperty(target, descriptor.key, descriptor);
                         }
                     }
-                    return function(Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
+                    return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
                 })();
 
                 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -3597,7 +3597,7 @@
 
                 var nextId = 1;
 
-                var Picking = (function() {
+                var Picking = (function () {
                     function Picking(world, renderer, camera) {
                         _classCallCheck(this, Picking);
 
@@ -3809,7 +3809,7 @@
                     return Picking;
                 })();
 
-                exports['default'] = function(world, renderer, camera) {
+                exports['default'] = function (world, renderer, camera) {
                     return new Picking(world, renderer, camera);
                 };
 
@@ -3820,7 +3820,7 @@
             },
             /* 21 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
@@ -3835,7 +3835,7 @@
                 // This can be imported from anywhere and will still reference the same scene,
                 // though there is a helper reference in Engine.pickingScene
 
-                exports['default'] = (function() {
+                exports['default'] = (function () {
                     var scene = new _three2['default'].Scene();
                     return scene;
                 })();
@@ -3846,7 +3846,7 @@
             },
             /* 22 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
@@ -3862,7 +3862,7 @@
 
                 var _vendorEffectComposer2 = _interopRequireDefault(_vendorEffectComposer);
 
-                exports['default'] = function(renderer, container) {
+                exports['default'] = function (renderer, container) {
                     var composer = new _vendorEffectComposer2['default'](renderer);
 
                     var updateSize = function updateSize() {
@@ -3888,7 +3888,7 @@
             },
             /* 23 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
@@ -4048,7 +4048,7 @@
             },
             /* 24 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, "__esModule", {
                     value: true
@@ -4093,7 +4093,7 @@
             },
             /* 25 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, "__esModule", {
                     value: true
@@ -4179,7 +4179,7 @@
             },
             /* 26 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
@@ -4284,7 +4284,7 @@
             },
             /* 27 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
@@ -4356,7 +4356,7 @@
             },
             /* 28 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, "__esModule", {
                     value: true
@@ -4407,7 +4407,7 @@
             },
             /* 29 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, "__esModule", {
                     value: true
@@ -4458,7 +4458,7 @@
             },
             /* 30 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, "__esModule", {
                     value: true
@@ -4507,13 +4507,13 @@
             },
             /* 31 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
                 });
 
-                var _createClass = (function() {
+                var _createClass = (function () {
                     function defineProperties(target, props) {
                         for (var i = 0; i < props.length; i++) {
                             var descriptor = props[i];
@@ -4523,7 +4523,7 @@
                             Object.defineProperty(target, descriptor.key, descriptor);
                         }
                     }
-                    return function(Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
+                    return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
                 })();
 
                 var _get = function get(_x, _x2, _x3) {
@@ -4577,7 +4577,7 @@
 
                 // TODO: Make sure nothing is left behind in the heap after calling destroy()
 
-                var EnvironmentLayer = (function(_Layer) {
+                var EnvironmentLayer = (function (_Layer) {
                     _inherits(EnvironmentLayer, _Layer);
 
                     function EnvironmentLayer(options) {
@@ -4736,13 +4736,13 @@
             },
             /* 32 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
                 });
 
-                var _createClass = (function() {
+                var _createClass = (function () {
                     function defineProperties(target, props) {
                         for (var i = 0; i < props.length; i++) {
                             var descriptor = props[i];
@@ -4752,7 +4752,7 @@
                             Object.defineProperty(target, descriptor.key, descriptor);
                         }
                     }
-                    return function(Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
+                    return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
                 })();
 
                 var _get = function get(_x, _x2, _x3) {
@@ -4821,7 +4821,7 @@
                 // culled because the layer parent is effectively always in view even if the
                 // child is actually out of camera
 
-                var Layer = (function(_EventEmitter) {
+                var Layer = (function (_EventEmitter) {
                     _inherits(Layer, _EventEmitter);
 
                     function Layer(options) {
@@ -4900,7 +4900,7 @@
                         }
                     }, {
                         key: '_onAdd',
-                        value: function _onAdd(world) {}
+                        value: function _onAdd(world) { }
                     }, {
                         key: 'getPickingId',
                         value: function getPickingId() {
@@ -5026,13 +5026,13 @@
             },
             /* 33 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
                 });
 
-                var _createClass = (function() {
+                var _createClass = (function () {
                     function defineProperties(target, props) {
                         for (var i = 0; i < props.length; i++) {
                             var descriptor = props[i];
@@ -5042,7 +5042,7 @@
                             Object.defineProperty(target, descriptor.key, descriptor);
                         }
                     }
-                    return function(Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
+                    return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
                 })();
 
                 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -5069,7 +5069,7 @@
                     fragmentShader: ['uniform samplerCube cubemap;', 'varying vec3 vPosition;', 'void main() {', 'gl_FragColor = textureCube(cubemap, normalize(vPosition));', '}'].join('\n')
                 };
 
-                var Skybox = (function() {
+                var Skybox = (function () {
                     function Skybox(world, light) {
                         _classCallCheck(this, Skybox);
 
@@ -5273,7 +5273,7 @@
             },
             /* 34 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
@@ -5359,7 +5359,7 @@
             },
             /* 35 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 /**
                  * lodash 4.0.1 (Custom Build) <https://lodash.com/>
@@ -5467,7 +5467,7 @@
             },
             /* 36 */
             /***/
-            function(module, exports) {
+            function (module, exports) {
 
                 /**
                  * lodash 4.0.6 (Custom Build) <https://lodash.com/>
@@ -5869,7 +5869,7 @@
             },
             /* 37 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
@@ -5894,13 +5894,13 @@
             },
             /* 38 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
                 });
 
-                var _createClass = (function() {
+                var _createClass = (function () {
                     function defineProperties(target, props) {
                         for (var i = 0; i < props.length; i++) {
                             var descriptor = props[i];
@@ -5910,7 +5910,7 @@
                             Object.defineProperty(target, descriptor.key, descriptor);
                         }
                     }
-                    return function(Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
+                    return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
                 })();
 
                 var _get = function get(_x, _x2, _x3) {
@@ -5965,7 +5965,7 @@
                 // Prevent animation from pausing when tab is inactive
                 _TweenLite2['default'].lagSmoothing(0);
 
-                var Orbit = (function(_EventEmitter) {
+                var Orbit = (function (_EventEmitter) {
                     _inherits(Orbit, _EventEmitter);
 
                     function Orbit() {
@@ -5983,15 +5983,15 @@
                         value: function _initEvents() {
                             var _this = this;
 
-                            this._controls.addEventListener('start', function(event) {
+                            this._controls.addEventListener('start', function (event) {
                                 _this._world.emit('controlsMoveStart', event.target.target);
                             });
 
-                            this._controls.addEventListener('change', function(event) {
+                            this._controls.addEventListener('change', function (event) {
                                 _this._world.emit('controlsMove', event.target.target);
                             });
 
-                            this._controls.addEventListener('end', function(event) {
+                            this._controls.addEventListener('end', function (event) {
                                 _this._world.emit('controlsMoveEnd', event.target.target);
                             });
                         }
@@ -5999,44 +5999,44 @@
                         // Moving the camera along the [x,y,z] axis based on a target position
                     }, {
                         key: 'panTo',
-                        value: function panTo(point, animate) {}
+                        value: function panTo(point, animate) { }
                     }, {
                         key: 'panBy',
-                        value: function panBy(pointDelta, animate) {}
+                        value: function panBy(pointDelta, animate) { }
 
                         // Zooming the camera in and out
                     }, {
                         key: 'zoomTo',
-                        value: function zoomTo(metres, animate) {}
+                        value: function zoomTo(metres, animate) { }
                     }, {
                         key: 'zoomBy',
-                        value: function zoomBy(metresDelta, animate) {}
+                        value: function zoomBy(metresDelta, animate) { }
 
                         // Force camera to look at something other than the target
                     }, {
                         key: 'lookAt',
-                        value: function lookAt(point, animate) {}
+                        value: function lookAt(point, animate) { }
 
                         // Make camera look at the target
                     }, {
                         key: 'lookAtTarget',
-                        value: function lookAtTarget() {}
+                        value: function lookAtTarget() { }
 
                         // Tilt (up and down)
                     }, {
                         key: 'tiltTo',
-                        value: function tiltTo(angle, animate) {}
+                        value: function tiltTo(angle, animate) { }
                     }, {
                         key: 'tiltBy',
-                        value: function tiltBy(angleDelta, animate) {}
+                        value: function tiltBy(angleDelta, animate) { }
 
                         // Rotate (left and right)
                     }, {
                         key: 'rotateTo',
-                        value: function rotateTo(angle, animate) {}
+                        value: function rotateTo(angle, animate) { }
                     }, {
                         key: 'rotateBy',
-                        value: function rotateBy(angleDelta, animate) {}
+                        value: function rotateBy(angleDelta, animate) { }
 
                         // Fly to the given point, animating pan and tilt/rotation to final position
                         // with nice zoom out and in
@@ -6117,7 +6117,7 @@
                                     var controls = this._controls;
                                     controls.dollyIn(1 - 0.01 * tween.target.zoom);
                                 },
-                                onComplete: function onComplete(tween) {},
+                                onComplete: function onComplete(tween) { },
                                 onUpdateParams: ['{self}'],
                                 onCompleteParams: ['{self}'],
                                 callbackScope: this,
@@ -6133,7 +6133,7 @@
                                     var controls = this._controls;
                                     controls.dollyOut(0.99 + 0.01 * tween.target.zoom);
                                 },
-                                onComplete: function onComplete(tween) {},
+                                onComplete: function onComplete(tween) { },
                                 onUpdateParams: ['{self}'],
                                 onCompleteParams: ['{self}'],
                                 callbackScope: this,
@@ -6248,7 +6248,7 @@
             },
             /* 39 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
@@ -6353,17 +6353,17 @@
                     // public methods
                     //
 
-                    this.getPolarAngle = function() {
+                    this.getPolarAngle = function () {
 
                         return phi;
                     };
 
-                    this.getAzimuthalAngle = function() {
+                    this.getAzimuthalAngle = function () {
 
                         return theta;
                     };
 
-                    this.reset = function() {
+                    this.reset = function () {
 
                         scope.target.copy(scope.target0);
                         scope.object.position.copy(scope.position0);
@@ -6378,7 +6378,7 @@
                     };
 
                     // this method is exposed, but perhaps it would be better if we can make it private...
-                    this.update = (function() {
+                    this.update = (function () {
 
                         var offset = new _three2['default'].Vector3();
 
@@ -6389,7 +6389,7 @@
                         var lastPosition = new _three2['default'].Vector3();
                         var lastQuaternion = new _three2['default'].Quaternion();
 
-                        return function() {
+                        return function () {
 
                             var position = scope.object.position;
 
@@ -6474,7 +6474,7 @@
                         };
                     })();
 
-                    this.dispose = function() {
+                    this.dispose = function () {
 
                         scope.domElement.removeEventListener('contextmenu', onContextMenu, false);
                         scope.domElement.removeEventListener('mousedown', onMouseDown, false);
@@ -6552,7 +6552,7 @@
                         phiDelta -= angle;
                     }
 
-                    var panLeft = (function() {
+                    var panLeft = (function () {
 
                         var v = new _three2['default'].Vector3();
 
@@ -6582,7 +6582,7 @@
                     })();
 
                     // Fixed panning to x/y plane
-                    var panUp = (function() {
+                    var panUp = (function () {
 
                         var v = new _three2['default'].Vector3();
 
@@ -6611,11 +6611,11 @@
                     })();
 
                     // deltaX and deltaY are in pixels; right and down are positive
-                    var pan = (function() {
+                    var pan = (function () {
 
                         var offset = new _three2['default'].Vector3();
 
-                        return function(deltaX, deltaY) {
+                        return function (deltaX, deltaY) {
 
                             var element = scope.domElement === document ? scope.domElement.body : scope.domElement;
 
@@ -6912,7 +6912,7 @@
                         scope.update();
                     }
 
-                    function handleTouchEnd(event) {}
+                    function handleTouchEnd(event) { }
 
                     //console.log( 'handleTouchEnd' );
 
@@ -7155,7 +7155,7 @@
                         threshold: 0.1
                     });
 
-                    scope.hammer.on('panstart', function(event) {
+                    scope.hammer.on('panstart', function (event) {
                         if (scope.enabled === false) {
                             return;
                         }
@@ -7186,7 +7186,7 @@
                         }
                     });
 
-                    scope.hammer.on('panend', function(event) {
+                    scope.hammer.on('panend', function (event) {
                         if (event.pointerType === 'mouse') {
                             return;
                         }
@@ -7194,7 +7194,7 @@
                         onTouchEnd(event);
                     });
 
-                    scope.hammer.on('panmove', function(event) {
+                    scope.hammer.on('panmove', function (event) {
                         if (scope.enabled === false) return;
 
                         if (event.pointerType === 'mouse') {
@@ -7227,7 +7227,7 @@
                         }
                     });
 
-                    scope.hammer.on('pinchstart', function(event) {
+                    scope.hammer.on('pinchstart', function (event) {
                         if (scope.enabled === false) return;
 
                         if (event.pointerType === 'mouse') {
@@ -7252,7 +7252,7 @@
                         }
                     });
 
-                    scope.hammer.on('pinchend', function(event) {
+                    scope.hammer.on('pinchend', function (event) {
                         if (event.pointerType === 'mouse') {
                             return;
                         }
@@ -7260,7 +7260,7 @@
                         onTouchEnd(event);
                     });
 
-                    scope.hammer.on('pinchmove', function(event) {
+                    scope.hammer.on('pinchmove', function (event) {
                         if (scope.enabled === false) return;
 
                         if (event.pointerType === 'mouse') {
@@ -7438,7 +7438,7 @@
             },
             /* 40 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 var __WEBPACK_AMD_DEFINE_RESULT__;
                 /*! Hammer.JS - v2.0.7 - 2016-04-22
@@ -7446,7 +7446,7 @@
                  *
                  * Copyright (c) 2016 Jorik Tangelder;
                  * Licensed under the MIT license */
-                (function(window, document, exportName, undefined) {
+                (function (window, document, exportName, undefined) {
                     'use strict';
 
                     var VENDOR_PREFIXES = ['', 'webkit', 'Moz', 'MS', 'ms', 'o'];
@@ -7523,7 +7523,7 @@
                      */
                     function deprecate(method, name, message) {
                         var deprecationMessage = 'DEPRECATED METHOD: ' + name + '\n' + message + ' AT \n';
-                        return function() {
+                        return function () {
                             var e = new Error('get-stack-trace');
                             var stack = e && e.stack ? e.stack.replace(/^[^\(]+?[\n$]/gm, '')
                                 .replace(/^\s+at\s+/gm, '')
@@ -7661,7 +7661,7 @@
                      * @param {Function} handler
                      */
                     function addEventListeners(target, types, handler) {
-                        each(splitStr(types), function(type) {
+                        each(splitStr(types), function (type) {
                             target.addEventListener(type, handler, false);
                         });
                     }
@@ -7673,7 +7673,7 @@
                      * @param {Function} handler
                      */
                     function removeEventListeners(target, types, handler) {
-                        each(splitStr(types), function(type) {
+                        each(splitStr(types), function (type) {
                             target.removeEventListener(type, handler, false);
                         });
                     }
@@ -7869,7 +7869,7 @@
 
                         // smaller wrapper around the handler, for the scope and the enabled state of the manager,
                         // so when disabled the input events are completely bypassed.
-                        this.domHandler = function(ev) {
+                        this.domHandler = function (ev) {
                             if (boolOrFn(manager.options.enable, [manager])) {
                                 self.handler(ev);
                             }
@@ -7884,12 +7884,12 @@
                          * should handle the inputEvent data and trigger the callback
                          * @virtual
                          */
-                        handler: function() {},
+                        handler: function () { },
 
                         /**
                          * bind the events
                          */
-                        init: function() {
+                        init: function () {
                             this.evEl && addEventListeners(this.element, this.evEl, this.domHandler);
                             this.evTarget && addEventListeners(this.target, this.evTarget, this.domHandler);
                             this.evWin && addEventListeners(getWindowForElement(this.element), this.evWin, this.domHandler);
@@ -7898,7 +7898,7 @@
                         /**
                          * unbind the events
                          */
-                        destroy: function() {
+                        destroy: function () {
                             this.evEl && removeEventListeners(this.element, this.evEl, this.domHandler);
                             this.evTarget && removeEventListeners(this.target, this.evTarget, this.domHandler);
                             this.evWin && removeEventListeners(getWindowForElement(this.element), this.evWin, this.domHandler);
@@ -7926,7 +7926,7 @@
                         } else {
                             Type = TouchMouseInput;
                         }
-                        return new(Type)(manager, inputHandler);
+                        return new (Type)(manager, inputHandler);
                     }
 
                     /**
@@ -8496,7 +8496,7 @@
                             target = this.target;
 
                         // get target touches from touches
-                        targetTouches = allTouches.filter(function(touch) {
+                        targetTouches = allTouches.filter(function (touch) {
                             return hasParent(touch.target, target);
                         });
 
@@ -8608,7 +8608,7 @@
                             var lastTouch = { x: touch.clientX, y: touch.clientY };
                             this.lastTouches.push(lastTouch);
                             var lts = this.lastTouches;
-                            var removeLastTouch = function() {
+                            var removeLastTouch = function () {
                                 var i = lts.indexOf(lastTouch);
                                 if (i > -1) {
                                     lts.splice(i, 1);
@@ -8661,7 +8661,7 @@
                          * set the touchAction value on the element or enable the polyfill
                          * @param {String} value
                          */
-                        set: function(value) {
+                        set: function (value) {
                             // find out the touch-action by the event handlers
                             if (value == TOUCH_ACTION_COMPUTE) {
                                 value = this.compute();
@@ -8676,7 +8676,7 @@
                         /**
                          * just re-set the touchAction value
                          */
-                        update: function() {
+                        update: function () {
                             this.set(this.manager.options.touchAction);
                         },
 
@@ -8684,9 +8684,9 @@
                          * compute the value for the touchAction property based on the recognizer's settings
                          * @returns {String} value
                          */
-                        compute: function() {
+                        compute: function () {
                             var actions = [];
-                            each(this.manager.recognizers, function(recognizer) {
+                            each(this.manager.recognizers, function (recognizer) {
                                 if (boolOrFn(recognizer.options.enable, [recognizer])) {
                                     actions = actions.concat(recognizer.getTouchAction());
                                 }
@@ -8698,7 +8698,7 @@
                          * this method is called on each input cycle and provides the preventing of the browser behavior
                          * @param {Object} input
                          */
-                        preventDefaults: function(input) {
+                        preventDefaults: function (input) {
                             var srcEvent = input.srcEvent;
                             var direction = input.offsetDirection;
 
@@ -8741,7 +8741,7 @@
                          * call preventDefault to prevent the browser's default behavior (scrolling in most cases)
                          * @param {Object} srcEvent
                          */
-                        preventSrc: function(srcEvent) {
+                        preventSrc: function (srcEvent) {
                             this.manager.session.prevented = true;
                             srcEvent.preventDefault();
                         }
@@ -8788,7 +8788,7 @@
                         }
                         var touchMap = {};
                         var cssSupports = window.CSS && window.CSS.supports;
-                        ['auto', 'manipulation', 'pan-y', 'pan-x', 'pan-x pan-y', 'none'].forEach(function(val) {
+                        ['auto', 'manipulation', 'pan-y', 'pan-x', 'pan-x pan-y', 'none'].forEach(function (val) {
 
                             // If css.supports is not supported but there is native touch-action assume it supports
                             // all values. This is the case for IE 10 and 11.
@@ -8866,7 +8866,7 @@
                          * @param {Object} options
                          * @return {Recognizer}
                          */
-                        set: function(options) {
+                        set: function (options) {
                             assign(this.options, options);
 
                             // also update the touchAction, in case something changed about the directions/enabled state
@@ -8879,7 +8879,7 @@
                          * @param {Recognizer} otherRecognizer
                          * @returns {Recognizer} this
                          */
-                        recognizeWith: function(otherRecognizer) {
+                        recognizeWith: function (otherRecognizer) {
                             if (invokeArrayArg(otherRecognizer, 'recognizeWith', this)) {
                                 return this;
                             }
@@ -8898,7 +8898,7 @@
                          * @param {Recognizer} otherRecognizer
                          * @returns {Recognizer} this
                          */
-                        dropRecognizeWith: function(otherRecognizer) {
+                        dropRecognizeWith: function (otherRecognizer) {
                             if (invokeArrayArg(otherRecognizer, 'dropRecognizeWith', this)) {
                                 return this;
                             }
@@ -8913,7 +8913,7 @@
                          * @param {Recognizer} otherRecognizer
                          * @returns {Recognizer} this
                          */
-                        requireFailure: function(otherRecognizer) {
+                        requireFailure: function (otherRecognizer) {
                             if (invokeArrayArg(otherRecognizer, 'requireFailure', this)) {
                                 return this;
                             }
@@ -8932,7 +8932,7 @@
                          * @param {Recognizer} otherRecognizer
                          * @returns {Recognizer} this
                          */
-                        dropRequireFailure: function(otherRecognizer) {
+                        dropRequireFailure: function (otherRecognizer) {
                             if (invokeArrayArg(otherRecognizer, 'dropRequireFailure', this)) {
                                 return this;
                             }
@@ -8949,7 +8949,7 @@
                          * has require failures boolean
                          * @returns {boolean}
                          */
-                        hasRequireFailures: function() {
+                        hasRequireFailures: function () {
                             return this.requireFail.length > 0;
                         },
 
@@ -8958,7 +8958,7 @@
                          * @param {Recognizer} otherRecognizer
                          * @returns {Boolean}
                          */
-                        canRecognizeWith: function(otherRecognizer) {
+                        canRecognizeWith: function (otherRecognizer) {
                             return !!this.simultaneous[otherRecognizer.id];
                         },
 
@@ -8967,7 +8967,7 @@
                          * that all the needed recognizers has failed before emitting.
                          * @param {Object} input
                          */
-                        emit: function(input) {
+                        emit: function (input) {
                             var self = this;
                             var state = this.state;
 
@@ -8998,7 +8998,7 @@
                          * otherwise, setup the state to FAILED.
                          * @param {Object} input
                          */
-                        tryEmit: function(input) {
+                        tryEmit: function (input) {
                             if (this.canEmit()) {
                                 return this.emit(input);
                             }
@@ -9010,7 +9010,7 @@
                          * can we emit?
                          * @returns {boolean}
                          */
-                        canEmit: function() {
+                        canEmit: function () {
                             var i = 0;
                             while (i < this.requireFail.length) {
                                 if (!(this.requireFail[i].state & (STATE_FAILED | STATE_POSSIBLE))) {
@@ -9025,7 +9025,7 @@
                          * update the recognizer
                          * @param {Object} inputData
                          */
-                        recognize: function(inputData) {
+                        recognize: function (inputData) {
                             // make a new copy of the inputData
                             // so we can change the inputData without messing up the other recognizers
                             var inputDataClone = assign({}, inputData);
@@ -9058,21 +9058,21 @@
                          * @param {Object} inputData
                          * @returns {Const} STATE
                          */
-                        process: function(inputData) {}, // jshint ignore:line
+                        process: function (inputData) { }, // jshint ignore:line
 
                         /**
                          * return the preferred touch-action
                          * @virtual
                          * @returns {Array}
                          */
-                        getTouchAction: function() {},
+                        getTouchAction: function () { },
 
                         /**
                          * called when the gesture isn't allowed to recognize
                          * like when another is being recognized or it is disabled
                          * @virtual
                          */
-                        reset: function() {}
+                        reset: function () { }
                     };
 
                     /**
@@ -9153,7 +9153,7 @@
                          * @param {Object} input
                          * @returns {Boolean} recognized
                          */
-                        attrTest: function(input) {
+                        attrTest: function (input) {
                             var optionPointers = this.options.pointers;
                             return optionPointers === 0 || input.pointers.length === optionPointers;
                         },
@@ -9164,7 +9164,7 @@
                          * @param {Object} input
                          * @returns {*} State
                          */
-                        process: function(input) {
+                        process: function (input) {
                             var state = this.state;
                             var eventType = input.eventType;
 
@@ -9211,7 +9211,7 @@
                             direction: DIRECTION_ALL
                         },
 
-                        getTouchAction: function() {
+                        getTouchAction: function () {
                             var direction = this.options.direction;
                             var actions = [];
                             if (direction & DIRECTION_HORIZONTAL) {
@@ -9223,7 +9223,7 @@
                             return actions;
                         },
 
-                        directionTest: function(input) {
+                        directionTest: function (input) {
                             var options = this.options;
                             var hasMoved = true;
                             var distance = input.distance;
@@ -9247,12 +9247,12 @@
                             return hasMoved && distance > options.threshold && direction & options.direction;
                         },
 
-                        attrTest: function(input) {
+                        attrTest: function (input) {
                             return AttrRecognizer.prototype.attrTest.call(this, input) &&
                                 (this.state & STATE_BEGAN || (!(this.state & STATE_BEGAN) && this.directionTest(input)));
                         },
 
-                        emit: function(input) {
+                        emit: function (input) {
 
                             this.pX = input.deltaX;
                             this.pY = input.deltaY;
@@ -9287,16 +9287,16 @@
                             pointers: 2
                         },
 
-                        getTouchAction: function() {
+                        getTouchAction: function () {
                             return [TOUCH_ACTION_NONE];
                         },
 
-                        attrTest: function(input) {
+                        attrTest: function (input) {
                             return this._super.attrTest.call(this, input) &&
                                 (Math.abs(input.scale - 1) > this.options.threshold || this.state & STATE_BEGAN);
                         },
 
-                        emit: function(input) {
+                        emit: function (input) {
                             if (input.scale !== 1) {
                                 var inOut = input.scale < 1 ? 'in' : 'out';
                                 input.additionalEvent = this.options.event + inOut;
@@ -9330,11 +9330,11 @@
                             threshold: 9 // a minimal movement is ok, but keep it low
                         },
 
-                        getTouchAction: function() {
+                        getTouchAction: function () {
                             return [TOUCH_ACTION_AUTO];
                         },
 
-                        process: function(input) {
+                        process: function (input) {
                             var options = this.options;
                             var validPointers = input.pointers.length === options.pointers;
                             var validMovement = input.distance < options.threshold;
@@ -9348,7 +9348,7 @@
                                 this.reset();
                             } else if (input.eventType & INPUT_START) {
                                 this.reset();
-                                this._timer = setTimeoutContext(function() {
+                                this._timer = setTimeoutContext(function () {
                                     this.state = STATE_RECOGNIZED;
                                     this.tryEmit();
                                 }, options.time, this);
@@ -9358,11 +9358,11 @@
                             return STATE_FAILED;
                         },
 
-                        reset: function() {
+                        reset: function () {
                             clearTimeout(this._timer);
                         },
 
-                        emit: function(input) {
+                        emit: function (input) {
                             if (this.state !== STATE_RECOGNIZED) {
                                 return;
                             }
@@ -9397,11 +9397,11 @@
                             pointers: 2
                         },
 
-                        getTouchAction: function() {
+                        getTouchAction: function () {
                             return [TOUCH_ACTION_NONE];
                         },
 
-                        attrTest: function(input) {
+                        attrTest: function (input) {
                             return this._super.attrTest.call(this, input) &&
                                 (Math.abs(input.rotation) > this.options.threshold || this.state & STATE_BEGAN);
                         }
@@ -9430,11 +9430,11 @@
                             pointers: 1
                         },
 
-                        getTouchAction: function() {
+                        getTouchAction: function () {
                             return PanRecognizer.prototype.getTouchAction.call(this);
                         },
 
-                        attrTest: function(input) {
+                        attrTest: function (input) {
                             var direction = this.options.direction;
                             var velocity;
 
@@ -9453,7 +9453,7 @@
                                 abs(velocity) > this.options.velocity && input.eventType & INPUT_END;
                         },
 
-                        emit: function(input) {
+                        emit: function (input) {
                             var direction = directionStr(input.offsetDirection);
                             if (direction) {
                                 this.manager.emit(this.options.event + direction, input);
@@ -9501,11 +9501,11 @@
                             posThreshold: 10 // a multi-tap can be a bit off the initial position
                         },
 
-                        getTouchAction: function() {
+                        getTouchAction: function () {
                             return [TOUCH_ACTION_MANIPULATION];
                         },
 
-                        process: function(input) {
+                        process: function (input) {
                             var options = this.options;
 
                             var validPointers = input.pointers.length === options.pointers;
@@ -9548,7 +9548,7 @@
                                     if (!this.hasRequireFailures()) {
                                         return STATE_RECOGNIZED;
                                     } else {
-                                        this._timer = setTimeoutContext(function() {
+                                        this._timer = setTimeoutContext(function () {
                                             this.state = STATE_RECOGNIZED;
                                             this.tryEmit();
                                         }, options.interval, this);
@@ -9559,18 +9559,18 @@
                             return STATE_FAILED;
                         },
 
-                        failTimeout: function() {
-                            this._timer = setTimeoutContext(function() {
+                        failTimeout: function () {
+                            this._timer = setTimeoutContext(function () {
                                 this.state = STATE_FAILED;
                             }, this.options.interval, this);
                             return STATE_FAILED;
                         },
 
-                        reset: function() {
+                        reset: function () {
                             clearTimeout(this._timer);
                         },
 
-                        emit: function() {
+                        emit: function () {
                             if (this.state == STATE_RECOGNIZED) {
                                 this._input.tapCount = this.count;
                                 this.manager.emit(this.options.event, this._input);
@@ -9738,8 +9738,8 @@
 
                         toggleCssProps(this, true);
 
-                        each(this.options.recognizers, function(item) {
-                            var recognizer = this.add(new(item[0])(item[1]));
+                        each(this.options.recognizers, function (item) {
+                            var recognizer = this.add(new (item[0])(item[1]));
                             item[2] && recognizer.recognizeWith(item[2]);
                             item[3] && recognizer.requireFailure(item[3]);
                         }, this);
@@ -9751,7 +9751,7 @@
                          * @param {Object} options
                          * @returns {Manager}
                          */
-                        set: function(options) {
+                        set: function (options) {
                             assign(this.options, options);
 
                             // Options that need a little more setup
@@ -9773,7 +9773,7 @@
                          * When forced, the recognizer cycle is stopped immediately.
                          * @param {Boolean} [force]
                          */
-                        stop: function(force) {
+                        stop: function (force) {
                             this.session.stopped = force ? FORCED_STOP : STOP;
                         },
 
@@ -9783,7 +9783,7 @@
                          * it walks through all the recognizers and tries to detect the gesture that is being made
                          * @param {Object} inputData
                          */
-                        recognize: function(inputData) {
+                        recognize: function (inputData) {
                             var session = this.session;
                             if (session.stopped) {
                                 return;
@@ -9817,8 +9817,8 @@
                                 // 3.   allow if the recognizer is allowed to run simultaneous with the current recognized recognizer.
                                 //      this can be setup with the `recognizeWith()` method on the recognizer.
                                 if (session.stopped !== FORCED_STOP && ( // 1
-                                        !curRecognizer || recognizer == curRecognizer || // 2
-                                        recognizer.canRecognizeWith(curRecognizer))) { // 3
+                                    !curRecognizer || recognizer == curRecognizer || // 2
+                                    recognizer.canRecognizeWith(curRecognizer))) { // 3
                                     recognizer.recognize(inputData);
                                 } else {
                                     recognizer.reset();
@@ -9838,7 +9838,7 @@
                          * @param {Recognizer|String} recognizer
                          * @returns {Recognizer|Null}
                          */
-                        get: function(recognizer) {
+                        get: function (recognizer) {
                             if (recognizer instanceof Recognizer) {
                                 return recognizer;
                             }
@@ -9858,7 +9858,7 @@
                          * @param {Recognizer} recognizer
                          * @returns {Recognizer|Manager}
                          */
-                        add: function(recognizer) {
+                        add: function (recognizer) {
                             if (invokeArrayArg(recognizer, 'add', this)) {
                                 return this;
                             }
@@ -9881,7 +9881,7 @@
                          * @param {Recognizer|String} recognizer
                          * @returns {Manager}
                          */
-                        remove: function(recognizer) {
+                        remove: function (recognizer) {
                             if (invokeArrayArg(recognizer, 'remove', this)) {
                                 return this;
                             }
@@ -9908,7 +9908,7 @@
                          * @param {Function} handler
                          * @returns {EventEmitter} this
                          */
-                        on: function(events, handler) {
+                        on: function (events, handler) {
                             if (events === undefined) {
                                 return;
                             }
@@ -9917,7 +9917,7 @@
                             }
 
                             var handlers = this.handlers;
-                            each(splitStr(events), function(event) {
+                            each(splitStr(events), function (event) {
                                 handlers[event] = handlers[event] || [];
                                 handlers[event].push(handler);
                             });
@@ -9930,13 +9930,13 @@
                          * @param {Function} [handler]
                          * @returns {EventEmitter} this
                          */
-                        off: function(events, handler) {
+                        off: function (events, handler) {
                             if (events === undefined) {
                                 return;
                             }
 
                             var handlers = this.handlers;
-                            each(splitStr(events), function(event) {
+                            each(splitStr(events), function (event) {
                                 if (!handler) {
                                     delete handlers[event];
                                 } else {
@@ -9951,7 +9951,7 @@
                          * @param {String} event
                          * @param {Object} data
                          */
-                        emit: function(event, data) {
+                        emit: function (event, data) {
                             // we also want to trigger dom events
                             if (this.options.domEvents) {
                                 triggerDomEvent(event, data);
@@ -9964,7 +9964,7 @@
                             }
 
                             data.type = event;
-                            data.preventDefault = function() {
+                            data.preventDefault = function () {
                                 data.srcEvent.preventDefault();
                             };
 
@@ -9979,7 +9979,7 @@
                          * destroy the manager and unbinds all events
                          * it doesn't unbind dom events, that is the user own responsibility
                          */
-                        destroy: function() {
+                        destroy: function () {
                             this.element && toggleCssProps(this, false);
 
                             this.handlers = {};
@@ -10000,7 +10000,7 @@
                             return;
                         }
                         var prop;
-                        each(manager.options.cssProps, function(value, name) {
+                        each(manager.options.cssProps, function (value, name) {
                             prop = prefixed(element.style, name);
                             if (add) {
                                 manager.oldCssProps[prop] = element.style[prop];
@@ -10085,7 +10085,7 @@
                     freeGlobal.Hammer = Hammer;
 
                     if (true) {
-                        !(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
+                        !(__WEBPACK_AMD_DEFINE_RESULT__ = function () {
                             return Hammer;
                         }.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
                     } else if (typeof module != 'undefined' && module.exports) {
@@ -10101,7 +10101,7 @@
             },
             /* 41 */
             /***/
-            function(module, exports) {
+            function (module, exports) {
 
                 module.exports = __WEBPACK_EXTERNAL_MODULE_41__;
 
@@ -10109,13 +10109,13 @@
             },
             /* 42 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
                 });
 
-                var _createClass = (function() {
+                var _createClass = (function () {
                     function defineProperties(target, props) {
                         for (var i = 0; i < props.length; i++) {
                             var descriptor = props[i];
@@ -10125,7 +10125,7 @@
                             Object.defineProperty(target, descriptor.key, descriptor);
                         }
                     }
-                    return function(Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
+                    return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
                 })();
 
                 var _get = function get(_x, _x2, _x3) {
@@ -10236,7 +10236,7 @@
                 // The benefit to doing this is that the underlying map layer continues to
                 // refresh and update during movement, which is an arguably better experience
 
-                var ImageTileLayer = (function(_TileLayer) {
+                var ImageTileLayer = (function (_TileLayer) {
                     _inherits(ImageTileLayer, _TileLayer);
 
                     function ImageTileLayer(path, options) {
@@ -10285,7 +10285,7 @@
                             //
                             // TODO: This is a hack to ensure the camera is all set up - a better
                             // solution should be found
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 _this._calculateLOD();
                                 _this._initEvents();
                             }, 0);
@@ -10368,13 +10368,13 @@
             },
             /* 43 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
                 });
 
-                var _createClass = (function() {
+                var _createClass = (function () {
                     function defineProperties(target, props) {
                         for (var i = 0; i < props.length; i++) {
                             var descriptor = props[i];
@@ -10384,7 +10384,7 @@
                             Object.defineProperty(target, descriptor.key, descriptor);
                         }
                     }
-                    return function(Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
+                    return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
                 })();
 
                 var _get = function get(_x, _x2, _x3) {
@@ -10484,7 +10484,7 @@
                 // TODO: Prioritise loading of tiles at highest level in the quadtree (those
                 // closest to the camera) so visual inconsistancies during loading are minimised
 
-                var TileLayer = (function(_Layer) {
+                var TileLayer = (function (_Layer) {
                     _inherits(TileLayer, _Layer);
 
                     function TileLayer(options) {
@@ -10502,7 +10502,7 @@
 
                         _get(Object.getPrototypeOf(TileLayer.prototype), 'constructor', this).call(this, _options);
 
-                        this._tileCache = new _TileCache2['default'](this._options.maxCache, function(tile) {
+                        this._tileCache = new _TileCache2['default'](this._options.maxCache, function (tile) {
                             _this._destroyTile(tile);
                         });
 
@@ -10555,7 +10555,7 @@
                             this._removeTiles();
 
                             // Add / re-add tiles
-                            this._tileList.forEach(function(tile) {
+                            this._tileList.forEach(function (tile) {
                                 // Are the mesh and texture ready?
                                 //
                                 // If yes, continue
@@ -10609,12 +10609,12 @@
                             // this._removeTiles();
 
                             // Order tile-list by zoom so nearest tiles are requested first
-                            checkList.sort(function(a, b) {
+                            checkList.sort(function (a, b) {
                                 return a._quadcode.length < b._quadcode.length;
                             });
 
                             // 5. Filter the tiles remaining in the check list
-                            this._tileList = checkList.filter(function(tile, index) {
+                            this._tileList = checkList.filter(function (tile, index) {
                                 // Skip tile if it's not in the current view frustum
                                 if (!_this3._tileInFrustum(tile)) {
                                     return false;
@@ -10759,7 +10759,7 @@
                         // Return a new tile instance
                     }, {
                         key: '_createTile',
-                        value: function _createTile(quadcode, layer) {}
+                        value: function _createTile(quadcode, layer) { }
 
                         // Get a cached tile or request a new one if not in cache
                     }, {
@@ -10832,13 +10832,13 @@
             },
             /* 44 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
                 });
 
-                var _createClass = (function() {
+                var _createClass = (function () {
                     function defineProperties(target, props) {
                         for (var i = 0; i < props.length; i++) {
                             var descriptor = props[i];
@@ -10848,7 +10848,7 @@
                             Object.defineProperty(target, descriptor.key, descriptor);
                         }
                     }
-                    return function(Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
+                    return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
                 })();
 
                 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -10864,7 +10864,7 @@
                 // This process is based on a similar approach taken by OpenWebGlobe
                 // See: https://github.com/OpenWebGlobe/WebViewer/blob/master/source/core/globecache.js
 
-                var TileCache = (function() {
+                var TileCache = (function () {
                     function TileCache(cacheLimit, onDestroyTile) {
                         _classCallCheck(this, TileCache);
 
@@ -10926,7 +10926,7 @@
             },
             /* 45 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 module.exports = LRUCache
 
@@ -10942,13 +10942,13 @@
                 var symbols = {}
                 var hasSymbol = typeof Symbol === 'function'
                 var makeSymbol
-                    /* istanbul ignore if */
+                /* istanbul ignore if */
                 if (hasSymbol) {
-                    makeSymbol = function(key) {
+                    makeSymbol = function (key) {
                         return Symbol.for(key)
                     }
                 } else {
-                    makeSymbol = function(key) {
+                    makeSymbol = function (key) {
                         return '_' + key
                     }
                 }
@@ -10993,7 +10993,7 @@
                     }
 
                     var max = priv(this, 'max', options.max)
-                        // Kind of weird to have a default max of Infinity, but oh well.
+                    // Kind of weird to have a default max of Infinity, but oh well.
                     if (!max ||
                         !(typeof max === 'number') ||
                         max <= 0) {
@@ -11014,38 +11014,38 @@
 
                 // resize the cache when the max changes.
                 Object.defineProperty(LRUCache.prototype, 'max', {
-                    set: function(mL) {
+                    set: function (mL) {
                         if (!mL || !(typeof mL === 'number') || mL <= 0) {
                             mL = Infinity
                         }
                         priv(this, 'max', mL)
                         trim(this)
                     },
-                    get: function() {
+                    get: function () {
                         return priv(this, 'max')
                     },
                     enumerable: true
                 })
 
                 Object.defineProperty(LRUCache.prototype, 'allowStale', {
-                    set: function(allowStale) {
+                    set: function (allowStale) {
                         priv(this, 'allowStale', !!allowStale)
                     },
-                    get: function() {
+                    get: function () {
                         return priv(this, 'allowStale')
                     },
                     enumerable: true
                 })
 
                 Object.defineProperty(LRUCache.prototype, 'maxAge', {
-                    set: function(mA) {
+                    set: function (mA) {
                         if (!mA || !(typeof mA === 'number') || mA < 0) {
                             mA = 0
                         }
                         priv(this, 'maxAge', mA)
                         trim(this)
                     },
-                    get: function() {
+                    get: function () {
                         return priv(this, 'maxAge')
                     },
                     enumerable: true
@@ -11053,35 +11053,35 @@
 
                 // resize the cache when the lengthCalculator changes.
                 Object.defineProperty(LRUCache.prototype, 'lengthCalculator', {
-                    set: function(lC) {
+                    set: function (lC) {
                         if (typeof lC !== 'function') {
                             lC = naiveLength
                         }
                         if (lC !== priv(this, 'lengthCalculator')) {
                             priv(this, 'lengthCalculator', lC)
                             priv(this, 'length', 0)
-                            priv(this, 'lruList').forEach(function(hit) {
+                            priv(this, 'lruList').forEach(function (hit) {
                                 hit.length = priv(this, 'lengthCalculator').call(this, hit.value, hit.key)
                                 priv(this, 'length', priv(this, 'length') + hit.length)
                             }, this)
                         }
                         trim(this)
                     },
-                    get: function() { return priv(this, 'lengthCalculator') },
+                    get: function () { return priv(this, 'lengthCalculator') },
                     enumerable: true
                 })
 
                 Object.defineProperty(LRUCache.prototype, 'length', {
-                    get: function() { return priv(this, 'length') },
+                    get: function () { return priv(this, 'length') },
                     enumerable: true
                 })
 
                 Object.defineProperty(LRUCache.prototype, 'itemCount', {
-                    get: function() { return priv(this, 'lruList').length },
+                    get: function () { return priv(this, 'lruList').length },
                     enumerable: true
                 })
 
-                LRUCache.prototype.rforEach = function(fn, thisp) {
+                LRUCache.prototype.rforEach = function (fn, thisp) {
                     thisp = thisp || this
                     for (var walker = priv(this, 'lruList').tail; walker !== null;) {
                         var prev = walker.prev
@@ -11103,7 +11103,7 @@
                     }
                 }
 
-                LRUCache.prototype.forEach = function(fn, thisp) {
+                LRUCache.prototype.forEach = function (fn, thisp) {
                     thisp = thisp || this
                     for (var walker = priv(this, 'lruList').head; walker !== null;) {
                         var next = walker.next
@@ -11112,23 +11112,23 @@
                     }
                 }
 
-                LRUCache.prototype.keys = function() {
-                    return priv(this, 'lruList').toArray().map(function(k) {
+                LRUCache.prototype.keys = function () {
+                    return priv(this, 'lruList').toArray().map(function (k) {
                         return k.key
                     }, this)
                 }
 
-                LRUCache.prototype.values = function() {
-                    return priv(this, 'lruList').toArray().map(function(k) {
+                LRUCache.prototype.values = function () {
+                    return priv(this, 'lruList').toArray().map(function (k) {
                         return k.value
                     }, this)
                 }
 
-                LRUCache.prototype.reset = function() {
+                LRUCache.prototype.reset = function () {
                     if (priv(this, 'dispose') &&
                         priv(this, 'lruList') &&
                         priv(this, 'lruList').length) {
-                        priv(this, 'lruList').forEach(function(hit) {
+                        priv(this, 'lruList').forEach(function (hit) {
                             priv(this, 'dispose').call(this, hit.key, hit.value)
                         }, this)
                     }
@@ -11138,8 +11138,8 @@
                     priv(this, 'length', 0) // length of items in the list
                 }
 
-                LRUCache.prototype.dump = function() {
-                    return priv(this, 'lruList').map(function(hit) {
+                LRUCache.prototype.dump = function () {
+                    return priv(this, 'lruList').map(function (hit) {
                         if (!isStale(this, hit)) {
                             return {
                                 k: hit.key,
@@ -11147,16 +11147,16 @@
                                 e: hit.now + (hit.maxAge || 0)
                             }
                         }
-                    }, this).toArray().filter(function(h) {
+                    }, this).toArray().filter(function (h) {
                         return h
                     })
                 }
 
-                LRUCache.prototype.dumpLru = function() {
+                LRUCache.prototype.dumpLru = function () {
                     return priv(this, 'lruList')
                 }
 
-                LRUCache.prototype.inspect = function(n, opts) {
+                LRUCache.prototype.inspect = function (n, opts) {
                     var str = 'LRUCache {'
                     var extras = false
 
@@ -11194,7 +11194,7 @@
                     }
 
                     var didFirst = false
-                    priv(this, 'lruList').forEach(function(item) {
+                    priv(this, 'lruList').forEach(function (item) {
                         if (didFirst) {
                             str += ',\n  '
                         } else {
@@ -11228,7 +11228,7 @@
                     return str
                 }
 
-                LRUCache.prototype.set = function(key, value, maxAge) {
+                LRUCache.prototype.set = function (key, value, maxAge) {
                     maxAge = maxAge || priv(this, 'maxAge')
 
                     var now = maxAge ? Date.now() : 0
@@ -11275,7 +11275,7 @@
                     return true
                 }
 
-                LRUCache.prototype.has = function(key) {
+                LRUCache.prototype.has = function (key) {
                     if (!priv(this, 'cache').has(key)) return false
                     var hit = priv(this, 'cache').get(key).value
                     if (isStale(this, hit)) {
@@ -11284,31 +11284,31 @@
                     return true
                 }
 
-                LRUCache.prototype.get = function(key) {
+                LRUCache.prototype.get = function (key) {
                     return get(this, key, true)
                 }
 
-                LRUCache.prototype.peek = function(key) {
+                LRUCache.prototype.peek = function (key) {
                     return get(this, key, false)
                 }
 
-                LRUCache.prototype.pop = function() {
+                LRUCache.prototype.pop = function () {
                     var node = priv(this, 'lruList').tail
                     if (!node) return null
                     del(this, node)
                     return node.value
                 }
 
-                LRUCache.prototype.del = function(key) {
+                LRUCache.prototype.del = function (key) {
                     del(this, priv(this, 'cache').get(key))
                 }
 
-                LRUCache.prototype.load = function(arr) {
+                LRUCache.prototype.load = function (arr) {
                     // reset the cache
                     this.reset()
 
                     var now = Date.now()
-                        // A previous serialized cache has the most recent items first
+                    // A previous serialized cache has the most recent items first
                     for (var l = arr.length - 1; l >= 0; l--) {
                         var hit = arr[l]
                         var expiresAt = hit.e || 0
@@ -11317,7 +11317,7 @@
                             this.set(hit.k, hit.v)
                         } else {
                             var maxAge = expiresAt - now
-                                // dont add already expired items
+                            // dont add already expired items
                             if (maxAge > 0) {
                                 this.set(hit.k, hit.v, maxAge)
                             }
@@ -11325,9 +11325,9 @@
                     }
                 }
 
-                LRUCache.prototype.prune = function() {
+                LRUCache.prototype.prune = function () {
                     var self = this
-                    priv(this, 'cache').forEach(function(value, key) {
+                    priv(this, 'cache').forEach(function (value, key) {
                         get(self, key, false)
                     })
                 }
@@ -11402,10 +11402,10 @@
             },
             /* 46 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 /* WEBPACK VAR INJECTION */
-                (function(process) {
+                (function (process) {
                     if (process.env.npm_package_name === 'pseudomap' &&
                         process.env.npm_lifecycle_script === 'test')
                         process.env.TEST_PSEUDOMAP = 'true'
@@ -11423,7 +11423,7 @@
             },
             /* 47 */
             /***/
-            function(module, exports) {
+            function (module, exports) {
 
                 // shim for using process in browser
 
@@ -11437,18 +11437,18 @@
                 var cachedSetTimeout;
                 var cachedClearTimeout;
 
-                (function() {
+                (function () {
                     try {
                         cachedSetTimeout = setTimeout;
                     } catch (e) {
-                        cachedSetTimeout = function() {
+                        cachedSetTimeout = function () {
                             throw new Error('setTimeout is not defined');
                         }
                     }
                     try {
                         cachedClearTimeout = clearTimeout;
                     } catch (e) {
-                        cachedClearTimeout = function() {
+                        cachedClearTimeout = function () {
                             throw new Error('clearTimeout is not defined');
                         }
                     }
@@ -11497,7 +11497,7 @@
                     cachedClearTimeout(timeout);
                 }
 
-                process.nextTick = function(fun) {
+                process.nextTick = function (fun) {
                     var args = new Array(arguments.length - 1);
                     if (arguments.length > 1) {
                         for (var i = 1; i < arguments.length; i++) {
@@ -11515,7 +11515,7 @@
                     this.fun = fun;
                     this.array = array;
                 }
-                Item.prototype.run = function() {
+                Item.prototype.run = function () {
                     this.fun.apply(null, this.array);
                 };
                 process.title = 'browser';
@@ -11525,7 +11525,7 @@
                 process.version = ''; // empty string to avoid regexp issues
                 process.versions = {};
 
-                function noop() {}
+                function noop() { }
 
                 process.on = noop;
                 process.addListener = noop;
@@ -11535,22 +11535,22 @@
                 process.removeAllListeners = noop;
                 process.emit = noop;
 
-                process.binding = function(name) {
+                process.binding = function (name) {
                     throw new Error('process.binding is not supported');
                 };
 
-                process.cwd = function() { return '/' };
-                process.chdir = function(dir) {
+                process.cwd = function () { return '/' };
+                process.chdir = function (dir) {
                     throw new Error('process.chdir is not supported');
                 };
-                process.umask = function() { return 0; };
+                process.umask = function () { return 0; };
 
 
                 /***/
             },
             /* 48 */
             /***/
-            function(module, exports) {
+            function (module, exports) {
 
                 var hasOwnProperty = Object.prototype.hasOwnProperty
 
@@ -11565,11 +11565,11 @@
                     if (set) {
                         if ((set instanceof PseudoMap) ||
                             (typeof Map === 'function' && set instanceof Map))
-                            set.forEach(function(value, key) {
+                            set.forEach(function (value, key) {
                                 this.set(key, value)
                             }, this)
                         else if (Array.isArray(set))
-                            set.forEach(function(kv) {
+                            set.forEach(function (kv) {
                                 this.set(kv[0], kv[1])
                             }, this)
                         else
@@ -11577,28 +11577,28 @@
                     }
                 }
 
-                PseudoMap.prototype.forEach = function(fn, thisp) {
+                PseudoMap.prototype.forEach = function (fn, thisp) {
                     thisp = thisp || this
-                    Object.keys(this._data).forEach(function(k) {
+                    Object.keys(this._data).forEach(function (k) {
                         if (k !== 'size')
                             fn.call(thisp, this._data[k].value, this._data[k].key)
                     }, this)
                 }
 
-                PseudoMap.prototype.has = function(k) {
+                PseudoMap.prototype.has = function (k) {
                     return !!find(this._data, k)
                 }
 
-                PseudoMap.prototype.get = function(k) {
+                PseudoMap.prototype.get = function (k) {
                     var res = find(this._data, k)
                     return res && res.value
                 }
 
-                PseudoMap.prototype.set = function(k, v) {
+                PseudoMap.prototype.set = function (k, v) {
                     set(this._data, k, v)
                 }
 
-                PseudoMap.prototype.delete = function(k) {
+                PseudoMap.prototype.delete = function (k) {
                     var res = find(this._data, k)
                     if (res) {
                         delete this._data[res._index]
@@ -11606,7 +11606,7 @@
                     }
                 }
 
-                PseudoMap.prototype.clear = function() {
+                PseudoMap.prototype.clear = function () {
                     var data = Object.create(null)
                     data.size = 0
 
@@ -11619,17 +11619,17 @@
                 }
 
                 Object.defineProperty(PseudoMap.prototype, 'size', {
-                    get: function() {
+                    get: function () {
                         return this._data.size
                     },
-                    set: function(n) {},
+                    set: function (n) { },
                     enumerable: true,
                     configurable: true
                 })
 
                 PseudoMap.prototype.values =
                     PseudoMap.prototype.keys =
-                    PseudoMap.prototype.entries = function() {
+                    PseudoMap.prototype.entries = function () {
                         throw new Error('iterators are not implemented in this version')
                     }
 
@@ -11659,7 +11659,7 @@
                         }
                     }
                     data.size++
-                        data[key] = new Entry(k, v, key)
+                    data[key] = new Entry(k, v, key)
                 }
 
 
@@ -11667,10 +11667,10 @@
             },
             /* 49 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 /* WEBPACK VAR INJECTION */
-                (function(global, process) { // Copyright Joyent, Inc. and other Node contributors.
+                (function (global, process) { // Copyright Joyent, Inc. and other Node contributors.
                     //
                     // Permission is hereby granted, free of charge, to any person obtaining a
                     // copy of this software and associated documentation files (the
@@ -11692,7 +11692,7 @@
                     // USE OR OTHER DEALINGS IN THE SOFTWARE.
 
                     var formatRegExp = /%[sdj%]/g;
-                    exports.format = function(f) {
+                    exports.format = function (f) {
                         if (!isString(f)) {
                             var objects = [];
                             for (var i = 0; i < arguments.length; i++) {
@@ -11704,7 +11704,7 @@
                         var i = 1;
                         var args = arguments;
                         var len = args.length;
-                        var str = String(f).replace(formatRegExp, function(x) {
+                        var str = String(f).replace(formatRegExp, function (x) {
                             if (x === '%%') return '%';
                             if (i >= len) return x;
                             switch (x) {
@@ -11736,10 +11736,10 @@
                     // Mark that a method should not be used.
                     // Returns a modified function which warns once by default.
                     // If --no-deprecation is set, then it is a no-op.
-                    exports.deprecate = function(fn, msg) {
+                    exports.deprecate = function (fn, msg) {
                         // Allow for deprecating things in the process of starting up.
                         if (isUndefined(global.process)) {
-                            return function() {
+                            return function () {
                                 return exports.deprecate(fn, msg).apply(this, arguments);
                             };
                         }
@@ -11770,19 +11770,19 @@
 
                     var debugs = {};
                     var debugEnviron;
-                    exports.debuglog = function(set) {
+                    exports.debuglog = function (set) {
                         if (isUndefined(debugEnviron))
                             debugEnviron = process.env.NODE_DEBUG || '';
                         set = set.toUpperCase();
                         if (!debugs[set]) {
                             if (new RegExp('\\b' + set + '\\b', 'i').test(debugEnviron)) {
                                 var pid = process.pid;
-                                debugs[set] = function() {
+                                debugs[set] = function () {
                                     var msg = exports.format.apply(exports, arguments);
                                     console.error('%s %d: %s', set, pid, msg);
                                 };
                             } else {
-                                debugs[set] = function() {};
+                                debugs[set] = function () { };
                             }
                         }
                         return debugs[set];
@@ -11875,7 +11875,7 @@
                     function arrayToHash(array) {
                         var hash = {};
 
-                        array.forEach(function(val, idx) {
+                        array.forEach(function (val, idx) {
                             hash[val] = true;
                         });
 
@@ -11987,7 +11987,7 @@
                         if (array) {
                             output = formatArray(ctx, value, recurseTimes, visibleKeys, keys);
                         } else {
-                            output = keys.map(function(key) {
+                            output = keys.map(function (key) {
                                 return formatProperty(ctx, value, recurseTimes, visibleKeys, key, array);
                             });
                         }
@@ -12032,7 +12032,7 @@
                                 output.push('');
                             }
                         }
-                        keys.forEach(function(key) {
+                        keys.forEach(function (key) {
                             if (!key.match(/^\d+$/)) {
                                 output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
                                     key, true));
@@ -12068,11 +12068,11 @@
                                 }
                                 if (str.indexOf('\n') > -1) {
                                     if (array) {
-                                        str = str.split('\n').map(function(line) {
+                                        str = str.split('\n').map(function (line) {
                                             return '  ' + line;
                                         }).join('\n').substr(2);
                                     } else {
-                                        str = '\n' + str.split('\n').map(function(line) {
+                                        str = '\n' + str.split('\n').map(function (line) {
                                             return '   ' + line;
                                         }).join('\n');
                                     }
@@ -12103,7 +12103,7 @@
 
                     function reduceToSingleString(output, base, braces) {
                         var numLinesEst = 0;
-                        var length = output.reduce(function(prev, cur) {
+                        var length = output.reduce(function (prev, cur) {
                             numLinesEst++;
                             if (cur.indexOf('\n') >= 0) numLinesEst++;
                             return prev + cur.replace(/\u001b\[\d\d?m/g, '').length + 1;
@@ -12220,15 +12220,15 @@
                     function timestamp() {
                         var d = new Date();
                         var time = [pad(d.getHours()),
-                            pad(d.getMinutes()),
-                            pad(d.getSeconds())
+                        pad(d.getMinutes()),
+                        pad(d.getSeconds())
                         ].join(':');
                         return [d.getDate(), months[d.getMonth()], time].join(' ');
                     }
 
 
                     // log is just a thin wrapper to console.log that prepends a timestamp
-                    exports.log = function() {
+                    exports.log = function () {
                         console.log('%s - %s', timestamp(), exports.format.apply(exports, arguments));
                     };
 
@@ -12248,7 +12248,7 @@
                      */
                     exports.inherits = __webpack_require__(51);
 
-                    exports._extend = function(origin, add) {
+                    exports._extend = function (origin, add) {
                         // Don't do anything if add isn't an object
                         if (!add || !isObject(add)) return origin;
 
@@ -12265,13 +12265,13 @@
                     }
 
                     /* WEBPACK VAR INJECTION */
-                }.call(exports, (function() { return this; }()), __webpack_require__(47)))
+                }.call(exports, (function () { return this; }()), __webpack_require__(47)))
 
                 /***/
             },
             /* 50 */
             /***/
-            function(module, exports) {
+            function (module, exports) {
 
                 module.exports = function isBuffer(arg) {
                     return arg && typeof arg === 'object' &&
@@ -12284,7 +12284,7 @@
             },
             /* 51 */
             /***/
-            function(module, exports) {
+            function (module, exports) {
 
                 if (typeof Object.create === 'function') {
                     // implementation from standard node.js 'util' module
@@ -12303,7 +12303,7 @@
                     // old school shim for old browsers
                     module.exports = function inherits(ctor, superCtor) {
                         ctor.super_ = superCtor
-                        var TempCtor = function() {}
+                        var TempCtor = function () { }
                         TempCtor.prototype = superCtor.prototype
                         ctor.prototype = new TempCtor()
                         ctor.prototype.constructor = ctor
@@ -12315,7 +12315,7 @@
             },
             /* 52 */
             /***/
-            function(module, exports) {
+            function (module, exports) {
 
                 module.exports = Yallist
 
@@ -12333,7 +12333,7 @@
                     self.length = 0
 
                     if (list && typeof list.forEach === 'function') {
-                        list.forEach(function(item) {
+                        list.forEach(function (item) {
                             self.push(item)
                         })
                     } else if (arguments.length > 0) {
@@ -12345,7 +12345,7 @@
                     return self
                 }
 
-                Yallist.prototype.removeNode = function(node) {
+                Yallist.prototype.removeNode = function (node) {
                     if (node.list !== this) {
                         throw new Error('removing node which does not belong to this list')
                     }
@@ -12369,12 +12369,12 @@
                     }
 
                     node.list.length--
-                        node.next = null
+                    node.next = null
                     node.prev = null
                     node.list = null
                 }
 
-                Yallist.prototype.unshiftNode = function(node) {
+                Yallist.prototype.unshiftNode = function (node) {
                     if (node === this.head) {
                         return
                     }
@@ -12397,7 +12397,7 @@
                     this.length++
                 }
 
-                Yallist.prototype.pushNode = function(node) {
+                Yallist.prototype.pushNode = function (node) {
                     if (node === this.tail) {
                         return
                     }
@@ -12420,21 +12420,21 @@
                     this.length++
                 }
 
-                Yallist.prototype.push = function() {
+                Yallist.prototype.push = function () {
                     for (var i = 0, l = arguments.length; i < l; i++) {
                         push(this, arguments[i])
                     }
                     return this.length
                 }
 
-                Yallist.prototype.unshift = function() {
+                Yallist.prototype.unshift = function () {
                     for (var i = 0, l = arguments.length; i < l; i++) {
                         unshift(this, arguments[i])
                     }
                     return this.length
                 }
 
-                Yallist.prototype.pop = function() {
+                Yallist.prototype.pop = function () {
                     if (!this.tail)
                         return undefined
 
@@ -12442,10 +12442,10 @@
                     this.tail = this.tail.prev
                     this.tail.next = null
                     this.length--
-                        return res
+                    return res
                 }
 
-                Yallist.prototype.shift = function() {
+                Yallist.prototype.shift = function () {
                     if (!this.head)
                         return undefined
 
@@ -12453,10 +12453,10 @@
                     this.head = this.head.next
                     this.head.prev = null
                     this.length--
-                        return res
+                    return res
                 }
 
-                Yallist.prototype.forEach = function(fn, thisp) {
+                Yallist.prototype.forEach = function (fn, thisp) {
                     thisp = thisp || this
                     for (var walker = this.head, i = 0; walker !== null; i++) {
                         fn.call(thisp, walker.value, i, this)
@@ -12464,7 +12464,7 @@
                     }
                 }
 
-                Yallist.prototype.forEachReverse = function(fn, thisp) {
+                Yallist.prototype.forEachReverse = function (fn, thisp) {
                     thisp = thisp || this
                     for (var walker = this.tail, i = this.length - 1; walker !== null; i--) {
                         fn.call(thisp, walker.value, i, this)
@@ -12472,7 +12472,7 @@
                     }
                 }
 
-                Yallist.prototype.get = function(n) {
+                Yallist.prototype.get = function (n) {
                     for (var i = 0, walker = this.head; walker !== null && i < n; i++) {
                         // abort out of the list early if we hit a cycle
                         walker = walker.next
@@ -12482,7 +12482,7 @@
                     }
                 }
 
-                Yallist.prototype.getReverse = function(n) {
+                Yallist.prototype.getReverse = function (n) {
                     for (var i = 0, walker = this.tail; walker !== null && i < n; i++) {
                         // abort out of the list early if we hit a cycle
                         walker = walker.prev
@@ -12492,7 +12492,7 @@
                     }
                 }
 
-                Yallist.prototype.map = function(fn, thisp) {
+                Yallist.prototype.map = function (fn, thisp) {
                     thisp = thisp || this
                     var res = new Yallist()
                     for (var walker = this.head; walker !== null;) {
@@ -12502,7 +12502,7 @@
                     return res
                 }
 
-                Yallist.prototype.mapReverse = function(fn, thisp) {
+                Yallist.prototype.mapReverse = function (fn, thisp) {
                     thisp = thisp || this
                     var res = new Yallist()
                     for (var walker = this.tail; walker !== null;) {
@@ -12512,7 +12512,7 @@
                     return res
                 }
 
-                Yallist.prototype.reduce = function(fn, initial) {
+                Yallist.prototype.reduce = function (fn, initial) {
                     var acc
                     var walker = this.head
                     if (arguments.length > 1) {
@@ -12532,7 +12532,7 @@
                     return acc
                 }
 
-                Yallist.prototype.reduceReverse = function(fn, initial) {
+                Yallist.prototype.reduceReverse = function (fn, initial) {
                     var acc
                     var walker = this.tail
                     if (arguments.length > 1) {
@@ -12552,7 +12552,7 @@
                     return acc
                 }
 
-                Yallist.prototype.toArray = function() {
+                Yallist.prototype.toArray = function () {
                     var arr = new Array(this.length)
                     for (var i = 0, walker = this.head; walker !== null; i++) {
                         arr[i] = walker.value
@@ -12561,7 +12561,7 @@
                     return arr
                 }
 
-                Yallist.prototype.toArrayReverse = function() {
+                Yallist.prototype.toArrayReverse = function () {
                     var arr = new Array(this.length)
                     for (var i = 0, walker = this.tail; walker !== null; i++) {
                         arr[i] = walker.value
@@ -12570,7 +12570,7 @@
                     return arr
                 }
 
-                Yallist.prototype.slice = function(from, to) {
+                Yallist.prototype.slice = function (from, to) {
                     to = to || this.length
                     if (to < 0) {
                         to += this.length
@@ -12598,7 +12598,7 @@
                     return ret
                 }
 
-                Yallist.prototype.sliceReverse = function(from, to) {
+                Yallist.prototype.sliceReverse = function (from, to) {
                     to = to || this.length
                     if (to < 0) {
                         to += this.length
@@ -12626,7 +12626,7 @@
                     return ret
                 }
 
-                Yallist.prototype.reverse = function() {
+                Yallist.prototype.reverse = function () {
                     var head = this.head
                     var tail = this.tail
                     for (var walker = head; walker !== null; walker = walker.prev) {
@@ -12683,13 +12683,13 @@
             },
             /* 53 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
                 });
 
-                var _createClass = (function() {
+                var _createClass = (function () {
                     function defineProperties(target, props) {
                         for (var i = 0; i < props.length; i++) {
                             var descriptor = props[i];
@@ -12699,7 +12699,7 @@
                             Object.defineProperty(target, descriptor.key, descriptor);
                         }
                     }
-                    return function(Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
+                    return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
                 })();
 
                 var _get = function get(_x, _x2, _x3) {
@@ -12749,7 +12749,7 @@
 
                 // TODO: Make sure nothing is left behind in the heap after calling destroy()
 
-                var ImageTile = (function(_Tile) {
+                var ImageTile = (function (_Tile) {
                     _inherits(ImageTile, _Tile);
 
                     function ImageTile(quadcode, path, layer) {
@@ -12766,7 +12766,7 @@
                             var _this = this;
 
                             // Making this asynchronous really speeds up the LOD framerate
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 if (!_this._mesh) {
                                     _this._mesh = _this._createMesh();
                                     _this._requestTile();
@@ -12891,7 +12891,7 @@
 
                             var image = document.createElement('img');
 
-                            image.addEventListener('load', function(event) {
+                            image.addEventListener('load', function (event) {
                                 var texture = new _three2['default'].Texture();
 
                                 texture.image = image;
@@ -12957,13 +12957,13 @@
             },
             /* 54 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
                 });
 
-                var _createClass = (function() {
+                var _createClass = (function () {
                     function defineProperties(target, props) {
                         for (var i = 0; i < props.length; i++) {
                             var descriptor = props[i];
@@ -12973,7 +12973,7 @@
                             Object.defineProperty(target, descriptor.key, descriptor);
                         }
                     }
-                    return function(Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
+                    return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
                 })();
 
                 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -12996,7 +12996,7 @@
 
                 var tileURLRegex = /\{([szxy])\}/g;
 
-                var Tile = (function() {
+                var Tile = (function () {
                     function Tile(quadcode, path, layer) {
                         _classCallCheck(this, Tile);
 
@@ -13040,7 +13040,7 @@
                         // Request data for the tile
                     }, {
                         key: 'requestTileAsync',
-                        value: function requestTileAsync() {}
+                        value: function requestTileAsync() { }
                     }, {
                         key: 'getQuadcode',
                         value: function getQuadcode() {
@@ -13095,7 +13095,7 @@
 
                             if (this._mesh.children) {
                                 // Dispose of mesh and materials
-                                this._mesh.children.forEach(function(child) {
+                                this._mesh.children.forEach(function (child) {
                                     child.geometry.dispose();
                                     child.geometry = null;
 
@@ -13122,10 +13122,10 @@
                         }
                     }, {
                         key: '_createMesh',
-                        value: function _createMesh() {}
+                        value: function _createMesh() { }
                     }, {
                         key: '_createDebugMesh',
-                        value: function _createDebugMesh() {}
+                        value: function _createDebugMesh() { }
                     }, {
                         key: '_getTileURL',
                         value: function _getTileURL(urlParams) {
@@ -13135,7 +13135,7 @@
                             }
 
                             tileURLRegex.lastIndex = 0;
-                            return this._path.replace(tileURLRegex, function(value, key) {
+                            return this._path.replace(tileURLRegex, function (value, key) {
                                 // Replace with paramter, otherwise keep existing value
                                 return urlParams[key];
                             });
@@ -13223,7 +13223,7 @@
             },
             /* 55 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
@@ -13242,7 +13242,7 @@
                  * @author mrdoob / http://mrdoob.com/
                  */
 
-                BoxHelper = function(object) {
+                BoxHelper = function (object) {
 
                     var indices = new Uint16Array([0, 1, 1, 2, 2, 3, 3, 0, 4, 5, 5, 6, 6, 7, 7, 4, 0, 4, 1, 5, 2, 6, 3, 7]);
                     var positions = new Float32Array(8 * 3);
@@ -13262,11 +13262,11 @@
                 BoxHelper.prototype = Object.create(_three2['default'].LineSegments.prototype);
                 BoxHelper.prototype.constructor = BoxHelper;
 
-                BoxHelper.prototype.update = (function() {
+                BoxHelper.prototype.update = (function () {
 
                     var box = new _three2['default'].Box3();
 
-                    return function(object) {
+                    return function (object) {
 
                         box.setFromObject(object);
 
@@ -13331,7 +13331,7 @@
             },
             /* 56 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
@@ -13343,7 +13343,7 @@
 
                 var _three2 = _interopRequireDefault(_three);
 
-                exports['default'] = function(colour, skyboxTarget) {
+                exports['default'] = function (colour, skyboxTarget) {
                     var canvas = document.createElement('canvas');
                     canvas.width = 1;
                     canvas.height = 1;
@@ -13396,13 +13396,13 @@
             },
             /* 57 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
                 });
 
-                var _createClass = (function() {
+                var _createClass = (function () {
                     function defineProperties(target, props) {
                         for (var i = 0; i < props.length; i++) {
                             var descriptor = props[i];
@@ -13412,7 +13412,7 @@
                             Object.defineProperty(target, descriptor.key, descriptor);
                         }
                     }
-                    return function(Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
+                    return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
                 })();
 
                 var _get = function get(_x, _x2, _x3) {
@@ -13498,7 +13498,7 @@
                 // It may be possible to perform these updates per-frame once Web Worker
                 // processing is added
 
-                var GeoJSONTileLayer = (function(_TileLayer) {
+                var GeoJSONTileLayer = (function (_TileLayer) {
                     _inherits(GeoJSONTileLayer, _TileLayer);
 
                     function GeoJSONTileLayer(path, options) {
@@ -13527,7 +13527,7 @@
                             //
                             // TODO: This is a hack to ensure the camera is all set up - a better
                             // solution should be found
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 _this._calculateLOD();
                                 _this._initEvents();
                             }, 0);
@@ -13628,13 +13628,13 @@
             },
             /* 58 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
                 });
 
-                var _createClass = (function() {
+                var _createClass = (function () {
                     function defineProperties(target, props) {
                         for (var i = 0; i < props.length; i++) {
                             var descriptor = props[i];
@@ -13644,7 +13644,7 @@
                             Object.defineProperty(target, descriptor.key, descriptor);
                         }
                     }
-                    return function(Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
+                    return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
                 })();
 
                 var _get = function get(_x, _x2, _x3) {
@@ -13753,7 +13753,7 @@
                 // Have a look at how this is done in Tangram before implementing anything as
                 // the approach there is pretty similar and robust.
 
-                var GeoJSONTile = (function(_Tile) {
+                var GeoJSONTile = (function (_Tile) {
                     _inherits(GeoJSONTile, _Tile);
 
                     function GeoJSONTile(quadcode, path, layer, options) {
@@ -13802,7 +13802,7 @@
                             var _this = this;
 
                             // Making this asynchronous really speeds up the LOD framerate
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 if (!_this._mesh) {
                                     _this._mesh = _this._createMesh();
 
@@ -13961,11 +13961,11 @@
                                 url: url,
                                 type: 'json',
                                 crossOrigin: true
-                            }).then(function(res) {
+                            }).then(function (res) {
                                 // Clear request reference
                                 _this2._request = null;
                                 _this2._processTileData(res);
-                            })['catch'](function(err) {
+                            })['catch'](function (err) {
                                 console.error("error status: " + err.status);
 
                                 // Clear request reference
@@ -14070,13 +14070,13 @@
             },
             /* 59 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
                 });
 
-                var _createClass = (function() {
+                var _createClass = (function () {
                     function defineProperties(target, props) {
                         for (var i = 0; i < props.length; i++) {
                             var descriptor = props[i];
@@ -14086,7 +14086,7 @@
                             Object.defineProperty(target, descriptor.key, descriptor);
                         }
                     }
-                    return function(Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
+                    return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
                 })();
 
                 var _get = function get(_x, _x2, _x3) {
@@ -14166,7 +14166,7 @@
 
                 var _geometryPointLayer2 = _interopRequireDefault(_geometryPointLayer);
 
-                var GeoJSONLayer = (function(_LayerGroup) {
+                var GeoJSONLayer = (function (_LayerGroup) {
                     _inherits(GeoJSONLayer, _LayerGroup);
 
                     function GeoJSONLayer(geojson, options) {
@@ -14233,11 +14233,11 @@
                                 url: url,
                                 type: 'json',
                                 crossOrigin: true
-                            }).then(function(res) {
+                            }).then(function (res) {
                                 // Clear request reference
                                 _this._request = null;
                                 _this._processData(res);
-                            })['catch'](function(err) {
+                            })['catch'](function (err) {
                                 console.error(err);
 
                                 // Clear request reference
@@ -14275,7 +14275,7 @@
                             var style = this._options.style;
 
                             var options;
-                            features.forEach(function(feature) {
+                            features.forEach(function (feature) {
                                 // Get per-feature style object, if provided
                                 if (typeof _this2._options.style === 'function') {
                                     style = (0, _lodashAssign2['default'])({}, _utilGeoJSON2['default'].defaultStyle, _this2._options.style(feature));
@@ -14327,7 +14327,7 @@
                             var polylineAttributes = [];
                             var pointAttributes = [];
 
-                            this._layers.forEach(function(layer) {
+                            this._layers.forEach(function (layer) {
                                 if (layer instanceof _geometryPolygonLayer2['default']) {
 
                                     polygonAttributes.push(layer.getBufferAttributes());
@@ -14364,7 +14364,7 @@
                             //
                             // TODO: Are there ever situations where the unmerged buffer attributes
                             // and coordinates would still be required?
-                            this._layers.forEach(function(layer) {
+                            this._layers.forEach(function (layer) {
                                 layer.clearBufferAttributes();
                                 layer.clearCoordinates();
                             });
@@ -14538,12 +14538,12 @@
                             } else if (!this._world._environment._skybox) {
                                 material = new THREE.MeshPhongMaterial({
                                     vertexColors: THREE.VertexColors
-                                        // side: THREE.BackSide
+                                    // side: THREE.BackSide
                                 });
                             } else {
                                 material = new THREE.MeshStandardMaterial({
                                     vertexColors: THREE.VertexColors
-                                        // side: THREE.BackSide
+                                    // side: THREE.BackSide
                                 });
                                 material.roughness = 1;
                                 material.metalness = 0.1;
@@ -14698,13 +14698,13 @@
             },
             /* 60 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
                 });
 
-                var _createClass = (function() {
+                var _createClass = (function () {
                     function defineProperties(target, props) {
                         for (var i = 0; i < props.length; i++) {
                             var descriptor = props[i];
@@ -14714,7 +14714,7 @@
                             Object.defineProperty(target, descriptor.key, descriptor);
                         }
                     }
-                    return function(Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
+                    return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
                 })();
 
                 var _get = function get(_x, _x2, _x3) {
@@ -14758,7 +14758,7 @@
 
                 var _lodashAssign2 = _interopRequireDefault(_lodashAssign);
 
-                var LayerGroup = (function(_Layer) {
+                var LayerGroup = (function (_Layer) {
                     _inherits(LayerGroup, _Layer);
 
                     function LayerGroup(options) {
@@ -14795,7 +14795,7 @@
                         }
                     }, {
                         key: '_onAdd',
-                        value: function _onAdd(world) {}
+                        value: function _onAdd(world) { }
 
                         // Destroy the layers and remove them from the scene and memory
                     }, {
@@ -14829,7 +14829,7 @@
             },
             /* 61 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;
                 /*!
@@ -14838,11 +14838,11 @@
                  * https://github.com/ded/reqwest
                  */
 
-                ! function(name, context, definition) {
+                ! function (name, context, definition) {
                     if (typeof module != 'undefined' && module.exports) module.exports = definition()
                     else if (true) !(__WEBPACK_AMD_DEFINE_FACTORY__ = (definition), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
                     else context[name] = definition()
-                }('reqwest', this, function() {
+                }('reqwest', this, function () {
 
                     var context = this
 
@@ -14872,50 +14872,50 @@
                         lastValue // data stored by the most recent JSONP callback
                         , xmlHttpRequest = 'XMLHttpRequest',
                         xDomainRequest = 'XDomainRequest',
-                        noop = function() {}
+                        noop = function () { }
 
-                    , isArray = typeof Array.isArray == 'function' ?
-                        Array.isArray :
-                        function(a) {
-                            return a instanceof Array
-                        }
-
-                    , defaultHeaders = {
-                        'contentType': 'application/x-www-form-urlencoded',
-                        'requestedWith': xmlHttpRequest,
-                        'accept': {
-                            '*': 'text/javascript, text/html, application/xml, text/xml, */*',
-                            'xml': 'application/xml, text/xml',
-                            'html': 'text/html',
-                            'text': 'text/plain',
-                            'json': 'application/json, text/javascript',
-                            'js': 'application/javascript, text/javascript'
-                        }
-                    }
-
-                    , xhr = function(o) {
-                        // is it x-domain
-                        if (o['crossOrigin'] === true) {
-                            var xhr = context[xmlHttpRequest] ? new XMLHttpRequest() : null
-                            if (xhr && 'withCredentials' in xhr) {
-                                return xhr
-                            } else if (context[xDomainRequest]) {
-                                return new XDomainRequest()
-                            } else {
-                                throw new Error('Browser does not support cross-origin requests')
+                        , isArray = typeof Array.isArray == 'function' ?
+                            Array.isArray :
+                            function (a) {
+                                return a instanceof Array
                             }
-                        } else if (context[xmlHttpRequest]) {
-                            return new XMLHttpRequest()
-                        } else if (XHR2) {
-                            return new XHR2()
-                        } else {
-                            return new ActiveXObject('Microsoft.XMLHTTP')
+
+                        , defaultHeaders = {
+                            'contentType': 'application/x-www-form-urlencoded',
+                            'requestedWith': xmlHttpRequest,
+                            'accept': {
+                                '*': 'text/javascript, text/html, application/xml, text/xml, */*',
+                                'xml': 'application/xml, text/xml',
+                                'html': 'text/html',
+                                'text': 'text/plain',
+                                'json': 'application/json, text/javascript',
+                                'js': 'application/javascript, text/javascript'
+                            }
                         }
-                    }, globalSetupOptions = {
-                        dataFilter: function(data) {
-                            return data
+
+                        , xhr = function (o) {
+                            // is it x-domain
+                            if (o['crossOrigin'] === true) {
+                                var xhr = context[xmlHttpRequest] ? new XMLHttpRequest() : null
+                                if (xhr && 'withCredentials' in xhr) {
+                                    return xhr
+                                } else if (context[xDomainRequest]) {
+                                    return new XDomainRequest()
+                                } else {
+                                    throw new Error('Browser does not support cross-origin requests')
+                                }
+                            } else if (context[xmlHttpRequest]) {
+                                return new XMLHttpRequest()
+                            } else if (XHR2) {
+                                return new XHR2()
+                            } else {
+                                return new ActiveXObject('Microsoft.XMLHTTP')
+                            }
+                        }, globalSetupOptions = {
+                            dataFilter: function (data) {
+                                return data
+                            }
                         }
-                    }
 
                     function succeed(r) {
                         var protocol = protocolRe.exec(r.url)
@@ -14924,7 +14924,7 @@
                     }
 
                     function handleReadyState(r, success, error) {
-                        return function() {
+                        return function () {
                             // use _aborted to mitigate against IE err c00c023f
                             // (can't read props on aborted request objects)
                             if (r._aborted) return error(r.request)
@@ -15001,13 +15001,13 @@
                             script.htmlFor = script.id = '_reqwest_' + reqId
                         }
 
-                        script.onload = script.onreadystatechange = function() {
+                        script.onload = script.onreadystatechange = function () {
                             if ((script[readyState] && script[readyState] !== 'complete' && script[readyState] !== 'loaded') || loaded) {
                                 return false
                             }
                             script.onload = script.onreadystatechange = null
                             script.onclick && script.onclick()
-                                // Call the user callback with the last value stored and clean up values and scripts.
+                            // Call the user callback with the last value stored and clean up values and scripts.
                             fn(lastValue)
                             lastValue = undefined
                             head.removeChild(script)
@@ -15019,7 +15019,7 @@
 
                         // Enable JSONP timeout
                         return {
-                            abort: function() {
+                            abort: function () {
                                 script.onload = script.onreadystatechange = null
                                 err({}, 'Request is aborted: timeout', {})
                                 lastValue = undefined
@@ -15030,14 +15030,15 @@
                     }
 
                     function getRequest(fn, err) {
+
                         var o = this.o,
                             method = (o['method'] || 'GET').toUpperCase(),
                             url = typeof o === 'string' ? o : o['url']
                             // convert non-string objects to query-string form unless o['processData'] is false
                             ,
                             data = (o['processData'] !== false && o['data'] && typeof o['data'] !== 'string') ?
-                            reqwest.toQueryString(o['data']) :
-                            (o['data'] || null),
+                                reqwest.toQueryString(o['data']) :
+                                (o['data'] || null),
                             http, sendWait = false
 
                         // if we're working on a GET request and we have data then we should append
@@ -15059,20 +15060,26 @@
                         if (context[xDomainRequest] && http instanceof context[xDomainRequest]) {
                             http.onload = fn
                             http.onerror = err
-                                // NOTE: see
-                                // http://social.msdn.microsoft.com/Forums/en-US/iewebdevelopment/thread/30ef3add-767c-4436-b8a9-f1ca19b4812e
-                            http.onprogress = function() {}
+                            // NOTE: see
+                            // http://social.msdn.microsoft.com/Forums/en-US/iewebdevelopment/thread/30ef3add-767c-4436-b8a9-f1ca19b4812e
+                            http.onprogress = function () { }
                             sendWait = true
                         } else {
                             http.onreadystatechange = handleReadyState(this, fn, err)
                         }
                         o['before'] && o['before'](http)
-                        if (sendWait) {
-                            setTimeout(function() {
+
+                        // 2023 I added a filter here to prevent a flood of error messages due to the lack of server response to tile requests 
+
+                        if (data != null) {
+                            if (sendWait) {
+                                setTimeout(function () {
+                                    http.send(data)
+                                }, 200)
+                            } else {
                                 http.send(data)
-                            }, 200)
-                        } else {
-                            http.send(data)
+                            }
+                            
                         }
                         return http
                     }
@@ -15101,40 +15108,40 @@
                         // whether request has been fulfilled for purpose
                         // of tracking the Promises
                         this._fulfilled = false
-                            // success handlers
-                        this._successHandler = function() {}
+                        // success handlers
+                        this._successHandler = function () { }
                         this._fulfillmentHandlers = []
-                            // error handlers
+                        // error handlers
                         this._errorHandlers = []
-                            // complete (both success and fail) handlers
+                        // complete (both success and fail) handlers
                         this._completeHandlers = []
                         this._erred = false
                         this._responseArgs = {}
 
                         var self = this
 
-                        fn = fn || function() {}
+                        fn = fn || function () { }
 
                         if (o['timeout']) {
-                            this.timeout = setTimeout(function() {
+                            this.timeout = setTimeout(function () {
                                 timedOut()
                             }, o['timeout'])
                         }
 
                         if (o['success']) {
-                            this._successHandler = function() {
+                            this._successHandler = function () {
                                 o['success'].apply(o, arguments)
                             }
                         }
 
                         if (o['error']) {
-                            this._errorHandlers.push(function() {
+                            this._errorHandlers.push(function () {
                                 o['error'].apply(o, arguments)
                             })
                         }
 
                         if (o['complete']) {
-                            this._completeHandlers.push(function() {
+                            this._completeHandlers.push(function () {
                                 o['complete'].apply(o, arguments)
                             })
                         }
@@ -15150,7 +15157,7 @@
                         function success(resp) {
                             var type = o['type'] || resp && setType(resp.getResponseHeader('Content-Type')) // resp can be undefined in IE
                             resp = (type !== 'jsonp') ? self.request : resp
-                                // use global data filter on response text
+                            // use global data filter on response text
                             var filteredResponse = globalSetupOptions.dataFilter(resp.responseText, type),
                                 r = filteredResponse
                             try {
@@ -15217,13 +15224,13 @@
                     }
 
                     Reqwest.prototype = {
-                        abort: function() {
+                        abort: function () {
                             this._aborted = true
                             this.request.abort()
                         }
 
                         ,
-                        retry: function() {
+                        retry: function () {
                             init.call(this, this.o, this.fn)
                         }
 
@@ -15236,9 +15243,9 @@
                          * `then` will execute upon successful requests
                          */
                         ,
-                        then: function(success, fail) {
-                            success = success || function() {}
-                            fail = fail || function() {}
+                        then: function (success, fail) {
+                            success = success || function () { }
+                            fail = fail || function () { }
                             if (this._fulfilled) {
                                 this._responseArgs.resp = success(this._responseArgs.resp)
                             } else if (this._erred) {
@@ -15254,7 +15261,7 @@
                          * `always` will execute whether the request succeeds or fails
                          */
                         ,
-                        always: function(fn) {
+                        always: function (fn) {
                             if (this._fulfilled || this._erred) {
                                 fn(this._responseArgs.resp)
                             } else {
@@ -15267,7 +15274,7 @@
                          * `fail` will execute when the request fails
                          */
                         ,
-                        fail: function(fn) {
+                        fail: function (fn) {
                             if (this._erred) {
                                 fn(this._responseArgs.resp, this._responseArgs.msg, this._responseArgs.t)
                             } else {
@@ -15275,7 +15282,7 @@
                             }
                             return this
                         },
-                        'catch': function(fn) {
+                        'catch': function (fn) {
                             return this.fail(fn)
                         }
                     }
@@ -15292,7 +15299,7 @@
                     function serial(el, cb) {
                         var n = el.name,
                             t = el.tagName.toLowerCase(),
-                            optCb = function(o) {
+                            optCb = function (o) {
                                 // IE gives value="" even where there is no value attribute
                                 // 'specified' ref: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-862529273
                                 if (o && !o['disabled'])
@@ -15310,7 +15317,7 @@
                                     ra = /radio/i.test(el.type)
                                     val = el.value
                                         // WebKit gives us "" instead of "on" if a checkbox has no value, so correct it here
-                                    ;
+                                        ;
                                     (!(ch || ra) || el.checked) && cb(n, normalize(ch && val === '' ? 'on' : val))
                                 }
                                 break
@@ -15334,7 +15341,7 @@
                     // called with 'this'=callback to use for serial() on each element
                     function eachFormElement() {
                         var cb = this,
-                            e, i, serializeSubtags = function(e, tags) {
+                            e, i, serializeSubtags = function (e, tags) {
                                 var i, j, fa
                                 for (i = 0; i < tags.length; i++) {
                                     fa = e[byTag](tags[i])
@@ -15357,7 +15364,7 @@
                     // { 'name': 'value', ... } style serialization
                     function serializeHash() {
                         var hash = {}
-                        eachFormElement.apply(function(name, value) {
+                        eachFormElement.apply(function (name, value) {
                             if (name in hash) {
                                 hash[name] && !isArray(hash[name]) && (hash[name] = [hash[name]])
                                 hash[name].push(value)
@@ -15367,15 +15374,15 @@
                     }
 
                     // [ { name: 'name', value: 'value' }, ... ] style serialization
-                    reqwest.serializeArray = function() {
+                    reqwest.serializeArray = function () {
                         var arr = []
-                        eachFormElement.apply(function(name, value) {
+                        eachFormElement.apply(function (name, value) {
                             arr.push({ name: name, value: value })
                         }, arguments)
                         return arr
                     }
 
-                    reqwest.serialize = function() {
+                    reqwest.serialize = function () {
                         if (arguments.length === 0) return ''
                         var opt, fn, args = Array.prototype.slice.call(arguments, 0)
 
@@ -15390,16 +15397,16 @@
                         return fn.apply(null, args)
                     }
 
-                    reqwest.toQueryString = function(o, trad) {
+                    reqwest.toQueryString = function (o, trad) {
                         var prefix, i, traditional = trad || false,
                             s = [],
                             enc = encodeURIComponent,
-                            add = function(key, value) {
+                            add = function (key, value) {
                                 // If value is a function, invoke it and return its value
                                 value = ('function' === typeof value) ? value() : (value == null ? '' : value)
                                 s[s.length] = enc(key) + '=' + enc(value)
                             }
-                            // If an array was passed in, assume that it is an array of form elements.
+                        // If an array was passed in, assume that it is an array of form elements.
                         if (isArray(o)) {
                             for (i = 0; o && i < o.length; i++) add(o[i]['name'], o[i]['value'])
                         } else {
@@ -15440,13 +15447,13 @@
                         }
                     }
 
-                    reqwest.getcallbackPrefix = function() {
+                    reqwest.getcallbackPrefix = function () {
                         return callbackPrefix
                     }
 
                     // jQuery and Zepto compatibility, differences can be remapped here so you can call
                     // .ajax.compat(options, callback)
-                    reqwest.compat = function(o, fn) {
+                    reqwest.compat = function (o, fn) {
                         if (o) {
                             o['type'] && (o['method'] = o['type']) && delete o['type']
                             o['dataType'] && (o['type'] = o['dataType'])
@@ -15456,7 +15463,7 @@
                         return new Reqwest(o, fn)
                     }
 
-                    reqwest.ajaxSetup = function(options) {
+                    reqwest.ajaxSetup = function (options) {
                         options = options || {}
                         for (var k in options) {
                             globalSetupOptions[k] = options[k]
@@ -15471,7 +15478,7 @@
             },
             /* 62 */
             /***/
-            function(module, exports) {
+            function (module, exports) {
 
                 /* (ignored) */
 
@@ -15479,7 +15486,7 @@
             },
             /* 63 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
@@ -15523,7 +15530,7 @@
                 var light = new _three2['default'].Color(0xffffff);
                 var shadow = new _three2['default'].Color(0x666666);
 
-                var GeoJSON = (function() {
+                var GeoJSON = (function () {
                     var defaultStyle = {
                         color: '#ffffff',
                         transparent: false,
@@ -15587,7 +15594,7 @@
                         //
                         // LineSegments requires pairs of vertices so repeat the last point if
                         // there's an odd number of vertices
-                        coordinates.forEach(function(coordinate, index) {
+                        coordinates.forEach(function (coordinate, index) {
                             _colours.push([colour.r, colour.g, colour.b]);
                             _coords.push([coordinate[0], height, coordinate[1]]);
 
@@ -15610,14 +15617,14 @@
                         var _colours = [];
 
                         var result;
-                        coordinates.forEach(function(coordinate) {
+                        coordinates.forEach(function (coordinate) {
                             result = lineStringAttributes(coordinate, colour, height);
 
-                            result.vertices.forEach(function(coord) {
+                            result.vertices.forEach(function (coord) {
                                 _coords.push(coord);
                             });
 
-                            result.colours.forEach(function(colour) {
+                            result.colours.forEach(function (colour) {
                                 _colours.push(colour);
                             });
                         });
@@ -15653,7 +15660,7 @@
                         var _colours = [];
 
                         var _colour;
-                        extruded.top.forEach(function(face, fi) {
+                        extruded.top.forEach(function (face, fi) {
                             _colour = [];
 
                             _colour.push([colour.r, colour.g, colour.b]);
@@ -15672,7 +15679,7 @@
                             }
 
                             // Set up colours for every vertex with poor-mans AO on the sides
-                            extruded.sides.forEach(function(face, fi) {
+                            extruded.sides.forEach(function (face, fi) {
                                 _colour = [];
 
                                 // First face is always bottom-bottom-top
@@ -15759,16 +15766,16 @@
             },
             /* 64 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
-                (function(global, factory) {
+                (function (global, factory) {
                     true ? factory(exports) :
                         typeof define === 'function' && define.amd ? define(['exports'], factory) :
-                        (factory((global.topojson = global.topojson || {})));
-                }(this, function(exports) {
+                            (factory((global.topojson = global.topojson || {})));
+                }(this, function (exports) {
                     'use strict';
 
-                    function noop() {}
+                    function noop() { }
 
                     function transformAbsolute(transform) {
                         if (!transform) return noop;
@@ -15778,7 +15785,7 @@
                             ky = transform.scale[1],
                             dx = transform.translate[0],
                             dy = transform.translate[1];
-                        return function(point, i) {
+                        return function (point, i) {
                             if (!i) x0 = y0 = 0;
                             point[0] = (x0 += point[0]) * kx + dx;
                             point[1] = (y0 += point[1]) * ky + dy;
@@ -15793,7 +15800,7 @@
                             ky = transform.scale[1],
                             dx = transform.translate[0],
                             dy = transform.translate[1];
-                        return function(point, i) {
+                        return function (point, i) {
                             if (!i) x0 = y0 = 0;
                             var x1 = Math.round((point[0] - dx) / kx),
                                 y1 = Math.round((point[1] - dy) / ky);
@@ -15824,7 +15831,7 @@
                     function feature(topology, o) {
                         return o.type === "GeometryCollection" ? {
                             type: "FeatureCollection",
-                            features: o.geometries.map(function(o) { return feature$1(topology, o); })
+                            features: o.geometries.map(function (o) { return feature$1(topology, o); })
                         } : feature$1(topology, o);
                     }
 
@@ -15879,16 +15886,16 @@
                             var t = o.type;
                             return t === "GeometryCollection" ? { type: t, geometries: o.geometries.map(geometry) } :
                                 t in geometryType ? { type: t, coordinates: geometryType[t](o) } :
-                                null;
+                                    null;
                         }
 
                         var geometryType = {
-                            Point: function(o) { return point(o.coordinates); },
-                            MultiPoint: function(o) { return o.coordinates.map(point); },
-                            LineString: function(o) { return line(o.arcs); },
-                            MultiLineString: function(o) { return o.arcs.map(line); },
-                            Polygon: function(o) { return polygon(o.arcs); },
-                            MultiPolygon: function(o) { return o.arcs.map(polygon); }
+                            Point: function (o) { return point(o.coordinates); },
+                            MultiPoint: function (o) { return o.coordinates.map(point); },
+                            LineString: function (o) { return line(o.arcs); },
+                            MultiLineString: function (o) { return o.arcs.map(line); },
+                            Polygon: function (o) { return polygon(o.arcs); },
+                            MultiPolygon: function (o) { return o.arcs.map(polygon); }
                         };
 
                         return geometry(o);
@@ -15902,7 +15909,7 @@
                             emptyIndex = -1;
 
                         // Stitch empty arcs first, since they may be subsumed by other arcs.
-                        arcs.forEach(function(i, j) {
+                        arcs.forEach(function (i, j) {
                             var arc = topology.arcs[i < 0 ? ~i : i],
                                 t;
                             if (arc.length < 3 && !arc[1][0] && !arc[1][1]) {
@@ -15910,7 +15917,7 @@
                             }
                         });
 
-                        arcs.forEach(function(i) {
+                        arcs.forEach(function (i) {
                             var e = ends(i),
                                 start = e[0],
                                 end = e[1],
@@ -15948,7 +15955,7 @@
                             var arc = topology.arcs[i < 0 ? ~i : i],
                                 p0 = arc[0],
                                 p1;
-                            if (topology.transform) p1 = [0, 0], arc.forEach(function(dp) { p1[0] += dp[0], p1[1] += dp[1]; });
+                            if (topology.transform) p1 = [0, 0], arc.forEach(function (dp) { p1[0] += dp[0], p1[1] += dp[1]; });
                             else p1 = arc[arc.length - 1];
                             return i < 0 ? [p1, p0] : [p0, p1];
                         }
@@ -15959,14 +15966,14 @@
                                 delete fragmentByStart[f.start];
                                 delete f.start;
                                 delete f.end;
-                                f.forEach(function(i) { stitchedArcs[i < 0 ? ~i : i] = 1; });
+                                f.forEach(function (i) { stitchedArcs[i < 0 ? ~i : i] = 1; });
                                 fragments.push(f);
                             }
                         }
 
                         flush(fragmentByEnd, fragmentByStart);
                         flush(fragmentByStart, fragmentByEnd);
-                        arcs.forEach(function(i) { if (!stitchedArcs[i < 0 ? ~i : i]) fragments.push([i]); });
+                        arcs.forEach(function (i) { if (!stitchedArcs[i < 0 ? ~i : i]) fragments.push([i]); });
 
                         return fragments;
                     }
@@ -16004,15 +16011,15 @@
                                 LineString: line,
                                 MultiLineString: polygon,
                                 Polygon: polygon,
-                                MultiPolygon: function(arcs) { arcs.forEach(polygon); }
+                                MultiPolygon: function (arcs) { arcs.forEach(polygon); }
                             };
 
                             geometry(o);
 
                             geomsByArc.forEach(arguments.length < 3 ?
 
-                                function(geoms) { arcs.push(geoms[0].i); } :
-                                function(geoms) { if (filter(geoms[0].g, geoms[geoms.length - 1].g)) arcs.push(geoms[0].i); });
+                                function (geoms) { arcs.push(geoms[0].i); } :
+                                function (geoms) { if (filter(geoms[0].g, geoms[geoms.length - 1].g)) arcs.push(geoms[0].i); });
                         } else {
                             for (var i = 0, n = topology.arcs.length; i < n; ++i) arcs.push(i);
                         }
@@ -16052,14 +16059,14 @@
                             polygons = [],
                             components = [];
 
-                        objects.forEach(function(o) {
+                        objects.forEach(function (o) {
                             if (o.type === "Polygon") register(o.arcs);
                             else if (o.type === "MultiPolygon") o.arcs.forEach(register);
                         });
 
                         function register(polygon) {
-                            polygon.forEach(function(ring$$) {
-                                ring$$.forEach(function(arc) {
+                            polygon.forEach(function (ring$$) {
+                                ring$$.forEach(function (arc) {
                                     (polygonsByArc[arc = arc < 0 ? ~arc : arc] || (polygonsByArc[arc] = [])).push(polygon);
                                 });
                             });
@@ -16070,7 +16077,7 @@
                             return Math.abs(ring(object(topology, { type: "Polygon", arcs: [ring$$] }).coordinates[0]));
                         }
 
-                        polygons.forEach(function(polygon) {
+                        polygons.forEach(function (polygon) {
                             if (!polygon._) {
                                 var component = [],
                                     neighbors = [polygon];
@@ -16078,9 +16085,9 @@
                                 components.push(component);
                                 while (polygon = neighbors.pop()) {
                                     component.push(polygon);
-                                    polygon.forEach(function(ring$$) {
-                                        ring$$.forEach(function(arc) {
-                                            polygonsByArc[arc < 0 ? ~arc : arc].forEach(function(polygon) {
+                                    polygon.forEach(function (ring$$) {
+                                        ring$$.forEach(function (arc) {
+                                            polygonsByArc[arc < 0 ? ~arc : arc].forEach(function (polygon) {
                                                 if (!polygon._) {
                                                     polygon._ = 1;
                                                     neighbors.push(polygon);
@@ -16092,20 +16099,20 @@
                             }
                         });
 
-                        polygons.forEach(function(polygon) {
+                        polygons.forEach(function (polygon) {
                             delete polygon._;
                         });
 
                         return {
                             type: "MultiPolygon",
-                            arcs: components.map(function(polygons) {
+                            arcs: components.map(function (polygons) {
                                 var arcs = [],
                                     n;
 
                                 // Extract the exterior (unique) arcs.
-                                polygons.forEach(function(polygon) {
-                                    polygon.forEach(function(ring$$) {
-                                        ring$$.forEach(function(arc) {
+                                polygons.forEach(function (polygon) {
+                                    polygon.forEach(function (ring$$) {
+                                        ring$$.forEach(function (arc) {
                                             if (polygonsByArc[arc < 0 ? ~arc : arc].length < 2) {
                                                 arcs.push(arc);
                                             }
@@ -16134,10 +16141,10 @@
 
                     function neighbors(objects) {
                         var indexesByArc = {}, // arc index -> array of object indexes
-                            neighbors = objects.map(function() { return []; });
+                            neighbors = objects.map(function () { return []; });
 
                         function line(arcs, i) {
-                            arcs.forEach(function(a) {
+                            arcs.forEach(function (a) {
                                 if (a < 0) a = ~a;
                                 var o = indexesByArc[a];
                                 if (o) o.push(i);
@@ -16146,11 +16153,11 @@
                         }
 
                         function polygon(arcs, i) {
-                            arcs.forEach(function(arc) { line(arc, i); });
+                            arcs.forEach(function (arc) { line(arc, i); });
                         }
 
                         function geometry(o, i) {
-                            if (o.type === "GeometryCollection") o.geometries.forEach(function(o) { geometry(o, i); });
+                            if (o.type === "GeometryCollection") o.geometries.forEach(function (o) { geometry(o, i); });
                             else if (o.type in geometryType) geometryType[o.type](o.arcs, i);
                         }
 
@@ -16158,7 +16165,7 @@
                             LineString: line,
                             MultiLineString: polygon,
                             Polygon: polygon,
-                            MultiPolygon: function(arcs, i) { arcs.forEach(function(arc) { polygon(arc, i); }); }
+                            MultiPolygon: function (arcs, i) { arcs.forEach(function (arc) { polygon(arc, i); }); }
                         };
 
                         objects.forEach(geometry);
@@ -16187,12 +16194,12 @@
                             array = [],
                             size = 0;
 
-                        heap.push = function(object) {
+                        heap.push = function (object) {
                             up(array[object._ = size] = object, size++);
                             return size;
                         };
 
-                        heap.pop = function() {
+                        heap.pop = function () {
                             if (size <= 0) return;
                             var removed = array[0],
                                 object;
@@ -16200,7 +16207,7 @@
                             return removed;
                         };
 
-                        heap.remove = function(removed) {
+                        heap.remove = function (removed) {
                             var i = removed._,
                                 object;
                             if (array[i] !== removed) return; // invalid request
@@ -16242,7 +16249,7 @@
 
                         if (!triangleArea) triangleArea = cartesianTriangleArea;
 
-                        topology.arcs.forEach(function(arc) {
+                        topology.arcs.forEach(function (arc) {
                             var triangles = [],
                                 maxArea = 0,
                                 triangle,
@@ -16325,14 +16332,14 @@
             },
             /* 65 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 var normalize = __webpack_require__(66);
 
-                module.exports = function(inputs) {
+                module.exports = function (inputs) {
                     return {
                         type: 'FeatureCollection',
-                        features: inputs.reduce(function(memo, input) {
+                        features: inputs.reduce(function (memo, input) {
                             return memo.concat(normalize(input).features);
                         }, [])
                     };
@@ -16343,7 +16350,7 @@
             },
             /* 66 */
             /***/
-            function(module, exports) {
+            function (module, exports) {
 
                 module.exports = normalize;
 
@@ -16394,7 +16401,7 @@
             },
             /* 67 */
             /***/
-            function(module, exports) {
+            function (module, exports) {
 
                 'use strict';
 
@@ -16987,7 +16994,7 @@
 
                 // return a percentage difference between the polygon area and its triangulation area;
                 // used to verify correctness of triangulation
-                earcut.deviation = function(data, holeIndices, dim, triangles) {
+                earcut.deviation = function (data, holeIndices, dim, triangles) {
                     var hasHoles = holeIndices && holeIndices.length;
                     var outerLen = hasHoles ? holeIndices[0] * dim : data.length;
 
@@ -17024,7 +17031,7 @@
                 }
 
                 // turn a polygon in a multi-dimensional array form (e.g. as in GeoJSON) into a form Earcut accepts
-                earcut.flatten = function(data) {
+                earcut.flatten = function (data) {
                     var dim = data[0][0].length,
                         result = { vertices: [], holes: [], dimensions: dim },
                         holeIndex = 0;
@@ -17046,7 +17053,7 @@
             },
             /* 68 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
@@ -17085,7 +17092,7 @@
                     options.top === options.bottom ? flat() : full();
 
                     function flat() {
-                        positions = points.map(function(p) {
+                        positions = points.map(function (p) {
                             return [p[0], options.top, p[1]];
                         });
                         cells = faces;
@@ -17094,10 +17101,10 @@
 
                     function full() {
                         positions = [];
-                        points.forEach(function(p) {
+                        points.forEach(function (p) {
                             positions.push([p[0], options.top, p[1]]);
                         });
-                        points.forEach(function(p) {
+                        points.forEach(function (p) {
                             positions.push([p[0], options.bottom, p[1]]);
                         });
 
@@ -17116,12 +17123,12 @@
 
                         if (options.closed) {
                             var top = faces;
-                            var bottom = top.map(function(p) {
-                                return p.map(function(v) {
+                            var bottom = top.map(function (p) {
+                                return p.map(function (v) {
                                     return v + n;
                                 });
                             });
-                            bottom = bottom.map(function(p) {
+                            bottom = bottom.map(function (p) {
                                 return [p[0], p[2], p[1]];
                             });
                             cells = cells.concat(top).concat(bottom);
@@ -17147,7 +17154,7 @@
             },
             /* 69 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
@@ -17163,7 +17170,7 @@
 
                 var _three2 = _interopRequireDefault(_three);
 
-                var Buffer = (function() {
+                var Buffer = (function () {
                     // Merge multiple attribute objects into a single attribute object
                     //
                     // Attribute objects must all use the same attribute keys
@@ -17171,7 +17178,7 @@
                         var lengths = {};
 
                         // Find array lengths
-                        attributes.forEach(function(_attributes) {
+                        attributes.forEach(function (_attributes) {
                             for (var k in _attributes) {
                                 if (!lengths[k]) {
                                     lengths[k] = 0;
@@ -17190,7 +17197,7 @@
 
                         var lastLengths = {};
 
-                        attributes.forEach(function(_attributes) {
+                        attributes.forEach(function (_attributes) {
                             for (var k in _attributes) {
                                 if (!lastLengths[k]) {
                                     lastLengths[k] = 0;
@@ -17420,7 +17427,7 @@
             },
             /* 70 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
@@ -17462,11 +17469,11 @@
 
                 PickingMaterial.prototype.constructor = PickingMaterial;
 
-                PickingMaterial.prototype.setPointSize = function(size) {
+                PickingMaterial.prototype.setPointSize = function (size) {
                     this.uniforms.size.value = size;
                 };
 
-                PickingMaterial.prototype.setPointScale = function(scale) {
+                PickingMaterial.prototype.setPointScale = function (scale) {
                     this.uniforms.scale.value = scale;
                 };
 
@@ -17477,7 +17484,7 @@
             },
             /* 71 */
             /***/
-            function(module, exports) {
+            function (module, exports) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
@@ -17504,13 +17511,13 @@
             },
             /* 72 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
                 });
 
-                var _createClass = (function() {
+                var _createClass = (function () {
                     function defineProperties(target, props) {
                         for (var i = 0; i < props.length; i++) {
                             var descriptor = props[i];
@@ -17520,7 +17527,7 @@
                             Object.defineProperty(target, descriptor.key, descriptor);
                         }
                     }
-                    return function(Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
+                    return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
                 })();
 
                 var _get = function get(_x, _x2, _x3) {
@@ -17604,7 +17611,7 @@
 
                 var _utilBuffer2 = _interopRequireDefault(_utilBuffer);
 
-                var PolygonLayer = (function(_Layer) {
+                var PolygonLayer = (function (_Layer) {
                     _inherits(PolygonLayer, _Layer);
 
                     function PolygonLayer(coordinates, options) {
@@ -17687,7 +17694,7 @@
                         // TODO: Implement getBounds()
                     }, {
                         key: 'getBounds',
-                        value: function getBounds() {}
+                        value: function getBounds() { }
 
                         // Get unique ID for picking interaction
                     }, {
@@ -17703,7 +17710,7 @@
                             var _this = this;
 
                             // TODO: Find a way to properly remove this listener on destroy
-                            this._world.on('pick-' + this._pickingId, function(point2d, point3d, intersects) {
+                            this._world.on('pick-' + this._pickingId, function (point2d, point3d, intersects) {
                                 // Re-emit click event from the layer
                                 _this.emit('click', _this, point2d, point3d, intersects);
                             });
@@ -17738,7 +17745,7 @@
                                 var shadow = new _three2['default'].Color(0x666666);
 
                                 // For each polygon
-                                attributes = this._projectedCoordinates.map(function(_projectedCoordinates) {
+                                attributes = this._projectedCoordinates.map(function (_projectedCoordinates) {
                                     // Convert coordinates to earcut format
                                     var _earcut = _this2._toEarcut(_projectedCoordinates);
 
@@ -17763,7 +17770,7 @@
                                     var _colours = [];
 
                                     var _colour;
-                                    extruded.top.forEach(function(face, fi) {
+                                    extruded.top.forEach(function (face, fi) {
                                         _colour = [];
 
                                         _colour.push([colour.r, colour.g, colour.b]);
@@ -17780,7 +17787,7 @@
                                         _this2._flat = false;
 
                                         // Set up colours for every vertex with poor-mans AO on the sides
-                                        extruded.sides.forEach(function(face, fi) {
+                                        extruded.sides.forEach(function (face, fi) {
                                             _colour = [];
 
                                             // First face is always bottom-bottom-top
@@ -17952,9 +17959,9 @@
                     }, {
                         key: '_convertCoordinates',
                         value: function _convertCoordinates(coordinates) {
-                            return coordinates.map(function(_coordinates) {
-                                return _coordinates.map(function(ring) {
-                                    return ring.map(function(coordinate) {
+                            return coordinates.map(function (_coordinates) {
+                                return _coordinates.map(function (ring) {
+                                    return ring.map(function (coordinate) {
                                         return (0, _geoLatLon.latLon)(coordinate[1], coordinate[0]);
                                     });
                                 });
@@ -17972,9 +17979,9 @@
                             var _this3 = this;
 
                             var point;
-                            return this._coordinates.map(function(_coordinates) {
-                                return _coordinates.map(function(ring) {
-                                    return ring.map(function(latlon) {
+                            return this._coordinates.map(function (_coordinates) {
+                                return _coordinates.map(function (ring) {
+                                    return ring.map(function (latlon) {
                                         point = _this3._world.latLonToPoint(latlon);
 
                                         // TODO: Is offset ever being used or needed?
@@ -18220,13 +18227,13 @@
             },
             /* 73 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
                 });
 
-                var _createClass = (function() {
+                var _createClass = (function () {
                     function defineProperties(target, props) {
                         for (var i = 0; i < props.length; i++) {
                             var descriptor = props[i];
@@ -18236,7 +18243,7 @@
                             Object.defineProperty(target, descriptor.key, descriptor);
                         }
                     }
-                    return function(Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
+                    return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
                 })();
 
                 var _get = function get(_x, _x2, _x3) {
@@ -18314,7 +18321,7 @@
 
                 var _utilBuffer2 = _interopRequireDefault(_utilBuffer);
 
-                var PolylineLayer = (function(_Layer) {
+                var PolylineLayer = (function (_Layer) {
                     _inherits(PolylineLayer, _Layer);
 
                     function PolylineLayer(coordinates, options) {
@@ -18400,7 +18407,7 @@
                         // TODO: Implement getBounds()
                     }, {
                         key: 'getBounds',
-                        value: function getBounds() {}
+                        value: function getBounds() { }
 
                         // Get unique ID for picking interaction
                     }, {
@@ -18416,7 +18423,7 @@
                             var _this = this;
 
                             // TODO: Find a way to properly remove this listener on destroy
-                            this._world.on('pick-' + this._pickingId, function(point2d, point3d, intersects) {
+                            this._world.on('pick-' + this._pickingId, function (point2d, point3d, intersects) {
                                 // Re-emit click event from the layer
                                 _this.emit('click', _this, point2d, point3d, intersects);
                             });
@@ -18447,7 +18454,7 @@
                                 colour.set(this._options.style.lineColor);
 
                                 // For each line
-                                attributes = this._projectedCoordinates.map(function(_projectedCoordinates) {
+                                attributes = this._projectedCoordinates.map(function (_projectedCoordinates) {
                                     var _vertices = [];
                                     var _colours = [];
 
@@ -18456,7 +18463,7 @@
                                     // LineSegments requires pairs of vertices so repeat the last point if
                                     // there's an odd number of vertices
                                     var nextCoord;
-                                    _projectedCoordinates.forEach(function(coordinate, index) {
+                                    _projectedCoordinates.forEach(function (coordinate, index) {
                                         _colours.push([colour.r, colour.g, colour.b]);
                                         _vertices.push([coordinate.x, height, coordinate.y]);
 
@@ -18612,8 +18619,8 @@
                     }, {
                         key: '_convertCoordinates',
                         value: function _convertCoordinates(coordinates) {
-                            return coordinates.map(function(_coordinates) {
-                                return _coordinates.map(function(coordinate) {
+                            return coordinates.map(function (_coordinates) {
+                                return _coordinates.map(function (coordinate) {
                                     return (0, _geoLatLon.latLon)(coordinate[1], coordinate[0]);
                                 });
                             });
@@ -18630,8 +18637,8 @@
                             var _this3 = this;
 
                             var point;
-                            return this._coordinates.map(function(_coordinates) {
-                                return _coordinates.map(function(latlon) {
+                            return this._coordinates.map(function (_coordinates) {
+                                return _coordinates.map(function (latlon) {
                                     point = _this3._world.latLonToPoint(latlon);
 
                                     // TODO: Is offset ever being used or needed?
@@ -18781,13 +18788,13 @@
             },
             /* 74 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
                 });
 
-                var _createClass = (function() {
+                var _createClass = (function () {
                     function defineProperties(target, props) {
                         for (var i = 0; i < props.length; i++) {
                             var descriptor = props[i];
@@ -18797,7 +18804,7 @@
                             Object.defineProperty(target, descriptor.key, descriptor);
                         }
                     }
-                    return function(Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
+                    return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; };
                 })();
 
                 var _get = function get(_x, _x2, _x3) {
@@ -18881,7 +18888,7 @@
 
                 var _utilBuffer2 = _interopRequireDefault(_utilBuffer);
 
-                var PointLayer = (function(_Layer) {
+                var PointLayer = (function (_Layer) {
                     _inherits(PointLayer, _Layer);
 
                     function PointLayer(coordinates, options) {
@@ -18966,7 +18973,7 @@
                         // TODO: Implement getBounds()
                     }, {
                         key: 'getBounds',
-                        value: function getBounds() {}
+                        value: function getBounds() { }
 
                         // Get unique ID for picking interaction
                     }, {
@@ -18982,7 +18989,7 @@
                             var _this = this;
 
                             // TODO: Find a way to properly remove this listener on destroy
-                            this._world.on('pick-' + this._pickingId, function(point2d, point3d, intersects) {
+                            this._world.on('pick-' + this._pickingId, function (point2d, point3d, intersects) {
                                 // Re-emit click event from the layer
                                 _this.emit('click', _this, point2d, point3d, intersects);
                             });
@@ -19030,7 +19037,7 @@
                             }
 
                             // For each point
-                            var attributes = this._projectedCoordinates.map(function(coordinate) {
+                            var attributes = this._projectedCoordinates.map(function (coordinate) {
                                 var _vertices = [];
                                 var _normals = [];
                                 var _colours = [];
@@ -19131,12 +19138,12 @@
                             } else if (!this._world._environment._skybox) {
                                 material = new _three2['default'].MeshBasicMaterial({
                                     vertexColors: _three2['default'].VertexColors
-                                        // side: THREE.BackSide
+                                    // side: THREE.BackSide
                                 });
                             } else {
                                 material = new _three2['default'].MeshStandardMaterial({
                                     vertexColors: _three2['default'].VertexColors
-                                        // side: THREE.BackSide
+                                    // side: THREE.BackSide
                                 });
                                 material.roughness = 1;
                                 material.metalness = 0.1;
@@ -19190,7 +19197,7 @@
                     }, {
                         key: '_convertCoordinates',
                         value: function _convertCoordinates(coordinates) {
-                            return coordinates.map(function(coordinate) {
+                            return coordinates.map(function (coordinate) {
                                 return (0, _geoLatLon.latLon)(coordinate[1], coordinate[0]);
                             });
                         }
@@ -19206,7 +19213,7 @@
                             var _this3 = this;
 
                             var _point;
-                            return this._coordinates.map(function(latlon) {
+                            return this._coordinates.map(function (latlon) {
                                 _point = _this3._world.latLonToPoint(latlon);
 
                                 // TODO: Is offset ever being used or needed?
@@ -19329,7 +19336,7 @@
             },
             /* 75 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
@@ -19376,7 +19383,7 @@
 
                 var _lodashAssign2 = _interopRequireDefault(_lodashAssign);
 
-                var TopoJSONTileLayer = (function(_GeoJSONTileLayer) {
+                var TopoJSONTileLayer = (function (_GeoJSONTileLayer) {
                     _inherits(TopoJSONTileLayer, _GeoJSONTileLayer);
 
                     function TopoJSONTileLayer(path, options) {
@@ -19406,7 +19413,7 @@
             },
             /* 76 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
@@ -19453,7 +19460,7 @@
 
                 var _lodashAssign2 = _interopRequireDefault(_lodashAssign);
 
-                var TopoJSONLayer = (function(_GeoJSONLayer) {
+                var TopoJSONLayer = (function (_GeoJSONLayer) {
                     _inherits(TopoJSONLayer, _GeoJSONLayer);
 
                     function TopoJSONLayer(topojson, options) {
@@ -19484,7 +19491,7 @@
             },
             /* 77 */
             /***/
-            function(module, exports, __webpack_require__) {
+            function (module, exports, __webpack_require__) {
 
                 Object.defineProperty(exports, '__esModule', {
                     value: true
@@ -19524,7 +19531,7 @@
             },
             /* 78 */
             /***/
-            function(module, exports) {
+            function (module, exports) {
 
                 Object.defineProperty(exports, "__esModule", {
                     value: true

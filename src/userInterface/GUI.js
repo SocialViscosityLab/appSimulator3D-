@@ -53,6 +53,20 @@ class GUI {
 
     }
 
+    static setBluetoothStatus(status) {
+        switch (status) {
+            case 'connected':
+                GUI.bluetooth.textContent = "bluetooth_connected";
+                break;
+            case 'disconnected':
+                GUI.bluetooth.textContent = "bluetooth_disabled";
+                break;
+            case 'searching':
+                GUI.bluetooth.textContent = "bluetooth_searching";
+                break;
+        }
+    }
+
     static setupMapRotationSlider() {
         GUI.manualRotationValue.innerHTML = GUI.manualRotationCorrection.value;
         GUI.manualRotationCorrection.oninput = function() {
@@ -138,9 +152,12 @@ GUI.enableSound = document.getElementById('enableSound');
 //GUI.enableLocation = document.getElementById('enableLocation');
 GUI.manualRotationCorrection = document.getElementById('manualRotationCorrection');
 GUI.manualRotationValue = document.getElementById('manualRotationValue')
+GUI.connectPeripheral = document.getElementById('connectPeripheral');
+GUI.ledSwitchBtn = document.getElementById('ledSwitch');
 
 GUI.location_on = document.getElementById('location_on');
 GUI.threeD_rotation = document.getElementById('3d_rotation');
+GUI.bluetooth = document.getElementById("bluetooth");
 GUI.volume_up = document.getElementById("volume_up");
 GUI.clock = document.getElementById("clock");
 

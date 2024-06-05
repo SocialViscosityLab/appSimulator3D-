@@ -29,6 +29,8 @@
  * 
  * The library VIZICITIES has CSSSTYLES for 2D and 3D. It comes with a style position set to 'absolute'. I changed it to 'static'.
  * 
+ * The library VIZICITIES throws an error in line 15072. I added a gate to avoid that. 2023.
+ * 
  * Overriding ORBIT CONTROLS. The way orbit controls work is by controlling the world's main camera. This is made in line 6207. 
  * The orbit controls triggers events on mouse released or mouse dragged (not sure about touchscreen or giroscope events). Since I am
  * not creating an instance of Controls, those events are not triggered directly. So I created a util class named GCamera
@@ -119,6 +121,11 @@ device = new DevicePos();
 //device.setup();
 
 /**
+ *** BLE DEVICE ***
+ */
+let bluetoothDevice = new BLEDevice();
+
+/**
  *** GAUGE and Low pass filter ***
  */
 gauge = new Gauge();
@@ -177,8 +184,6 @@ function preload() {
      * instead use other message windows like Boostrap cards.
      */
 
-    let soundEnabled = false;
-
     GUI.enableSound.onclick = function () {
         sonar.enableAudioContext(commEnabled);
         soundManager.enableAudioContext();
@@ -188,7 +193,6 @@ function preload() {
         // pause loop=ing sounds
         soundManager.pause('ding');
         soundManager.pause('riding');
-        soundEnabled = !soundEnabled;
 
         GUI.switchStatus(GUI.enableSound, sonar.soundEnabled, { t: "Sound enabled", f: "Sound disabled" }, { t: "btn btn-success btn-lg btn-block", f: "btn btn-warning btn-lg btn-block" })
     }
@@ -232,11 +236,11 @@ function init() {
     // This interval controls the update pace of the entire APP
     // **** UPDATE INTERVAL ****
     setupInterval(1000);
-}
 
-// function enableLocation() {
-//     device.setup();
-// }
+    // BLE device
+    GUI.connectPeripheral.onpointerup = bluetoothDevice.detectAndConnect.bind(bluetoothDevice);
+    GUI.ledSwitchBtn.onpointerup = bluetoothDevice.switchLED.bind(bluetoothDevice)
+}
 
 function initSound() {
     sonar = new Sonar(130);
@@ -362,6 +366,13 @@ function setupInterval(millis) {
                         }
                     }
 
+                    // Bluetooth message
+                    if (bluetoothDevice.kineChars.suggestedAcceleration) {
+                        // The value is set +0 to convey that the motor should speed up.
+                        BLEUtils.writeStringToBLE(bluetoothDevice.kineChars.suggestedAcceleration, '+0')
+                        BLEUtils.writeLog('+0');
+                    }
+
 
 
                     // When the rider is behind the ghost AND the dustance beteewn them is greater than the green wave proximity.
@@ -379,6 +390,13 @@ function setupInterval(millis) {
                         GUI.bannerTitle.textContent = "Faster";
                     }
 
+                    // Bluetooth message
+                    if (bluetoothDevice.kineChars.suggestedAcceleration) {
+                        // The value is set 99 to convey that the motor should speed up.
+                        BLEUtils.writeStringToBLE(bluetoothDevice.kineChars.suggestedAcceleration, '99');
+                        BLEUtils.writeLog('99');
+                    }
+
                     // SUGGESTION: HOLD
                 } else {
                     GUI.setColors('hold')
@@ -391,6 +409,14 @@ function setupInterval(millis) {
                     if (isMobile || iOS) {
                         // change the banner label to Flocking
                         GUI.bannerTitle.textContent = "Flocking";
+                    }
+
+                    // Bluetooth message
+                    if (bluetoothDevice.kineChars.suggestedAcceleration) {
+                        // The value is set to a two digits number to send it over the bluetooth.
+                        let speedAsString = (ghostData.speed * 10).toFixed(0);
+                        BLEUtils.writeStringToBLE(bluetoothDevice.kineChars.suggestedAcceleration, speedAsString);
+                        BLEUtils.writeLog(speedAsString);
                     }
                 }
 
