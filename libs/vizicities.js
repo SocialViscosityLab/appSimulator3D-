@@ -310,7 +310,7 @@
                     }, {
                         key: '_initAttribution',
                         value: function _initAttribution() {
-                            var message = '<a href="https://socialviscosity.web.illinois.edu" target="_blank"> Social Viscosity Lab.</a> University of Illinois. <a href="http://vizicities.com" target="_blank">Powered by ViziCities</a> | 2020';
+                            var message = '<a href="https://socialviscosity.web.illinois.edu" target="_blank"> Social Viscosity Lab.</a> University of Illinois. <a href="http://vizicities.com" target="_blank">Powered by ViziCities</a> | 2023';
 
                             var element = document.createElement('div');
                             element.classList.add('vizicities-attribution');
@@ -3173,6 +3173,8 @@
                     domElement.style.transformStyle = 'preserve-3d';
 
                     this.domElement = domElement;
+                    this.domElement.style.display = 'none';
+                    console.log('CSS3DRenderer DOM_Element display set to NONE');
 
                     var cameraElement = document.createElement('div');
 
@@ -3194,7 +3196,6 @@
                     };
 
                     this.setSize = function(width, height) {
-
                         _width = width;
                         _height = height;
 
@@ -3429,6 +3430,8 @@
                     domElement.style.overflow = 'hidden';
 
                     this.domElement = domElement;
+                    this.domElement.style.display = 'none';
+                    console.log('CSS2DRenderer DOM_Element display set to NONE');
 
                     this.setSize = function(width, height) {
 

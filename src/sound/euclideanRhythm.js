@@ -1,5 +1,7 @@
 /**
  * Inspired in Steve Reich Clapping hands pattern
+ * For reference see: http://zya.github.io/beet.js/
+ * uses the beet lid. See libs/beet.min.js in index.html
  */
 class EuclideanRhythm {
 
@@ -50,6 +52,11 @@ class EuclideanRhythm {
         this.beet.add(this.layerC);
     }
 
+    /**
+     * 
+     * @param {Integer} condition -1: slow down, 1:speed up or 0: hold.
+     * @param {*} distance 
+     */
     exec(condition, distance) {
         // Playing layers based on condition
         switch (condition) {
@@ -100,7 +107,7 @@ class EuclideanRhythm {
                 console.log("Sound disabled")
             });
         }
-        GUI.switchStatus(GUI.enableSound, this.soundEnabled, { t: "Sound enabled", f: "Sound disabled" }, { t: "btn btn-success btn-lg btn-block", f: "btn btn-warning btn-lg btn-block" })
+      //  GUI.switchStatus(GUI.enableSound, this.soundEnabled, { t: "Sound enabled", f: "Sound disabled" }, { t: "btn btn-success btn-lg btn-block", f: "btn btn-warning btn-lg btn-block" })
     }
 
     /**
@@ -212,29 +219,29 @@ class EuclideanRhythm {
     getNoteShift(shift) {
         switch (shift) {
             case 1:
-                return '111011010110';
+                return 'a111011010110';
             case 2:
-                return '110110101101';
+                return '11011010110a1';
             case 3:
-                return '101101011011';
+                return '1011010110a11';
             case 4:
-                return '011010110111';
+                return '011010110a111';
             case 5:
-                return '110101101110';
+                return '11010110a1110';
             case 6:
-                return '101011011101';
+                return '1010110a11101';
             case 7:
-                return '010110111011';
+                return '010110a111011';
             case 8:
-                return '101101110110';
+                return '10110a1110110';
             case 9:
-                return '011011101101';
+                return '0110a11101101';
             case 10:
-                return '110111011010';
+                return '110a111011010';
             case 11:
-                return '101110110101';
+                return '10a1110110101';
             case 12:
-                return '011101101011';
+                return '0a11101101011';
         }
 
     }

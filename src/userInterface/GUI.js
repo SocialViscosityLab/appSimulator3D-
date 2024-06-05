@@ -42,6 +42,7 @@ class GUI {
         switch (deviceStatus) {
             case 'GPS OK':
                 GUI.status.textContent = "gps_fixed";
+                GUI.statusBanner.style.backgroundColor = "#EAE40A";
                 break;
             case 'GPS not enabled':
                 GUI.status.textContent = "gps_off";
@@ -124,6 +125,8 @@ GUI.mobile = document.getElementById('mobile');
 // GUI.Zrotation = document.getElementById('zRot');
 GUI.enableCommFirebase = document.getElementById('commFirebase');
 GUI.enableOrientation = document.getElementById('enableOrientation');
+GUI.statusBanner = document.getElementById('banner');
+GUI.bannerTitle = document.getElementById('title');
 //GUI.downloadData = document.getElementById('downloadData');
 GUI.distance = document.getElementById('distance');
 GUI.header = document.getElementById('header');
@@ -132,7 +135,7 @@ GUI.routeName = document.getElementById("routeName");
 GUI.accelerationLabel = document.getElementById('accelerationLabel');
 GUI.cameraButton = document.getElementById('cameraButton');
 GUI.enableSound = document.getElementById('enableSound');
-GUI.enableLocation = document.getElementById('enableLocation');
+//GUI.enableLocation = document.getElementById('enableLocation');
 GUI.manualRotationCorrection = document.getElementById('manualRotationCorrection');
 GUI.manualRotationValue = document.getElementById('manualRotationValue')
 

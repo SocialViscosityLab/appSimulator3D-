@@ -1,7 +1,7 @@
 /**
  * Notes about Vizicities
  * 
- * - Vizicities is built on top of three.js.
+ * - Vizicities is built on top of three.js by https://twitter.com/robhawkes.
  * 
  * - The root of the structure is a World class with one THREE.scene and a render (THREE.WebGLRenderer) engine.
  * 
@@ -54,6 +54,11 @@
  * Open Safari in the iPhone and go to the IP and port address
  * Open Safari in mac > develop > select iPhone
  * Start debbuging
+ * 
+ * The cyclist's position is updated in two sections in two different moments. First, it is updated when the instance of DevicePosition
+ * received data from the GPS (See success function of the watchPosition promise). Then the cyclist's position is updated at every
+ * deviceMotion event (see start.js).  When the app is displayed on a computer, the cyclist's position remains the first position 
+ * retrived and the GCamera is updated at every mouse move.  
  */
 
 /*** GLOBAL VARIABLES */
@@ -93,6 +98,7 @@ let commEnabled = false;
 
 //Sound manager
 let soundManager;
+let sonar;
 
 // The max distance between cyclist and ghost for the cyclist to be in the range of the 'green wave.'
 let greenWaveProximity = 20; // in meters
@@ -101,15 +107,16 @@ let crowdProximity = 50; // in meters
 
 // Map Center 
 //var coords = [40.7359, -73.9911]; // Manhattan
-var coords = [40.1076407, -88.2119009]; // Urbana Home
+//var coords = [40.1069631, -88.2133065]; // Urbana Home
 //var coords = [40.10839, -88.22704]; // uiuc quad
 //var coords = [41.8879756, -87.6270752]; // Chicago river
+var coords = [40.1026852, -88.2327807]; // siebel center for design
 
 /**
  *** DEVICE ***
  */
 device = new DevicePos();
-device.setup();
+//device.setup();
 
 /**
  *** GAUGE and Low pass filter ***
@@ -128,6 +135,7 @@ var world = VIZI.world('world', {
     postProcessing: false
 }).setView(coords);
 
+
 // Add controls
 //VIZI.Controls.orbit().addTo(world);
 
@@ -140,11 +148,11 @@ Layers.init()
 function preload() {
     /***** GHOST ****/
     ghost = new Fantasma(world._engine._scene);
-    ghost.init();
+    ghost.init('attractor');
 
     /***** CYCLIST ****/
     cyclist = new Cyclist("firstCyclist", world._engine._scene);
-    cyclist.init();
+    cyclist.init('cyclist');
     cyclist.setPosition(world.latLonToPoint(coords));
 
     /***** CAMERA ****/
@@ -161,19 +169,28 @@ function preload() {
 
     // *** ENABLE LOCATION ***
     //GUI.enableLocation.onclick = enableLocation;
+    device.setup(); // enable location
 
     // *** ENABLE SOUND ***
     /**IMPORTANT After days of experimentation I discovered that the alert() function that displays a message on screen interrupts
      * all running audioContexts, but when the alert window is closed, the audioContexts remain closed. The moral is: do not use alert(), 
      * instead use other message windows like Boostrap cards.
      */
-    GUI.enableSound.onclick = function() {
+
+    let soundEnabled = false;
+
+    GUI.enableSound.onclick = function () {
+        sonar.enableAudioContext(commEnabled);
         soundManager.enableAudioContext();
         // activate all sounds
         soundManager.play('ding');
         soundManager.play('riding');
         // pause loop=ing sounds
+        soundManager.pause('ding');
         soundManager.pause('riding');
+        soundEnabled = !soundEnabled;
+
+        GUI.switchStatus(GUI.enableSound, sonar.soundEnabled, { t: "Sound enabled", f: "Sound disabled" }, { t: "btn btn-success btn-lg btn-block", f: "btn btn-warning btn-lg btn-block" })
     }
 
     // Setup slider for manual correction of map rotation
@@ -217,14 +234,15 @@ function init() {
     setupInterval(1000);
 }
 
-function enableLocation() {
-    device.setup();
-}
+// function enableLocation() {
+//     device.setup();
+// }
 
 function initSound() {
+    sonar = new Sonar(130);
     soundManager = new SoundManager();
-    soundManager.addMediaNode("ding", document.getElementById("ding"), false);
-    soundManager.addMediaNode("riding", document.getElementById("horses"), true, true);
+    soundManager.addMediaNode("ding", document.getElementById("ding"), false, true);
+    soundManager.addMediaNode("riding", document.getElementById("alertMP3"), true, true);
 
 }
 
@@ -234,7 +252,7 @@ function initSound() {
  */
 function isMobileTablet() {
     var check = false;
-    (function(a) {
+    (function (a) {
         if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino|android|ipad|playbook|silk/i.test(a) || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0, 4)))
             check = true;
     })(navigator.userAgent || navigator.vendor || window.opera);
@@ -255,7 +273,7 @@ function is_iOS() {
 /**** AUXILIARY FUNCTIONS *****/
 function setupInterval(millis) {
 
-    updateInterval = setInterval(function() {
+    updateInterval = setInterval(function () {
 
         // Update ghost, cyclist and arrowfield if needed
         /** ghostData is a global variable updated in Communication.*/
@@ -328,36 +346,67 @@ function setupInterval(millis) {
                 if (distanceToGhost > 0) {
                     GUI.setColors('down')
                     device.setSuggestion(-1); // -1:slowDOWN
+
+                    soundManager.play('riding');
                     soundManager.pause('ding');
+                    sonar.exec(-1, distanceToGhost) // -1:slowDOWN
+
+                    // change banner label to Slow Down
+                    if (isMobile || iOS) {
+
+                        if (device.getSpeed() != null && device.getSpeed() <= 0.1) {
+                            GUI.bannerTitle.textContent = "Wait";
+                        } else {
+                            // change the banner label to Slow Down
+                            GUI.bannerTitle.textContent = "Slower";
+                        }
+                    }
+
+
 
                     // When the rider is behind the ghost AND the dustance beteewn them is greater than the green wave proximity.
                     // SUGGESTION: UP
                 } else if (distanceToGhost < 0 && Math.abs(distanceToGhost) >= greenWaveProximity) {
                     GUI.setColors('up')
                     device.setSuggestion(1); // 1: speedUP
-                    soundManager.pause('ding');
 
+                    soundManager.pause('riding');
+                    soundManager.pause('ding');
+                    sonar.exec(1, distanceToGhost) // 1: speedUP
+
+                    if (isMobile || iOS) {
+                        // change the banner label to speed Up
+                        GUI.bannerTitle.textContent = "Faster";
+                    }
+
+                    // SUGGESTION: HOLD
                 } else {
                     GUI.setColors('hold')
                     device.setSuggestion(0); // 0:hold
+
+                    soundManager.pause('riding');
                     soundManager.play('ding');
+                    sonar.exec(0, distanceToGhost) // 0:hold
+
+                    if (isMobile || iOS) {
+                        // change the banner label to Flocking
+                        GUI.bannerTitle.textContent = "Flocking";
+                    }
                 }
 
-                // this changes the sound volume (gain) feedback beyond the greenWave zone 
-                if (distanceToGhost < crowdProximity) {
-                    soundManager.volume(Math.abs(distanceToGhost), crowdProximity);
-                    soundManager.play('riding');
-                } else {
-                    soundManager.pause('riding');
-                }
+
             } else {
                 GUI.accelerationLabel.textContent = "...";
             }
 
-            // Move the camera to the latest cyclist's position
+            // Move the camera to the latest cyclist's position. 
+            // Version Summer 2023. The camera is moved behind the cyclist include it in the frustrum.
+            // see GCamera.lookingFrom()
 
-            GCamera.setXPos(cyclist.mesh.position.x);
-            GCamera.setZPos(cyclist.mesh.position.z);
+
+            // GCamera.setXPos(cyclist.mesh.position.x);
+            // GCamera.setZPos(cyclist.mesh.position.z);
+
             // if (isMobile) {
             //     // If the device is a mobile phone move the camera pivot. 
             //     GCamera.lookingFrom(cyclist.mesh.position.x, cyclist.mesh.position.z, 50);
@@ -407,8 +456,8 @@ function setupInterval(millis) {
                 'suggestion': device.getSuggestion(),
                 'time': stamp
             };
-            // If comm in enabled save datapoint
-            if (comm && commEnabled) {
+            // If comm is enabled and the ghost has been released then save datapoint
+            if (comm && commEnabled && ghostData) {
                 comm.addNewDataPointInSession(journeyData.journeyId, journeyData.sessionId, tempDPID, tempDP);
             }
             // increase counter id
@@ -416,6 +465,7 @@ function setupInterval(millis) {
 
 
         }
+
 
         // update device status on GUI
         GUI.setStatus(device.status);
@@ -448,12 +498,16 @@ async function connectToFirebase() {
     // Enable communication with Firebase
     if (!commEnabled) {
         if (!comm) {
+            // asking the user to type the journey ID 
+            let userInput = prompt("Please enter the journey ID", "");
+            let journeyIdentifier = userInput;
+
             console.log('started');
             //Creates communication, get the id of the journey the reference route
             comm = new Communication(generateID());
 
             // Initialize a new session in the latest journey and get journey data
-            journeyData = await comm.initSession();
+            journeyData = await comm.initSession(journeyIdentifier);
 
             // Initialize route
             await comm.initRoute(journeyData.refRouteName);
@@ -464,13 +518,16 @@ async function connectToFirebase() {
             // display route name
             GUI.routeName.innerText = "Route: " + journeyData.refRouteName;
         }
+        // once the connection to the server is enabled
+
         // Initialize arrow field
         cyclist.initializeArrowField();
         commEnabled = true;
-        // alert("Firebase Communication ENABLED");
+        // alert("Connection to server ENABLED");
+
     } else {
         commEnabled = false;
-        //alert("Firebase Communication DISABLED");
+        // alert("Connection to server DISABLED");
     }
     GUI.switchStatus(GUI.enableCommFirebase, commEnabled, { t: "Recording position", f: "Recording disabled" }, { t: "btn btn-success btn-lg btn-block", f: "btn btn-warning btn-lg btn-block" })
     GUI.location_on.hidden = !commEnabled;
@@ -529,10 +586,15 @@ function motionEvent() {
     if (isMobile || iOS) {
         // If the device is a mobile phone move the camera pivot. 
         GCamera.lookingFrom(cyclist.mesh.position.x, cyclist.mesh.position.z, 50);
-        // // // emit event to retrieve 3D objects in the GeoJSON layer.
-        // // // This function might consume to many resources. Testing if it is not necessary 
+        // emit event to retrieve 3D objects in the GeoJSON layer.
+        // This function might consume to many resources. Testing if it is not necessary 
         GCamera.emitEvent();
     }
 }
 // Attach motion event
 window.addEventListener('devicemotion', motionEvent);
+
+// Open the side navigation bar
+document.getElementById('flockingContainer').addEventListener('pointerdown', evt => {
+    if (GUI.status.textContent === "gps_fixed") { GUI.openNav() } else { alert('Wait for GPS signal') }
+});

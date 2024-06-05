@@ -59,6 +59,26 @@ class DevicePos {
     success(obj, position) {
         obj.pos.lat = position.coords.latitude;
         obj.pos.lon = position.coords.longitude;
+
+
+        // Update the cyclist and camera at every GPS update
+        if (obj.pos.lat != undefined && obj.pos.lon != undefined && obj.status != 'GPS OK' ) {
+            cyclist.setPosition(world.latLonToPoint(obj.pos));
+            //IMPORTANT See notes about camera in intro descriptions
+            if (isMobile || iOS) {
+                // If the device is a mobile phone move the camera pivot. 
+                GCamera.lookingFrom(cyclist.mesh.position.x, cyclist.mesh.position.z, 50);
+                // emit event to retrieve 3D objects in the GeoJSON layer.
+                // This function might consume to many resources. Testing if it is not necessary 
+                GCamera.emitEvent();
+            } else {
+
+                GCamera.setXPos(cyclist.mesh.position.x);
+                GCamera.setZPos(cyclist.mesh.position.z);
+            }
+
+        }
+
         obj.status = 'GPS OK';
         if (position.coords.altitude) obj.altitude = position.coords.altitude;
         if (position.coords.heading) obj.heading = position.coords.heading;
@@ -86,8 +106,16 @@ class DevicePos {
         return [this.pos.lon, this.pos.lat];
     }
 
+    /**
+     * 
+     * @returns the current altitude if the device is a mobile phone else 0
+     */
     getAltitude() {
-        return this.altitude;
+        if (this.altitude != undefined) {
+            return this.altitude;
+        } else {
+            return 0;
+        }
     }
 
     getHeading() {

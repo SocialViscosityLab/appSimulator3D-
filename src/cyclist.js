@@ -7,6 +7,12 @@
  * If you need to get the cyclists's position on the map you need to use getPositionOnMap() of the Marker superclass.
  * 
  */
+
+
+
+
+
+
 class Cyclist extends Marker {
     constructor(_id, _scene, _geometry, _material) {
         super(_scene);

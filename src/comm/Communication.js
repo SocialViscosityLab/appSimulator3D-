@@ -5,7 +5,6 @@ class Communication {
         this.reference_route;
         this.sessionId = 0;
         this.identified = false;
-        //this.getLastJourneyId();
 
         this.journeys = db.collection('journeys');
         this.routes = db.collection('routes');
@@ -18,6 +17,22 @@ class Communication {
     async getLastJourney() {
         const journey = await this.journeys.orderBy("id", "desc").limit(1).get();
         return journey;
+    }
+
+    /** NEW
+     * Get the name of the journey ID
+     * @param {String} journeyID 
+     * @return {Boolean} 
+     */
+    async validateJourneyID(journeyID) {
+        const journey = await this.journeys.where("id", "==", journeyID).get();
+        //This is a work around. There might be a better way to find if the journey ID exists in the db.
+        try {
+            console.log(journey.docs[0].data().id);
+            return journey.docs[0].data().id == journeyID;
+        } catch (error) {
+            return false;
+        }
     }
 
     /** NEW
@@ -59,28 +74,57 @@ class Communication {
     /** NEW 
      * Iniitializes a session on the database inside the latest journey
      */
-    async initSession() {
-        // get latest journey
-        let tmp = await this.getLastJourney();
-        const journeyId = tmp.docs[0].id;
-        console.log("journeyId: " + journeyId);
+    async initSession(journeyIdentifier) {
 
-        //get reference route
-        const refRouteName = await this.getReferenceRouteName(journeyId);
-        console.log("Route name: " + refRouteName);
 
-        // get latest session in journey
-        tmp = await this.getLastSessionInJourney(journeyId);
-        let sessionId = tmp.docs[0].id;
-        console.log("Last session in journey: " + sessionId);
+        if (await this.validateJourneyID(journeyIdentifier)) {
+            let journeyId = journeyIdentifier;
+            console.log("journeyId 2: " + journeyId);
 
-        // Increment session ID by 1
-        sessionId = this.formatID(Number(sessionId) + 1);
-        console.log("Current session id: " + sessionId);
+            //get reference route
+            const refRouteName = await this.getReferenceRouteName(journeyId);
+            console.log("Route name: " + refRouteName);
 
-        // Add new session
-        this.addSession(journeyId, sessionId);
-        return { journeyId: journeyId, sessionId: sessionId, refRouteName: refRouteName }
+            // get latest session in journey
+            let tmp = await this.getLastSessionInJourney(journeyId);
+            let sessionId = tmp.docs[0].id;
+            console.log("Last session in journey: " + sessionId);
+
+            // Increment session ID by 1
+            sessionId = this.formatID(Number(sessionId) + 1);
+            console.log("Current session id: " + sessionId);
+
+            // Add new session
+            this.addSession(journeyId, sessionId);
+            return { journeyId: journeyId, sessionId: sessionId, refRouteName: refRouteName }
+
+        } else {
+            if (journeyIdentifier != '') {
+                alert("Journey ID not found. \nLoading the LAST journey available on the database");
+            }
+            console.log('Getting last journey in DB')
+                // get latest journey
+            let tmp = await this.getLastJourney();
+            let journeyId = tmp.docs[0].id;
+            console.log("journeyId: " + journeyId);
+
+            //get reference route
+            const refRouteName = await this.getReferenceRouteName(journeyId);
+            console.log("Route name: " + refRouteName);
+
+            // get latest session in journey
+            tmp = await this.getLastSessionInJourney(journeyId);
+            let sessionId = tmp.docs[0].id;
+            console.log("Last session in journey: " + sessionId);
+
+            // Increment session ID by 1
+            sessionId = this.formatID(Number(sessionId) + 1);
+            console.log("Current session id: " + sessionId);
+
+            // Add new session
+            this.addSession(journeyId, sessionId);
+            return { journeyId: journeyId, sessionId: sessionId, refRouteName: refRouteName }
+        }
     }
 
     /** NEW

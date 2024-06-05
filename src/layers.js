@@ -1,6 +1,7 @@
 class Layers {
 
     static init() {
+
         /**
          * CartoDB basemap. https://carto.com/help/building-maps/basemap-list/
          * styles: http://bl.ocks.org/Xatpy/raw/854297419bd7eb3421d0/
@@ -53,6 +54,8 @@ class Layers {
         } else {
             routeData = { properties: route.properties, geometry: route.geometry };
         }
+
+        // console.log(routeData)
 
         VIZI.geoJSONLayer(routeData, {
             output: true,
