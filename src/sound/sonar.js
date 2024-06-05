@@ -62,7 +62,6 @@ class Sonar {
      */
     exec(condition, distance) {
 
-
         // Playing layers based on condition
         switch (condition) {
             case -1: // ghost behind, slow down 
@@ -101,7 +100,9 @@ class Sonar {
         }
 
         this.setTempoByProximity(distance, 100, 270)
+
     }
+
 
     enableAudioContext(onRoute) {
         // check if context is in suspended state (autoplay policy). 
@@ -110,19 +111,18 @@ class Sonar {
         if (this.context.state === 'suspended' && onRoute) {
             this.soundEnabled = true;
             this.context.resume().then(rslt => {
-                this.beet.start();
+               // this.beet.start();
                 GUI.volume_up.hidden = false;
                 console.log("Sound enabled")
             });
         } else if (this.context.state === 'running') {
             this.soundEnabled = false;
             this.context.suspend().then(rslt => {
-                this.beet.stop();
+               // this.beet.stop();
                 GUI.volume_up.hidden = true;
                 console.log("Sound disabled")
             });
         }
-        GUI.switchStatus(GUI.enableSound, this.soundEnabled, { t: "Sound enabled", f: "Sound disabled" }, { t: "btn btn-success btn-lg btn-block", f: "btn btn-warning btn-lg btn-block" })
     }
 
 
@@ -200,7 +200,7 @@ class Sonar {
      * see: https://dev.opera.com/articles/drum-sounds-webaudio/
      * @returns 
      */
-    noiseBuffer = function() {
+    noiseBuffer = function () {
         var bufferSize = this.context.sampleRate;
         var buffer = this.context.createBuffer(1, bufferSize, this.context.sampleRate);
         var output = buffer.getChannelData(0);
@@ -295,7 +295,7 @@ class Sonar {
         if (proximity > proxThreshold) proximity = proxThreshold;
         if (proximity < 15) proximity = 15;
         let intensity = Utils.p5.map(proximity, 15, proxThreshold, 1, 0.01) // 1 meter, far away meters, up to 2 intensity, 0.5 intensity
-            //console.log(intensity);
+        //console.log(intensity);
         this.gainNodeA.gain.value = intensity;
     }
 

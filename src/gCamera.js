@@ -83,7 +83,7 @@ class GCamera {
         let angleCorrection;
 
         if (iOS) {
-            angleCorrection = 90 + parseFloat(GUI.manualRotationCorrection.value);
+            angleCorrection = 180 + parseFloat(GUI.manualRotationCorrection.value);
         } else {
             angleCorrection = 270 + parseFloat(GUI.manualRotationCorrection.value);
         }

@@ -50,8 +50,6 @@ class SoundManager {
                 console.log("Sound disabled")
             });
         }
-        GUI.switchStatus(GUI.enableSound, this.soundEnabled, { t: "Sound enabled", f: "Sound disabled" }, { t: "btn btn-success btn-lg btn-block", f: "btn btn-warning btn-lg btn-block" })
-
     }
 
     /**

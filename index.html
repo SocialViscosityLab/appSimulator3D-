@@ -1,182 +1,353 @@
 <htm>
+  <head>
+    <meta charset="utf-8" />
+    <title>Smart Bicycles Navigator 3D</title>
 
-    <head>
-        <meta charset="utf-8">
-        <title>Smart Bicycles Navigator 3D</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
 
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/vizicities.css" />
+    <link rel="stylesheet" href="css/gauge.css" />
 
+    <!-- // metarial design icons -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+  </head>
 
-        <link rel="stylesheet" href="css/main.css">
-        <link rel="stylesheet" href="css/vizicities.css">
-        <link rel="stylesheet" href="css/gauge.css">
+  <body>
+    <!-- Sounds -->
+    <!-- files source: http://soundbible.com/ -->
+    <audio id="ding" src="sounds/ElevatorDing.mp3"></audio>
+    <audio id="alertMP3" src="sounds/alert5.mp3"></audio>
 
-        <!-- // metarial design icons -->
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Sidenav -->
+    <div id="mySidenav" class="sidenav">
+      <a href="javascript:void(0)" class="closebtn" onclick="GUI.closeNav()"
+        >close</a
+      >
+      <a style="padding-top: 100px">
+        <button
+          id="commFirebase"
+          type="button"
+          class="btn btn-outline-warning btn-lg btn-block"
+          style="font-size: 40px; overflow: hidden"
+        >
+          Connect to Database
+        </button></a
+      >
+      <a
+        ><button
+          id="enableOrientation"
+          type="button"
+          class="btn btn-outline-warning btn-lg btn-block"
+          style="font-size: 40px; overflow: hidden"
+        >
+          Enable 3D Motion
+        </button></a
+      >
+      <a
+        ><button
+          id="enableSound"
+          type="button"
+          class="btn btn-outline-warning btn-lg btn-block"
+          style="font-size: 40px; overflow: hidden"
+        >
+          Enable Sound
+        </button></a
+      >
+      <a
+        ><span id="manualRotationValue" style="color: #eab20a"></span>
+        <input
+          id="manualRotationCorrection"
+          type="range"
+          min="-180"
+          max="180"
+          value="0"
+          class="slider"
+        />
+        <label for="manualRotationCorrection"> Map rotation correction </label>
+      </a>
+      <a
+        href="https://smartartifact.com/d4sv"
+        style="
+          color: burlywood;
+          text-align: center;
+          font-size: 28px;
+          position: absolute;
+          bottom: 0px;
+        "
+        >Social Viscosity Lab</a
+      >
+    </div>
+    <!-- Sidenav -->
 
-    </head>
+    <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+    <div id="main">
+      <!-- Header -->
+      <div class="header" id="header">
+        <!-- Use any element to open the sidenav -->
+        <span >
+          <div
+            class="container-fluid"
+            style="padding: 0px; width: 100%; height: 100%"
+          >
+            <div class="row" style="padding: 0px; width: 100%; height: 100%">
+              <div class="col-sm-1">
+                <i id="flockingContainer"
+                  class="material-icons"
+                  style="
+                    font-size: 5vh;
+                    color: white;
+                    opacity: 30%;
+                    padding-top: 3vh;
+                  "
+                  >menu</i
+                >
+              </div>
+              <div class="col-sm-7">
+                <div id="title">Flocking</div>
+              </div>
+              <div class="col-sm-4" style="text-align: right">
+                <div id="version" style="color: #f8e7b3; font-size: 2vh">
+                  Version 3.3.5
+                </div>
+                <i
+                  id="location_on"
+                  class="material-icons"
+                  style="
+                    font-size: 3vh;
+                    color: white;
+                    opacity: 60%;
+                    padding-top: 3vh;
+                  "
+                  hidden
+                  >cloud_upload</i
+                >
+                <i
+                  id="3d_rotation"
+                  class="material-icons"
+                  style="
+                    font-size: 3vh;
+                    color: white;
+                    opacity: 60%;
+                    padding-top: 3vh;
+                  "
+                  hidden
+                  >3d_rotation</i
+                >
+                <i
+                  id="volume_up"
+                  class="material-icons"
+                  style="
+                    font-size: 3vh;
+                    color: white;
+                    opacity: 60%;
+                    padding-top: 3vh;
+                  "
+                  hidden
+                  >volume_up</i
+                >
+              </div>
+            </div>
+          </div>
+        </span>
+      </div>
 
-    <body>
-
-        <!-- Sounds -->
-        <!-- files source: http://soundbible.com/ -->
-        <audio id="ding" src="sounds/ElevatorDing.mp3"></audio>
-        <audio id="alertMP3" src="sounds/alert5.mp3"></audio>
-
-        <!-- Sidenav -->
-        <div id="mySidenav" class="sidenav">
-            <a href="javascript:void(0)" class="closebtn" onclick="GUI.closeNav()">close</a>
-            <a style=" padding-top:100px">
-                <button id="commFirebase" type="button" class="btn btn-outline-warning btn-lg btn-block" style="font-size: 40px; overflow: hidden;">Connect to Database</button></a>
-            <a><button id="enableOrientation" type="button" class="btn btn-outline-warning btn-lg btn-block" style="font-size: 40px;overflow: hidden;">Enable 3D Motion</button></a>
-            <a><button id="enableSound" type="button" class="btn btn-outline-warning btn-lg btn-block" style="font-size: 40px;overflow: hidden;">Enable Sound</button></a>
-            <a><span id="manualRotationValue" style="color: #eab20a;"></span>
-            <input id="manualRotationCorrection" type="range" min=-180 max=180 value=0 class="slider">
-            <label for="manualRotationCorrection"> Map rotation correction </label>
-            </a>
-            <a href="https://smartartifact.com/d4sv" style="color: burlywood; text-align: center; font-size:28px; position:absolute; bottom: 0px;">Social Viscosity Lab</a>
+      <div class="container-fluid" style="padding: 0px; width: 100%">
+        <!-- GUI elements -->
+        <div class="banner" id="banner">
+          <div class="row">
+            <div class="col-sm-1">
+              <div>
+                <i
+                  id="status"
+                  class="material-icons"
+                  style="
+                    padding-left: 10px;
+                    padding-top: 15px;
+                    font-size: 3vh;
+                    color: black;
+                    opacity: 60%;
+                  "
+                  >gps_off</i
+                >
+                <!-- <div id="status">Missing GPS</div> -->
+              </div>
+            </div>
+            <div class="col-sm-1">
+              <i
+                id="mobile"
+                class="material-icons"
+                style="
+                  font-size: 3vh;
+                  color: black;
+                  opacity: 60%;
+                  padding-top: 15px;
+                "
+                >devices</i
+              >
+              <!-- <div id="mobile">Device</div> -->
+            </div>
+            <div class="col-sm-4">
+              <i
+                id="clock"
+                class="material-icons"
+                style="
+                  font-size: 3vh;
+                  color: black;
+                  opacity: 60%;
+                  padding-top: 15px;
+                "
+                >alarm_off</i
+              >
+              &nbsp;
+              <span
+                id="map-link"
+                style="
+                  font-size: 3vh;
+                  color: black;
+                  opacity: 60%;
+                  text-align: right;
+                "
+                >...</span
+              >
+            </div>
+            <div class="col-sm-6">
+              <div
+                id="distance"
+                style="
+                  font-size: 3vh;
+                  font-weight: 400;
+                  color: black;
+                  text-align: center;
+                "
+              >
+                dist. to ghost
+              </div>
+            </div>
+          </div>
+          <div
+            id="error"
+            style="color: deeppink; font-size: 30px; padding-top: 150px"
+            hidden
+          >
+            Log
+          </div>
         </div>
-        <!-- Sidenav -->
+        <div
+          id="routeName"
+          style="
+            font-size: 2vh;
+            color: black;
+            margin-right: 3vw;
+            text-align: right;
+          "
+        >
+          No route
+        </div>
+        <!-- Speed visualizer -->
+      </div>
 
-        <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
-        <div id="main">
+      <div class="map">
+        <!-- Map holder-->
+        <div id="world" class="world"></div>
+      </div>
 
-            <!-- Header -->
-            <div class="header" id="header">
+      <button id="cameraButton" type="button" class="btn btn-outline-danger">
+        First-person
+      </button>
 
-                <!-- Use any element to open the sidenav -->
-                <span onclick="GUI.openNav()">
-                    <div class="container-fluid" style="padding:0px; width: 100%; height: 100%">
-                        <div class="row " style="padding:0px; width: 100%; height: 100%">
-                            <div class="col-sm-1">
-                                <i class="material-icons" style="font-size:5vh; color: white; opacity: 30%; padding-top: 3vh;">menu</i>
-                            </div>
-                            <div class="col-sm-7" >
-                                <div id="title" >Flocking</div>
-                            </div>
-                            <div class="col-sm-4" style="text-align: right;">
-                                <div id="version" style="color:#f8e7b3; font-size: 2vh;" > Version 3.3.1 </div>
-                                <i id ="location_on" class="material-icons" style="font-size:3vh; color: white; opacity: 60%; padding-top: 3vh;" hidden>cloud_upload</i>
-                                <i id ="3d_rotation" class="material-icons" style="font-size:3vh; color: white; opacity: 60%; padding-top: 3vh;" hidden>3d_rotation</i>
-                                <i id = "volume_up" class="material-icons" style="font-size:3vh; color: white; opacity: 60%; padding-top: 3vh;" hidden>volume_up</i>
-                            </div>
-                        </div>
-                    </div>                
-                </span>
-            </div>
-
-
-            <div class="container-fluid" style="padding:0px; width: 100%; ">
-                <!-- GUI elements -->
-                <div class="banner" id="banner">
-                    <div class="row ">
-
-                        <div class="col-sm-1">
-                            <div>
-                                <i id="status" class="material-icons" style="padding-left:10px; padding-top: 15px; font-size:3vh; color: black; opacity: 60%;">gps_off</i>
-                                <!-- <div id="status">Missing GPS</div> -->
-                            </div>
-                        </div>
-                        <div class="col-sm-1">
-                            <i id="mobile" class="material-icons" style="font-size:3vh; color: black; opacity: 60%; padding-top: 15px;">devices</i>
-                            <!-- <div id="mobile">Device</div> -->
-                        </div>
-                        <div class="col-sm-4">
-                            <i id="clock" class="material-icons" style="font-size:3vh; color: black; opacity: 60%; padding-top: 15px;">alarm_off</i> &nbsp;
-                            <span id="map-link" style="font-size:3vh; color: black; opacity: 60%; text-align:right">...</span>
-                        </div>
-                        <div class="col-sm-6">
-                            <div id="distance" style="font-size:3vh; font-weight: 400; color: black; text-align: center">dist. to ghost</div>
-                        </div>
-
-                    </div>
-                    <div id="error" style="color:deeppink; font-size: 30px; padding-top: 150px;" hidden>Log</div>
-                </div>
-                <div id="routeName" style="font-size:2vh; color:black; margin-right: 3vw; text-align:right;">No route</div>
-                <!-- Speed visualizer -->
-            </div>
-
-
-            <div class="map">
-                <!-- Map holder-->
-                <div id="world" class="world"></div>
-            </div>
-
-            <button id="cameraButton" type="button" class="btn btn-outline-danger">First-person</button>
-
-            <!-- <div class="container"> -->
-            <div id="gauge">
-
-                <div class="gaugeWrapper">
-                    <div class="gaugeContainer">
-                        <div class="gaugeBox" id="vehicleGaugeBox"></div>
-                    </div>
-                    <div class="gaugeBox" id="vehicleGaugeLabel"></div>
-                </div>
-
-                <div class="gaugeWrapper">
-                    <div class="gaugeContainer">
-                        <div class="gaugeBox" id="ghostGaugeBox"></div>
-                    </div>
-                    <div class="gaugeBox" id="ghostGaugeLabel"></div>
-                </div>
-            </div>
-
-            <!-- </div> -->
-
-            <div id="accelerationLabel">...</div>
-
+      <!-- <div class="container"> -->
+      <div id="gauge">
+        <div class="gaugeWrapper">
+          <div class="gaugeContainer">
+            <div class="gaugeBox" id="vehicleGaugeBox"></div>
+          </div>
+          <div class="gaugeBox" id="vehicleGaugeLabel"></div>
         </div>
 
+        <div class="gaugeWrapper">
+          <div class="gaugeContainer">
+            <div class="gaugeBox" id="ghostGaugeBox"></div>
+          </div>
+          <div class="gaugeBox" id="ghostGaugeLabel"></div>
+        </div>
+      </div>
 
-        <!--***** 3D libraries *******-->
+      <!-- </div> -->
 
-        <script src="libs/vendor/three.min.js"></script>
-        <script src="libs/vendor/TweenMax.min.js"></script>
-        <script type="module" src="libs/vendor/jsm/loaders/GLTFLoader.js"></script>
-        <!--<script src='libs/vendor/jsm/lines/LineMaterial.js' type="module"></script>-->
-        <script src="libs/vizicities.js"></script>
-        <script src="libs/beet.min.js" type="text/javascript"></script>
+      <div id="accelerationLabel">...</div>
+    </div>
 
-        <!--***** Custom made libraries and P5  ******-->
-        <script src="libs/p5.min.js" type="text/javascript"></script>
-        <script src="src/layers.js" type="text/javascript"></script>
-        <script src="src/marker.js" type="text/javascript"></script>
-        <script src="src/deviceOrientation.js" type="text/javascript"></script>
-        <script src="src/gCamera.js" type="text/javascript"></script>
-        <script src="src/cyclist.js" type="text/javascript"></script>
-        <script src="src/arrowhead.js" type="text/javascript"></script>
-        <script src="src/arrowheadField.js" type="text/javascript"></script>
-        <script src="src/fantasma.js" type="text/javascript"></script>
-        <script src="src/devicePosition.js" type="text/javascript"></script>
-        <script src="src/userInterface/GUI.js" type="text/javascript"></script>
-        <script src="src/userInterface/gauge.js" type="text/javascript"></script>
+    <!--***** 3D libraries *******-->
 
-        <!-- ***** Utility libraries -->
-        <script src="src/utils/utils.js" type="text/javascript"></script>
-        <script src="src/utils/geometryUtils.js" type="text/javascript"></script>
-        <script src="src/utils/kinematicUtils.js" type="text/javascript"></script>
-        <script src="src/utils/lowpassfilter.js" type="text/javascript"></script>
+    <script src="libs/vendor/three.min.js"></script>
+    <script src="libs/vendor/TweenMax.min.js"></script>
+    <script type="module" src="libs/vendor/jsm/loaders/GLTFLoader.js"></script>
+    <!--<script src='libs/vendor/jsm/lines/LineMaterial.js' type="module"></script>-->
+    <script src="libs/vizicities.js"></script>
+    <script src="libs/beet.min.js" type="text/javascript"></script>
 
-        <!-- libraries for creating a route -->
-        <script src="src/route/route.js" type="text/javascript"></script>
-        <script src="src/route/position.js" type="text/javascript"></script>
-        <script src="src/route/segment.js" type="text/javascript"></script>
+    <!--***** Custom made libraries and P5  ******-->
+    <script src="libs/p5.min.js" type="text/javascript"></script>
+    <script src="src/layers.js" type="text/javascript"></script>
+    <script src="src/marker.js" type="text/javascript"></script>
+    <script src="src/deviceOrientation.js" type="text/javascript"></script>
+    <script src="src/gCamera.js" type="text/javascript"></script>
+    <script src="src/cyclist.js" type="text/javascript"></script>
+    <script src="src/arrowhead.js" type="text/javascript"></script>
+    <script src="src/arrowheadField.js" type="text/javascript"></script>
+    <script src="src/fantasma.js" type="text/javascript"></script>
+    <script src="src/devicePosition.js" type="text/javascript"></script>
+    <script src="src/userInterface/GUI.js" type="text/javascript"></script>
+    <script src="src/userInterface/gauge.js" type="text/javascript"></script>
 
-        <!-- js sound codes -->
-        <script src="src/sound/soundManager.js" type="text/javascript"></script>
-        <script src="src/sound/sonar.js" type="text/javascript"></script>
+    <!-- ***** Utility libraries -->
+    <script src="src/utils/utils.js" type="text/javascript"></script>
+    <script src="src/utils/geometryUtils.js" type="text/javascript"></script>
+    <script src="src/utils/kinematicUtils.js" type="text/javascript"></script>
+    <script src="src/utils/lowpassfilter.js" type="text/javascript"></script>
 
-        <!--Communication with firebase script-->
-        <script src="https://www.gstatic.com/firebasejs/5.7.1/firebase.js"></script>
-        <script src="src/comm/Communication.js" type="text/javascript"></script>
-        <script src="src/comm/fireBaseCredentials.js" type="text/javascript"></script>
+    <!-- libraries for creating a route -->
+    <script src="src/route/route.js" type="text/javascript"></script>
+    <script src="src/route/position.js" type="text/javascript"></script>
+    <script src="src/route/segment.js" type="text/javascript"></script>
 
-        <!--***** Sketch  ******-->
-        <script src="src/start.js" type="text/javascript"></script>
+    <!-- js sound codes -->
+    <script src="src/sound/soundManager.js" type="text/javascript"></script>
+    <script src="src/sound/sonar.js" type="text/javascript"></script>
 
-    </body>
+    <!--Communication with firebase script-->
+    <script src="https://www.gstatic.com/firebasejs/5.7.1/firebase.js"></script>
+    <script src="src/comm/Communication.js" type="text/javascript"></script>
+    <script
+      src="src/comm/fireBaseCredentials.js"
+      type="text/javascript"
+    ></script>
+
+    <!--***** Sketch  ******-->
+    <script src="src/start.js" type="text/javascript"></script>
+  </body>
 </htm>
