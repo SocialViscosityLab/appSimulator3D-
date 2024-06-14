@@ -1,5 +1,5 @@
 /** This class mamages all the sounds in the app */
-class SoundManager {
+class BlueSound {
     constructor() {
         // for legacy browsers
         const AudioContext = window.AudioContext || window.webkitAudioContext;

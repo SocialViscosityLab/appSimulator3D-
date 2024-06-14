@@ -61,66 +61,70 @@ class Sonar {
      * @param {*} distance 
      */
     exec(condition, distance) {
+        //Prevents the beet library to activate the AudioContext.
+        if (this.context.state !== 'suspended') {
+            // Playing layers based on condition
+            switch (condition) {
+                case -1: // ghost behind, slow down 
+                    //   console.log("ghost behind, slow down");
+                    // if (!this.beet.layers[0].metro._is_running) this.beet.layers[0].pause(); // snore
+                    this.beet.layers[0].pause(); // snore
+                    this.beet.layers[1].pause(); // kick
+                    this.beet.layers[2].pause(); // key
+                    break;
 
-        // Playing layers based on condition
-        switch (condition) {
-            case -1: // ghost behind, slow down 
-                //   console.log("ghost behind, slow down");
-                // if (!this.beet.layers[0].metro._is_running) this.beet.layers[0].pause(); // snore
-                this.beet.layers[0].pause(); // snore
-                this.beet.layers[1].pause(); // kick
-                this.beet.layers[2].pause(); // key
-                break;
+                case 0: // 
+                    //   console.log("sweet spot, hold on");
+                    this.beet.layers[0].pause(); // snore
+                    this.beet.layers[1].pause(); // kick
+                    // if (!this.beet.layers[2].metro._is_running) this.beet.layers[2].start(); // key
+                    this.beet.layers[2].pause();
+                    break;
 
-            case 0: // 
-                //   console.log("sweet spot, hold on");
-                this.beet.layers[0].pause(); // snore
-                this.beet.layers[1].pause(); // kick
-                // if (!this.beet.layers[2].metro._is_running) this.beet.layers[2].start(); // key
-                this.beet.layers[2].pause();
-                break;
+                case 1: // ghost ahead, speed up
+                    //   console.log("ghost ahead, speed up");
+                    this.beet.layers[0].pause(); // snore
+                    if (!this.beet.layers[1].metro._is_running) this.beet.layers[1].start(); // kick
+                    this.beet.layers[2].pause(); // key
+                    break;
+                case 'mute':
+                    this.beet.layers[0].pause(); // snore
+                    this.beet.layers[1].pause(); // kick
+                    this.beet.layers[2].pause(); // key
+                    break;
+            }
 
-            case 1: // ghost ahead, speed up
-                //   console.log("ghost ahead, speed up");
-                this.beet.layers[0].pause(); // snore
-                if (!this.beet.layers[1].metro._is_running) this.beet.layers[1].start(); // kick
-                this.beet.layers[2].pause(); // key
-                break;
-            case 'mute':
-                this.beet.layers[0].pause(); // snore
-                this.beet.layers[1].pause(); // kick
-                this.beet.layers[2].pause(); // key
-                break;
+            // adjusting sound gain
+            // this changes the sound volume (gain) feedback beyond the greenWave zone 
+            if (distance < crowdProximity) {
+                this.setVolumePatternA(Math.abs(distance), crowdProximity);
+            }
+
+            this.setTempoByProximity(distance, 100, 270)
         }
-
-        // adjusting sound gain
-        // this changes the sound volume (gain) feedback beyond the greenWave zone 
-        if (distance < crowdProximity) {
-            this.setVolumePatternA(Math.abs(distance), crowdProximity);
-        }
-
-        this.setTempoByProximity(distance, 100, 270)
 
     }
 
-
-    enableAudioContext(onRoute) {
+    enableAudioContext() {
         // check if context is in suspended state (autoplay policy). 
         // Autoplay article: https://developer.mozilla.org/en-US/docs/Web/Media/Autoplay_guide
-        console.log(this.context.state)
-        if (this.context.state === 'suspended' && onRoute) {
+        console.log(this.context.state + "_sonar **** IN")
+        if (this.context.state === 'suspended') {//&& onRoute
             this.soundEnabled = true;
             this.context.resume().then(rslt => {
-               // this.beet.start();
-                GUI.volume_up.hidden = false;
-                console.log("Sound enabled")
+                // this.beet.start();
+                // this.exec(1, 0);
+                // GUI.volume_up.hidden = false;
+                // console.log("Sound enabled - Sonar");
+                console.log(this.context.state + "_sonar **** OUT")
             });
         } else if (this.context.state === 'running') {
             this.soundEnabled = false;
             this.context.suspend().then(rslt => {
-               // this.beet.stop();
-                GUI.volume_up.hidden = true;
-                console.log("Sound disabled")
+                // this.beet.stop();
+                // GUI.volume_up.hidden = true;
+                // console.log("Sound disabled - Sonar")
+                console.log(this.context.state + "_sonar **** OUT")
             });
         }
     }

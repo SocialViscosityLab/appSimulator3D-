@@ -100,9 +100,10 @@ class Communication {
 
         } else {
             if (journeyIdentifier != '') {
-                alert("Journey ID not found. \nLoading the LAST journey available on the database");
+                prompt("Journey ID not found. \nLoading the LAST journey available on the database");
             }
             console.log('Getting last journey in DB')
+
                 // get latest journey
             let tmp = await this.getLastJourney();
             let journeyId = tmp.docs[0].id;
@@ -171,7 +172,6 @@ class Communication {
                     }
                 }
             });
-
             // get journey ID
             this.journeyId = this.formatID(jId);
             console.log("The journey ID is:");

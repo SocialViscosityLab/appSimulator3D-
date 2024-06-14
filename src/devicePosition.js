@@ -32,7 +32,7 @@ class DevicePos {
             //milliseconds of a possible cached position that is acceptable to return
             maximumAge: 3000,
             //the maximum length of time (in milliseconds) the device is allowed to take in order to return a position
-            timeout: 7000
+            timeout: Infinity//7000
         };
     }
 

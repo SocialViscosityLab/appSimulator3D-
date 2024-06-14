@@ -178,27 +178,10 @@ function preload() {
     //GUI.enableLocation.onclick = enableLocation;
     device.setup(); // enable location
 
-    // *** ENABLE SOUND ***
-    /**IMPORTANT After days of experimentation I discovered that the alert() function that displays a message on screen interrupts
-     * all running audioContexts, but when the alert window is closed, the audioContexts remain closed. The moral is: do not use alert(), 
-     * instead use other message windows like Boostrap cards.
-     */
-
-    GUI.enableSound.onclick = function () {
-        sonar.enableAudioContext(commEnabled);
-        soundManager.enableAudioContext();
-        // activate all sounds
-        soundManager.play('ding');
-        soundManager.play('riding');
-        // pause loop=ing sounds
-        soundManager.pause('ding');
-        soundManager.pause('riding');
-
-        GUI.switchStatus(GUI.enableSound, sonar.soundEnabled, { t: "Sound enabled", f: "Sound disabled" }, { t: "btn btn-success btn-lg btn-block", f: "btn btn-warning btn-lg btn-block" })
-    }
-
     // Setup slider for manual correction of map rotation
     GUI.setupMapRotationSlider();
+    // Setup slider for manual correction of gamera tilt
+    GUI.setupCameraTiltSlider()
 
 
     /***** INIT ****/
@@ -235,7 +218,7 @@ function init() {
 
     // This interval controls the update pace of the entire APP
     // **** UPDATE INTERVAL ****
-    setupInterval(1000);
+    setupInterval(500);
 
     // BLE device
     GUI.connectPeripheral.onpointerup = bluetoothDevice.detectAndConnect.bind(bluetoothDevice);
@@ -245,9 +228,8 @@ function init() {
 function initSound() {
     sonar = new Sonar(130);
     soundManager = new SoundManager();
-    soundManager.addMediaNode("ding", document.getElementById("ding"), false, true);
     soundManager.addMediaNode("riding", document.getElementById("alertMP3"), true, true);
-
+    soundManager.addMediaNode("ding", document.getElementById("ding"), false, true);
 }
 
 // from https://medium.com/simplejs/detect-the-users-device-type-with-a-simple-javascript-check-4fc656b735e1
@@ -283,7 +265,13 @@ function setupInterval(millis) {
         /** ghostData is a global variable updated in Communication.*/
         if (ghostData) {
 
+            // Capture the time when the attractor is released
+            if (Utils.attractorReleasedTime == undefined) {
+                Utils.attractorReleasedTime = Date.now();
+            }
+
             // GUI.gauge.style.display = 'inline';
+
 
             /** At each interval iteration the ghost is repositioned to its latest value */
             let ghostCoords = { lat: ghostData.latitude, lon: ghostData.longitude }
@@ -357,11 +345,9 @@ function setupInterval(millis) {
 
                     // change banner label to Slow Down
                     if (isMobile || iOS) {
-
                         if (device.getSpeed() != null && device.getSpeed() <= 0.1) {
                             GUI.bannerTitle.textContent = "Wait";
                         } else {
-                            // change the banner label to Slow Down
                             GUI.bannerTitle.textContent = "Slower";
                         }
                     }
@@ -373,8 +359,6 @@ function setupInterval(millis) {
                         BLEUtils.writeLog('+0');
                     }
 
-
-
                     // When the rider is behind the ghost AND the dustance beteewn them is greater than the green wave proximity.
                     // SUGGESTION: UP
                 } else if (distanceToGhost < 0 && Math.abs(distanceToGhost) >= greenWaveProximity) {
@@ -385,8 +369,8 @@ function setupInterval(millis) {
                     soundManager.pause('ding');
                     sonar.exec(1, distanceToGhost) // 1: speedUP
 
+                    // change the banner label to speed Up
                     if (isMobile || iOS) {
-                        // change the banner label to speed Up
                         GUI.bannerTitle.textContent = "Faster";
                     }
 
@@ -402,12 +386,12 @@ function setupInterval(millis) {
                     GUI.setColors('hold')
                     device.setSuggestion(0); // 0:hold
 
-                    soundManager.pause('riding');
                     soundManager.play('ding');
+                    soundManager.pause('riding');
                     sonar.exec(0, distanceToGhost) // 0:hold
 
+                    // change the banner label to Flocking
                     if (isMobile || iOS) {
-                        // change the banner label to Flocking
                         GUI.bannerTitle.textContent = "Flocking";
                     }
 
@@ -439,12 +423,18 @@ function setupInterval(millis) {
             //     GCamera.emitEvent();
             // }
 
-        }
+        } // end of ghostData
 
         /** Save datapoint to Firebase */
-        if (device.pos.lat != undefined && device.pos.lon != undefined) {
+        if (device.pos.lat != undefined && device.pos.lon != undefined && ghostData) {
             //manage registers of datapoints (for json and database)
-            let stamp = Utils.getEllapsedTime();
+
+            //The Utils.getEllapsedTime() function is used to get the time in milliseconds since the start of the app.
+            //let stamp = Utils.getEllapsedTime();
+
+            // The Utils.getEllapsedTimeSinceActivation() function is used to get the time since the attractor was released in ISO format. Eg. "00:02:01"
+            let stamp = Utils.getEllapsedTimeSinceActivation()
+
             let coord = { "lat": device.pos.lat, "lon": device.pos.lon };
 
             //******* DEVICE's ACCELERATION
@@ -454,12 +444,12 @@ function setupInterval(millis) {
                 deltaTime = (Utils.getEllapsedTime() - dataCoords[dataCoords.length - 1].stamp) / 1000 // in seconds
                 device.setAcceleration(KinematicUtils.calcAcceleration(device.getSpeed(), dataCoords[dataCoords.length - 1].speed, deltaTime));
 
-                // GUI.error.innerText = 'current: ' + device.getSpeed() +
-                //     "\n | last: " + dataCoords[dataCoords.length - 1].speed +
-                //     "\n | deltaTime: " + deltaTime +
-                //     "\n | acc: " + device.getAcceleration() +
-                //     "\n | acc2: " + ((device.getSpeed() - dataCoords[dataCoords.length - 1].speed) / deltaTime)
-
+                // GUI.error.innerText = "latLon: " + (device.pos.lat + ", " + device.pos.lon) + "\n | att. released at: " + Utils.attractorReleasedTime
+                // + '\n | current speed: ' + device.getSpeed() +
+                // "\n | last speed: " + dataCoords[dataCoords.length - 1].speed +
+                // "\n | deltaTime: " + deltaTime +
+                // "\n | acc: " + device.getAcceleration() +
+                // "\n | acc2: " + ((device.getSpeed() - dataCoords[dataCoords.length - 1].speed) / deltaTime)
             }
 
             // store record
@@ -488,8 +478,6 @@ function setupInterval(millis) {
             }
             // increase counter id
             tempDPID++;
-
-
         }
 
 
@@ -502,20 +490,8 @@ function setupInterval(millis) {
         }
 
         GUI.latLon.href = ('https://www.openstreetmap.org/#map=18/' + device.pos.lat + "/" + device.pos.lon);
+
     }, millis);
-}
-
-// function saveSession() {
-//     let now = new Date();
-//     now = now.getDay() + "-" + now.getHours() + "-" + now.getMinutes() + "-" + now.getSeconds();
-//     Utils.p5.saveJSON(dataCoords, now + ".json");
-//     clearInterval(updateInterval);
-//     console.log('JSON saved');
-//     alert("session ended");
-// }
-
-function generateID() {
-    return (Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15));
 }
 
 /** This is used by the GUI to link this function to a button */
@@ -530,7 +506,8 @@ async function connectToFirebase() {
 
             console.log('started');
             //Creates communication, get the id of the journey the reference route
-            comm = new Communication(generateID());
+            let cyclistID = Utils.generateID()
+            comm = new Communication(cyclistID);
 
             // Initialize a new session in the latest journey and get journey data
             journeyData = await comm.initSession(journeyIdentifier);
@@ -543,6 +520,7 @@ async function connectToFirebase() {
 
             // display route name
             GUI.routeName.innerText = "Route: " + journeyData.refRouteName;
+            GUI.cyclistID.innerText = cyclistID + "_" + journeyData.journeyId;
         }
         // once the connection to the server is enabled
 
@@ -557,6 +535,11 @@ async function connectToFirebase() {
     }
     GUI.switchStatus(GUI.enableCommFirebase, commEnabled, { t: "Recording position", f: "Recording disabled" }, { t: "btn btn-success btn-lg btn-block", f: "btn btn-warning btn-lg btn-block" })
     GUI.location_on.hidden = !commEnabled;
+
+    // Pops up a message to the user to enable sound
+    if (!soundManager.userEnabledSound) { askUserEnableSound() } else {
+        console.log('no sound context enabled')
+    }
 }
 
 /********* EVENTS *********/
@@ -624,3 +607,38 @@ window.addEventListener('devicemotion', motionEvent);
 document.getElementById('flockingContainer').addEventListener('pointerdown', evt => {
     if (GUI.status.textContent === "gps_fixed") { GUI.openNav() } else { alert('Wait for GPS signal') }
 });
+
+// *** ENABLE SOUND ***
+/**IMPORTANT After days of experimentation I discovered that the alert() function that displays a message on screen interrupts
+ * all running audioContexts, but when the alert window is closed, the audioContexts remain closed. The moral is: do not use alert(), 
+ * instead use other message windows like Boostrap cards.
+ */
+
+GUI.enableSound.addEventListener('click', (evt) => {
+
+    if (soundManager.isContextRunning()) {
+        soundManager.context.suspend().then(rslt => {
+            GUI.switchStatus(GUI.enableSound, soundManager.isContextRunning(),
+                { t: "Mute", f: "Play sound" },
+                { t: "btn btn-warning btn-lg btn-block", f: "btn btn-success btn-lg btn-block" })
+        });
+        sonar.context.suspend();
+    } else {
+        soundManager.context.resume().then(rslt => {
+            GUI.switchStatus(GUI.enableSound, soundManager.isContextRunning(),
+                { t: "Mute", f: "Play sound" },
+                { t: "btn btn-warning btn-lg btn-block", f: "btn btn-success btn-lg btn-block" })
+        });
+        sonar.context.resume();
+    }
+    //  soundManager.test('enableSound');
+});
+
+function askUserEnableSound() {
+    alert("Do not forget to enable sound")
+        // sonar.enableAudioContext();
+        // soundManager.enableAudioContext();
+        soundManager.userEnabledSound = true;
+        GUI.enableSound.disabled = false;
+        GUI.switchStatus(GUI.enableSound, soundManager.isContextRunning(), { t: "Mute", f: "Enable sound" }, { t: "btn btn-warning btn-lg btn-block", f: "btn btn-success btn-lg btn-block" })
+}

@@ -39,14 +39,12 @@
   <body>
     <!-- Sounds -->
     <!-- files source: http://soundbible.com/ -->
-    <audio id="ding" src="sounds/ElevatorDing.mp3"></audio>
-    <audio id="alertMP3" src="sounds/alert5.mp3"></audio>
+    <audio id="ding" src="sounds/ElevatorDing.mp3" autoPlay=""></audio>
+    <audio id="alertMP3" src="sounds/alert5.mp3" autoPlay=""></audio>
 
     <!-- Sidenav -->
     <div id="mySidenav" class="sidenav">
-      <a href="javascript:void(0)" class="closebtn" onclick="GUI.closeNav()"
-        >close</a
-      >
+      <a class="closebtn" onclick="GUI.closeNav()">Close</a>
       <a style="padding-top: 100px">
         <button
           id="commFirebase"
@@ -73,6 +71,7 @@
           type="button"
           class="btn btn-outline-warning btn-lg btn-block"
           style="font-size: 40px; overflow: hidden"
+          disabled
         >
           Enable Sound
         </button></a
@@ -108,9 +107,10 @@
           value="0"
           class="slider"
         />
-        <label for="manualRotationCorrection"> Map rotation correction </label>
+        <label for="manualRotationCorrection"> Rotate Map </label>
       </a>
-      <a
+
+      <!-- <a
         href="https://smartartifact.com/d4sv"
         style="
           color: burlywood;
@@ -120,9 +120,22 @@
           bottom: 0px;
         "
         >Social Viscosity Lab</a
-      >
+      > -->
+
+      <a
+        ><span id="gCameraTiltValue" style="color: #eab20a">a</span>
+        <input
+          id="gCameraTiltCorrection"
+          type="range"
+          min="10"
+          max="140"
+          value="100"
+          class="slider"
+        />
+        <label for="gCameraTiltCorrection"> Tilt camera </label>
+      </a>
     </div>
-    <!-- Sidenav -->
+    <!-- /Sidenav -->
 
     <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
     <div id="main">
@@ -135,7 +148,7 @@
             style="padding: 0px; width: 100%; height: 100%"
           >
             <div class="row" style="padding: 0px; width: 100%; height: 100%">
-              <div class="col-sm-1">
+              <div class="col-sm-2">
                 <i
                   id="flockingContainer"
                   class="material-icons"
@@ -143,17 +156,17 @@
                     font-size: 5vh;
                     color: white;
                     opacity: 30%;
-                    padding-top: 3vh;
+                    padding-top: 50px;
                   "
                   >menu</i
                 >
               </div>
-              <div class="col-sm-7">
+              <div class="col-sm-6">
                 <div id="title">Flocking</div>
               </div>
               <div class="col-sm-4" style="text-align: right">
                 <div id="version" style="color: #f8e7b3; font-size: 2vh">
-                  Version 3.4.0
+                  3.5.1
                 </div>
                 <i
                   id="location_on"
@@ -207,7 +220,7 @@
           </div>
         </span>
       </div>
-
+      <!-- Status Bar -->
       <div class="container-fluid" style="padding: 0px; width: 100%">
         <!-- GUI elements -->
         <div class="banner" id="banner">
@@ -284,6 +297,7 @@
           <div
             id="error"
             style="color: deeppink; font-size: 30px; padding-top: 150px"
+            hidden
           >
             Log
           </div>
@@ -299,9 +313,20 @@
         >
           No route
         </div>
+
+        <div
+          id="cyclistID"
+          style="
+            font-size: 2vh;
+            color: black;
+            margin-right: 3vw;
+            text-align: right;
+          "
+        ></div>
         <!-- Speed visualizer -->
       </div>
 
+      <!-- Map -->
       <div class="map">
         <!-- Map holder-->
         <div id="world" class="world"></div>

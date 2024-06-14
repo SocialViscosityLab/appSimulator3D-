@@ -48,11 +48,13 @@ class GCamera {
     static lookingFrom(centerX, centerZ, frustrumDepth) {
 
         let oPosY;
+    
         // determines the angle rotating over X axis. This determines when the horizon is visible when the phone is tilted forward or backward
         if (Utils.p5.rotationX < 0) {
             oPosY = 0;
         } else if (Utils.p5.rotationX >= 0 && Utils.p5.rotationX <= 90) {
-            oPosY = Utils.p5.map(Utils.p5.rotationX, 0, 90, 0, 100);
+            // the camera tilt is controlled by the GUI interface usng a slider
+            oPosY = Utils.p5.map(Utils.p5.rotationX, 0, 90, 0, GUI.gCameraTilt.value);
         } else if (Utils.p5.rotationX > 90) {
             oPosY = 70;
         }

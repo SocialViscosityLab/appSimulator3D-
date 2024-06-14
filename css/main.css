@@ -23,13 +23,14 @@ body {
 #title {
     position: absolute;
     bottom: 5px;
-    padding-left: 30px;
+    /* padding-left: 30px; */
     /* font screen*/
     color: rgb(150, 150, 150);
     mix-blend-mode: screen;
     font-size: 6vh;
     font-family: 'Source Sans Pro', sans-serif;
     font-weight: 700;
+    overflow-x: hidden;
 }
 
 .banner {
@@ -93,17 +94,17 @@ body {
 /* The side navigation menu */
 
 .sidenav {
-    height: 900px;
+    height:fit-content;
     /* 100% Full-height */
-    width: 0;
+    width: 480px;
     /* 0 width - change this with JavaScript */
     position: fixed;
     /* Stay in place */
     z-index: 1;
     /* Stay on top */
-    top: 0;
+    top: 0px;
     /* Stay at the top */
-    left: 0;
+    left: -480px;
     background-color: rgba(31, 31, 31, 0.9);
     /* Black*/
     overflow-x: hidden;
@@ -121,7 +122,7 @@ body {
 /* The navigation menu links */
 
 .sidenav a {
-    padding: 16px 16px 16px 16px;
+    padding: 16px 46px 16px 46px;
     text-decoration: none;
     font-size: 40px;
     color: #818181;
@@ -142,9 +143,12 @@ body {
 .sidenav .closebtn {
     position: absolute;
     top: 0;
-    right: 25px;
     font-size: 40px;
-    margin-left: 50px;
+    width:100%;
+    border: 1px solid #818181;
+    text-align: right;
+    background-color: #eab20a;
+    font-weight: bolder
 }
 
 

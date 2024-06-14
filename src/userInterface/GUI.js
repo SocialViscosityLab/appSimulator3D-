@@ -30,12 +30,14 @@ class GUI {
 
     /* Set the width of the side navigation to 250px */
     static openNav() {
-        document.getElementById("mySidenav").style.width = "450px";
+            GUI.sidenav.style.left = "0px";
     }
 
     /* Set the width of the side navigation to 0 */
     static closeNav() {
-        document.getElementById("mySidenav").style.width = "0";
+        if (window.getComputedStyle(GUI.sidenav).left  ==  "0px") {
+            GUI.sidenav.style.left = "-480px";
+        }
     }
 
     static setStatus(deviceStatus) {
@@ -69,8 +71,15 @@ class GUI {
 
     static setupMapRotationSlider() {
         GUI.manualRotationValue.innerHTML = GUI.manualRotationCorrection.value;
-        GUI.manualRotationCorrection.oninput = function() {
+        GUI.manualRotationCorrection.oninput = function () {
             GUI.manualRotationValue.innerHTML = this.value;
+        }
+    }
+
+    static setupCameraTiltSlider() {
+        GUI.gCameraTiltValue.innerHTML = GUI.gCameraTilt.value;
+        GUI.gCameraTilt.oninput = function () {
+            GUI.gCameraTiltValue.innerHTML = this.value;
         }
     }
 
@@ -127,7 +136,10 @@ class GUI {
                 break;
         }
     }
+
 }
+
+GUI.sidenav = document.getElementById("mySidenav");
 
 GUI.status = document.getElementById("status");
 GUI.latLon = document.getElementById('map-link');
@@ -146,12 +158,15 @@ GUI.distance = document.getElementById('distance');
 GUI.header = document.getElementById('header');
 GUI.error = document.getElementById('error');
 GUI.routeName = document.getElementById("routeName");
+GUI.cyclistID = document.getElementById("cyclistID");
 GUI.accelerationLabel = document.getElementById('accelerationLabel');
 GUI.cameraButton = document.getElementById('cameraButton');
 GUI.enableSound = document.getElementById('enableSound');
 //GUI.enableLocation = document.getElementById('enableLocation');
 GUI.manualRotationCorrection = document.getElementById('manualRotationCorrection');
 GUI.manualRotationValue = document.getElementById('manualRotationValue')
+GUI.gCameraTilt = document.getElementById('gCameraTiltCorrection');
+GUI.gCameraTiltValue = document.getElementById('gCameraTiltValue');
 GUI.connectPeripheral = document.getElementById('connectPeripheral');
 GUI.ledSwitchBtn = document.getElementById('ledSwitch');
 

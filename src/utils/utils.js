@@ -14,11 +14,9 @@ class Utils {
         return Utils.p5.atan2(pY - y, pX - x);
     }
 
-
     static getX(angle, radius) {
         return Utils.p5.cos(angle) * radius;
     }
-
 
     static getY(angle, radius) {
         return Utils.p5.sin(angle) * radius;
@@ -39,6 +37,19 @@ class Utils {
         return Math.trunc(tmp);
     }
 
+    /**
+     * This is a static function that returns the elapsed time since the device received attractor data for the first time.
+     * If the device was connected to the server and waiting for Attractor signals, the time will be since the attractor was released. 
+
+     * @returns a string with the elapsed time in milliseconds
+     */
+    static getEllapsedTimeSinceActivation() {
+        let now = new Date(Date.now());
+        let activation = new Date(Utils.attractorReleasedTime);
+        let rtn = now - activation;
+        return rtn;
+    }
+
     static reformatJSON(json) {
 
         // Strict geoJSON. see https://tools.ietf.org/html/rfc7946
@@ -55,7 +66,6 @@ class Utils {
 
     // This function inverts the order of Lat Lon pairs to Lon Lat or vice-versa. 
     static invertLatLonOrder(route) {
-
         // array of arrays
         let coords = route.geometry.coordinates;
         let rtn = [];
@@ -69,7 +79,7 @@ class Utils {
     }
 
     /**
-     * Gives time format hh:mm:ss to numbers
+     * Gives time format hh:mm:ss to seconds
      * @param {float} seconds 
      * @returns a string
      */
@@ -125,7 +135,13 @@ class Utils {
         return Math.min(Math.max(num, min), max)
     }
 
+    static generateID() {
+       // return (Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15));
+        return (Math.random().toString(36).substring(2, 7));
+    }
+
 }
 
 Utils.mouseX = 0;
 Utils.mouseY = 0;
+Utils.attractorReleasedTime;
