@@ -3,10 +3,9 @@
  */
 class Sonar {
 
-    constructor(tempo) {
-        // for legacy browsers
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        this.context = new AudioContext();
+    constructor(tempo, context) {
+
+        this.context = context;
 
         // initialize beet
         this.beet = new Beet({
@@ -52,7 +51,7 @@ class Sonar {
         this.beet.add(this.layerB); // kick
         this.beet.add(this.layerC); // key
 
-        this.exec('mute', 0);
+        this.exec('mute', 50);
     }
 
     /**
@@ -105,29 +104,29 @@ class Sonar {
 
     }
 
-    enableAudioContext() {
-        // check if context is in suspended state (autoplay policy). 
-        // Autoplay article: https://developer.mozilla.org/en-US/docs/Web/Media/Autoplay_guide
-        console.log(this.context.state + "_sonar **** IN")
-        if (this.context.state === 'suspended') {//&& onRoute
-            this.soundEnabled = true;
-            this.context.resume().then(rslt => {
-                // this.beet.start();
-                // this.exec(1, 0);
-                // GUI.volume_up.hidden = false;
-                // console.log("Sound enabled - Sonar");
-                console.log(this.context.state + "_sonar **** OUT")
-            });
-        } else if (this.context.state === 'running') {
-            this.soundEnabled = false;
-            this.context.suspend().then(rslt => {
-                // this.beet.stop();
-                // GUI.volume_up.hidden = true;
-                // console.log("Sound disabled - Sonar")
-                console.log(this.context.state + "_sonar **** OUT")
-            });
-        }
-    }
+    // enableAudioContext() {
+    //     // check if context is in suspended state (autoplay policy). 
+    //     // Autoplay article: https://developer.mozilla.org/en-US/docs/Web/Media/Autoplay_guide
+    //     console.log(this.context.state + "_sonar **** IN")
+    //     if (this.context.state === 'suspended') {//&& onRoute
+    //         this.soundEnabled = true;
+    //         this.context.resume().then(rslt => {
+    //             // this.beet.start();
+    //             // this.exec(1, 0);
+    //             // GUI.volume_up.hidden = false;
+    //             // console.log("Sound enabled - Sonar");
+    //             console.log(this.context.state + "_sonar **** OUT")
+    //         });
+    //     } else if (this.context.state === 'running') {
+    //         this.soundEnabled = false;
+    //         this.context.suspend().then(rslt => {
+    //             // this.beet.stop();
+    //             // GUI.volume_up.hidden = true;
+    //             // console.log("Sound disabled - Sonar")
+    //             console.log(this.context.state + "_sonar **** OUT")
+    //         });
+    //     }
+    // }
 
 
     /**
@@ -322,5 +321,9 @@ class Sonar {
 
         //  console.log(nuTempo);
         this.setTempo(nuTempo)
+    }
+
+    isContextRunning() {
+        return this.context.state === 'running';
     }
 }

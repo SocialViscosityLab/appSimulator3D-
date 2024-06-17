@@ -5,7 +5,7 @@ class SoundManager {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         this.context = new AudioContext();
         this.mediaNodes = new Map(); // collection of sound DOM elements. Aready contain the sounds src assigned 
-        this.tracks =[];
+        this.tracks = [];
         this.gainNode = this.context.createGain();
         this.userEnabledSound = false;
     }
@@ -37,35 +37,36 @@ class SoundManager {
     }
 
 
+
+
     enableAudioContext() {
         // check if context is in suspended state (autoplay policy). 
         // Autoplay article: https://developer.mozilla.org/en-US/docs/Web/Media/Autoplay_guide
-        console.log(this.getState() + '_soundmanager **** IN')
+
         if (this.getState() === 'suspended') {
-            console.log('resuming context')
             this.context.resume().then(rslt => {
-                GUI.volume_up.hidden = false;
-                console.log(this.getState() + '_soundmanager **** OUT')
+
+                this.play('ding');
+                this.play('riding');
+                sonar.exec(1, 50);
             });
         } else if (this.getState() === 'running') {
-            this.context.suspend().then(rslt => {
-                GUI.volume_up.hidden = true;
-                console.log(this.getState() + '_soundmanager **** OUT')
-            });
+            this.context.suspend();
         }
 
+        // activate this only after the first time the user enables the sound
+        GUI.volume_up.hidden = this.isContextRunning();
+
+        GUI.switchStatus(GUI.enableSound, this.isContextRunning(), { t: "Play sound", f: "Mute" }, { t: "btn btn-success btn-lg btn-block", f: "btn btn-warning btn-lg btn-block" })
+        this.userEnabledSound = true;
     }
 
     /**
-     * Reproduce a track
-     * @param {String} name key of the audio element in the map of mediaNodes
-     */
+    * Reproduce a track
+    * @param {String} name key of the audio element in the map of mediaNodes
+    */
     async play(name) {
-        try {
-            await this.mediaNodes.get(name).play();
-        } catch (error) {
-            console.error(error)
-        }
+        await this.mediaNodes.get(name).play().catch((error) => { console.error("Audio play failed due to ", error); GUI.showError("Audio play failed blue "); });
     }
 
     /**
@@ -74,6 +75,15 @@ class SoundManager {
      */
     pause(name) {
         this.mediaNodes.get(name).pause();
+    }
+
+    /**
+    * Clear the sound buffer of an HTMLMediaElement
+    * @param name The audio element to clear
+    */
+    clearSoundBuffer(name) {
+        this.mediaNodes.get(name).pause();
+        this.mediaNodes.get(name).currentTime = 0;
     }
 
     /**

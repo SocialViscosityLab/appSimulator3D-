@@ -218,7 +218,7 @@ function init() {
 
     // This interval controls the update pace of the entire APP
     // **** UPDATE INTERVAL ****
-    setupInterval(500);
+    setupInterval(1000);
 
     // BLE device
     GUI.connectPeripheral.onpointerup = bluetoothDevice.detectAndConnect.bind(bluetoothDevice);
@@ -226,9 +226,9 @@ function init() {
 }
 
 function initSound() {
-    sonar = new Sonar(130);
     soundManager = new SoundManager();
-    soundManager.addMediaNode("riding", document.getElementById("alertMP3"), true, true);
+    sonar = new Sonar(130, soundManager.context);
+    soundManager.addMediaNode("riding", document.getElementById("alertMP3"), false, true);
     soundManager.addMediaNode("ding", document.getElementById("ding"), false, true);
 }
 
@@ -339,9 +339,11 @@ function setupInterval(millis) {
                     GUI.setColors('down')
                     device.setSuggestion(-1); // -1:slowDOWN
 
-                    soundManager.play('riding');
-                    soundManager.pause('ding');
-                    sonar.exec(-1, distanceToGhost) // -1:slowDOWN
+                    if (soundManager.isContextRunning()) {
+                        soundManager.play('riding');
+                        soundManager.pause('ding');
+                        sonar.exec(-1, distanceToGhost) // -1:slowDOWN
+                    }
 
                     // change banner label to Slow Down
                     if (isMobile || iOS) {
@@ -365,9 +367,11 @@ function setupInterval(millis) {
                     GUI.setColors('up')
                     device.setSuggestion(1); // 1: speedUP
 
-                    soundManager.pause('riding');
-                    soundManager.pause('ding');
-                    sonar.exec(1, distanceToGhost) // 1: speedUP
+                    if (soundManager.isContextRunning()) {
+                        soundManager.pause('riding');
+                        soundManager.pause('ding');
+                        sonar.exec(1, distanceToGhost) // 1: speedUP
+                    }
 
                     // change the banner label to speed Up
                     if (isMobile || iOS) {
@@ -386,9 +390,11 @@ function setupInterval(millis) {
                     GUI.setColors('hold')
                     device.setSuggestion(0); // 0:hold
 
-                    soundManager.play('ding');
-                    soundManager.pause('riding');
-                    sonar.exec(0, distanceToGhost) // 0:hold
+                    if (soundManager.isContextRunning()) {
+                        soundManager.play('ding');
+                        soundManager.pause('riding');
+                        sonar.exec(0, distanceToGhost) // 0:hold
+                    }
 
                     // change the banner label to Flocking
                     if (isMobile || iOS) {
@@ -444,7 +450,7 @@ function setupInterval(millis) {
                 deltaTime = (Utils.getEllapsedTime() - dataCoords[dataCoords.length - 1].stamp) / 1000 // in seconds
                 device.setAcceleration(KinematicUtils.calcAcceleration(device.getSpeed(), dataCoords[dataCoords.length - 1].speed, deltaTime));
 
-                // GUI.error.innerText = "latLon: " + (device.pos.lat + ", " + device.pos.lon) + "\n | att. released at: " + Utils.attractorReleasedTime
+                GUI.error.innerText = "latLon: " + (device.pos.lat + ", " + device.pos.lon)
                 // + '\n | current speed: ' + device.getSpeed() +
                 // "\n | last speed: " + dataCoords[dataCoords.length - 1].speed +
                 // "\n | deltaTime: " + deltaTime +
@@ -462,8 +468,11 @@ function setupInterval(millis) {
 
             //
             // let tempDPID = dataCoords.length - 1;
+            let tempAcceleration = device.getAcceleration();
+            if (!tempAcceleration) tempAcceleration = 0;
+
             let tempDP = {
-                'acceleration': device.getAcceleration(),
+                'acceleration': tempAcceleration,
                 'latitude': coord.lat,
                 'longitude': coord.lon,
                 'speed': device.getSpeed(), // GPS Speed
@@ -474,7 +483,13 @@ function setupInterval(millis) {
             };
             // If comm is enabled and the ghost has been released then save datapoint
             if (comm && commEnabled && ghostData) {
-                comm.addNewDataPointInSession(journeyData.journeyId, journeyData.sessionId, tempDPID, tempDP);
+                try {
+                    comm.addNewDataPointInSession(journeyData.journeyId, journeyData.sessionId, tempDPID, tempDP);
+                } catch (error) {
+                    console.error('Error saving data point in Firebase: ' + error);
+                    console.log(tempDP);
+
+                }
             }
             // increase counter id
             tempDPID++;
@@ -533,11 +548,15 @@ async function connectToFirebase() {
         commEnabled = false;
         // alert("Connection to server DISABLED");
     }
-    GUI.switchStatus(GUI.enableCommFirebase, commEnabled, { t: "Recording position", f: "Recording disabled" }, { t: "btn btn-success btn-lg btn-block", f: "btn btn-warning btn-lg btn-block" })
+    GUI.switchStatus(GUI.enableCommFirebase, commEnabled, { t: "Stop tracking", f: "Resume journey" }, { t: "btn btn-success btn-lg btn-block", f: "btn btn-warning btn-lg btn-block" })
     GUI.location_on.hidden = !commEnabled;
 
     // Pops up a message to the user to enable sound
-    if (!soundManager.userEnabledSound) { askUserEnableSound() } else {
+    if (!soundManager.userEnabledSound) {
+        alert("Do not forget to enable sound in this app's menu. It will help you to ride safely.")
+        // enable the sound button
+        GUI.enableSound.disabled = false;
+    } else {
         console.log('no sound context enabled')
     }
 }
@@ -614,31 +633,4 @@ document.getElementById('flockingContainer').addEventListener('pointerdown', evt
  * instead use other message windows like Boostrap cards.
  */
 
-GUI.enableSound.addEventListener('click', (evt) => {
-
-    if (soundManager.isContextRunning()) {
-        soundManager.context.suspend().then(rslt => {
-            GUI.switchStatus(GUI.enableSound, soundManager.isContextRunning(),
-                { t: "Mute", f: "Play sound" },
-                { t: "btn btn-warning btn-lg btn-block", f: "btn btn-success btn-lg btn-block" })
-        });
-        sonar.context.suspend();
-    } else {
-        soundManager.context.resume().then(rslt => {
-            GUI.switchStatus(GUI.enableSound, soundManager.isContextRunning(),
-                { t: "Mute", f: "Play sound" },
-                { t: "btn btn-warning btn-lg btn-block", f: "btn btn-success btn-lg btn-block" })
-        });
-        sonar.context.resume();
-    }
-    //  soundManager.test('enableSound');
-});
-
-function askUserEnableSound() {
-    alert("Do not forget to enable sound")
-        // sonar.enableAudioContext();
-        // soundManager.enableAudioContext();
-        soundManager.userEnabledSound = true;
-        GUI.enableSound.disabled = false;
-        GUI.switchStatus(GUI.enableSound, soundManager.isContextRunning(), { t: "Mute", f: "Enable sound" }, { t: "btn btn-warning btn-lg btn-block", f: "btn btn-success btn-lg btn-block" })
-}
+GUI.enableSound.addEventListener('click', (evt) => { soundManager.enableAudioContext(); });

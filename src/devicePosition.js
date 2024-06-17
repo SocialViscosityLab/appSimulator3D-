@@ -18,6 +18,7 @@
 class DevicePos {
 
     constructor() {
+        this.consoleOut = false;
         this.status = "GPS not enabled";
         this.pos = { "lat": undefined, "lon": undefined }
         this.heading = 0; // a double representing the direction towards which the device is facing. This value, specified in degrees, indicates how far off from heading true north the device is.
@@ -27,12 +28,20 @@ class DevicePos {
         this.watchID = undefined;
         this.suggestion = "NA"; //either 1: speedUP, -1:slowDOWN, or 0:MAINTAIN
         this.acceleration = undefined;
+        // this.geo_options = {
+        //     enableHighAccuracy: true,
+        //     //milliseconds of a possible cached position that is acceptable to return
+        //     maximumAge: 3000,
+        //     //the maximum length of time (in milliseconds) the device is allowed to take in order to return a position
+        //     timeout: 7000
+        // };
+
         this.geo_options = {
             enableHighAccuracy: true,
             //milliseconds of a possible cached position that is acceptable to return
-            maximumAge: 3000,
+            maximumAge: 0,
             //the maximum length of time (in milliseconds) the device is allowed to take in order to return a position
-            timeout: Infinity//7000
+            timeout: Infinity
         };
     }
 
@@ -52,6 +61,14 @@ class DevicePos {
         }
     }
 
+    manualGeolocationRetrieve() {
+        if (navigator.geolocation) {
+            this.watchID = navigator.geolocation.watchPosition((position) => { console.log(position) }, (err) => { console.log(err) }, this.geo_options);
+        } else {
+            console.log('Geolocation is not supported by your browser');
+        }
+    }
+
 
     /** Callback 
      * position is the GeolocationPosition object returned by navigator.geolocation.watchPosition()
@@ -62,7 +79,7 @@ class DevicePos {
 
 
         // Update the cyclist and camera at every GPS update
-        if (obj.pos.lat != undefined && obj.pos.lon != undefined && obj.status != 'GPS OK' ) {
+        if (obj.pos.lat != undefined && obj.pos.lon != undefined && obj.status != 'GPS OK') {
             cyclist.setPosition(world.latLonToPoint(obj.pos));
             //IMPORTANT See notes about camera in intro descriptions
             if (isMobile || iOS) {
@@ -84,6 +101,14 @@ class DevicePos {
         if (position.coords.heading) obj.heading = position.coords.heading;
         obj.speed = position.coords.speed;
         obj.accuracy = position.coords.accuracy;
+
+        if (obj.consoleOut) {
+            console.log("latLonOBJ: " + (obj.pos.lat + ", " + obj.pos.lon) + "\nlatLonDevice: " + (device.pos.lat + ", " + device.pos.lon))
+        }
+
+        if (GUI.error.hidden == false) {
+            GUI.error.innerText = "latLonOBJ: " + (obj.pos.lat + ", " + obj.pos.lon) + "\nlatLonDevice: " + (device.pos.lat + ", " + device.pos.lon)
+        }
     }
 
     /**Callback*/
