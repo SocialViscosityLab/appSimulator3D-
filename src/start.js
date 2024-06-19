@@ -97,7 +97,7 @@ let clappingHands;
 
 // The max distance between cyclist and ghost for the cyclist to be in the range of the 'green wave.'
 let greenWaveProximity = 20; // in meters
-let crowdProximity = 50; // in meters
+let crowdProximity = 100; // in meters
 
 
 // Map Center 
@@ -225,7 +225,7 @@ function enableLocation() {
 
 function initSound() {
     clappingHands = new EuclideanRhythm(100);
-    clappingHands.noteUP();
+    // clappingHands.noteUP();
     //soundManager.addMediaNode("ding", document.getElementById("ding"), false);
     //soundManager.addMediaNode("riding", document.getElementById("horses"), true, true);
 

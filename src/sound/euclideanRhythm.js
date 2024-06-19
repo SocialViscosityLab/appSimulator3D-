@@ -80,11 +80,14 @@ class EuclideanRhythm {
         // adjusting sound gain
         // this changes the sound volume (gain) feedback beyond the greenWave zone 
         if (distance < crowdProximity) {
-            this.setVolumePatternA(Math.abs(distance), crowdProximity);
+            this.setVolumePattern(this.gainNodeA, Math.abs(distance), crowdProximity);
+            this.setVolumePattern(this.gainNodeB, Math.abs(distance), crowdProximity);
         } else {
             this.beet.layers[0].stop();
             this.beet.layers[1].stop();
         }
+
+        this.setPatternBOnProximity(Math.abs(distance), crowdProximity);
     }
 
     enableAudioContext() {
@@ -116,23 +119,14 @@ class EuclideanRhythm {
     callbackA(time, step) {
 
         var osc = this.context.createOscillator();
-        osc.connect(this.gainNodeA).connect(this.context.destination);
-        let note = this.beet.utils.ntof('C3');
+        osc.connect(this.gainNodeA);
+        this.gainNodeA.connect(this.context.destination);
+        let note = this.beet.utils.ntof('C4');
 
-        if (note) {
-            osc.frequency.setValueAtTime(note, time);
-            this.beet.utils.envelope(this.gainNodeA.gain, time, {
-                start: 0,
-                peak: 0.75,
-                attack: 0.1,
-                decay: 0.01,
-                sustain: .6,
-                release: 0.05
-            });
-            osc.start(time);
-            osc.stop(time + 0.18);
-        }
+        osc.frequency.setValueAtTime(note, time);
 
+        osc.start(time);
+        osc.stop(time + 0.18);
     }
 
     /**
@@ -142,23 +136,15 @@ class EuclideanRhythm {
      */
     callbackB(time, step) {
         var osc = this.context.createOscillator();
-        osc.connect(this.gainNodeB).connect(this.context.destination);
-        let note = this.beet.utils.ntof('C3');
+        osc.connect(this.gainNodeB)
+        this.gainNodeB.connect(this.context.destination);
+        let note = this.beet.utils.ntof('C4');
 
-        if (note) {
-            osc.frequency.setValueAtTime(note, time)
-            this.beet.utils.envelope(this.gainNodeB.gain, time, {
-                start: 0,
-                peak: 0.75,
-                attack: 0.1,
-                decay: 0.01,
-                sustain: .6,
-                release: 0.05
-            });
+        osc.frequency.setValueAtTime(note, time)
 
-            osc.start(time);
-            osc.stop(time + 0.18);
-        }
+        osc.start(time);
+        osc.stop(time + 0.18);
+
     }
 
     /**
@@ -168,23 +154,13 @@ class EuclideanRhythm {
      */
     callbackC(time, step) {
         var osc = this.context.createOscillator();
-        osc.connect(this.context.destination);
-        let note = this.beet.utils.ntof('C3');
+        osc.connect(this.gainNodeB).connect(this.context.destination);
+        let note = this.beet.utils.ntof('G3');
 
-        if (note) {
-            osc.frequency.setValueAtTime(note, time)
-            this.beet.utils.envelope(this.gainNodeB.gain, time, {
-                start: 0,
-                peak: 1.0,
-                attack: 0.1,
-                decay: 0.01,
-                sustain: .7,
-                release: 0.05
-            });
+        osc.frequency.setValueAtTime(note, time)
 
-            osc.start(time);
-            osc.stop(time + 0.18);
-        }
+        osc.start(time);
+        osc.stop(time + 0.18);
     }
 
     /**
@@ -248,10 +224,6 @@ class EuclideanRhythm {
         this.beet.tempo = tempo;
     }
 
-    setVolumePatternB(gain) {
-        this.gainNodeB.gain.value = gain;
-    }
-
     /**
      * Changes the volume (gain) of any track connected to this.gainNode according to the parameters. 
      * It assumes that far away objects are quieter than closer ones. The volume increases as target objects get
@@ -259,11 +231,25 @@ class EuclideanRhythm {
      * @param {Number} proximity How close is the current cyclist to the ghost
      * @param {Number} proxThreshold Minimum distance at which the volume stops increasing any more.  
      */
-    setVolumePatternA(proximity, proxThreshold) {
+    setVolumePattern(gainNode, proximity, proxThreshold) {
         if (proximity > proxThreshold) proximity = proxThreshold;
         if (proximity < 15) proximity = 15;
-        let intensity = Utils.p5.map(proximity, 15, proxThreshold, 1, 0.01) // 1 meter, far away meters, up to 2 intensity, 0.5 intensity
-        console.log(intensity);
-        // this.gainNodeA.gain.value = intensity;
+        let intensity = Utils.p5.map(proximity, 15, proxThreshold, 3, 0.01) // 1 meter, far away meters, up to 2 intensity, 0.5 intensity
+        gainNode.gain.value = intensity;
     }
+
+    /**
+     *  
+     * @param {Number} proximity How close is the current cyclist to the ghost
+     * @param {Number} proxThreshold Minimum distance at which the pattern stops cahnging.  
+     */
+    setPatternBOnProximity(proximity, proxThreshold) {
+        if (proximity > proxThreshold) proximity = proxThreshold;
+        if (proximity < 15) proximity = 15;
+        let value = Utils.p5.map(proximity, 15, proxThreshold, 1, 3) // 1 meter, far away meters, up to 2 intensity, 0.5 intensity
+        let shift = Math.trunc(value);
+        this.patternB.update(this.getNoteShift(shift));
+    }
+
+
 }
