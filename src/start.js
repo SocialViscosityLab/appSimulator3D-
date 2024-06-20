@@ -97,7 +97,7 @@ let clappingHands;
 
 // The max distance between cyclist and ghost for the cyclist to be in the range of the 'green wave.'
 let greenWaveProximity = 20; // in meters
-let crowdProximity = 100; // in meters
+let crowdProximity = 50; // in meters
 
 
 // Map Center 
