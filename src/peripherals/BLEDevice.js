@@ -14,7 +14,7 @@
 class BLEDevice {
 
     constructor() {
-        this.deviceName = "Attractor" // scripted in the BLE device. See Arduino code.
+       // this.deviceName = "Attractor" // scripted in the BLE device. See Arduino code.
         this.services = {
             retrievedCount: 0,
             kineService: "d1999a8e-a2df-4743-8071-958b1b20471b",
@@ -35,13 +35,13 @@ class BLEDevice {
         this.attrChars = {}
 
         this.options = {
-            //   acceptAllDevices: true
-            filters: [
-                { name: 'Attractor' },
-                { services: [this.services.kineService] },
-                { services: [this.services.attrService] }
-            ],
-            optionalServices: [this.services.kineService, this.services.attrService, this.services.senseService]
+               acceptAllDevices: true
+            // filters: [
+            //     // { name: 'Attractor' },
+            //     { services: [this.services.kineService] },
+            //     { services: [this.services.attrService] }
+            // ],
+            // optionalServices: [this.services.kineService, this.services.attrService, this.services.senseService]
         }
 
         /** INITIALIZE GUI **/
